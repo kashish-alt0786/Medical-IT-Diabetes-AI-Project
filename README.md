@@ -10,7 +10,8 @@
 
 Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
 
-🚀 Live Demo: [Add Streamlit Link]
+🚀 Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
+![SHAP Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/demo.png)
 
 📊 Performance:
 - Accuracy: 69.5%

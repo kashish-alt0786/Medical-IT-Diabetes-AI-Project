@@ -1,5 +1,5 @@
 🩺 Explainable AI-Based Diabetes Risk Prediction System
-### GKS-Undergraduate Application for Inje University, Medical Information Technology
+### GKS-Undergraduate, Medical Information Technology
 
 **🚀 Live Demo:** `Add your Streamlit link here after Fix #4` 
 **📊 Status:** 69.5% Accuracy | 0.76 AUC | 67.3% Recall 

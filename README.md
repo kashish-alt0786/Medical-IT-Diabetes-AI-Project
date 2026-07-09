@@ -1,48 +1,66 @@
-🩺 Explainable AI-Based Diabetes Risk Prediction System
-### GKS-Undergraduate, Medical Information Technology
+# 🩺 Explainable AI-Based Diabetes Risk Prediction System
 
-**🚀 Live Demo:** `Add your Streamlit link here after Fix #4` 
-**📊 Status:** 69.5% Accuracy | 0.76 AUC | 67.3% Recall 
-**👩‍💻 Student:** Kashish 
+Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
 
----
+🚀 Live Demo: [Add Streamlit Link]
 
-### 🎯 Problem Statement
-**India:** 77 million diabetics, many undiagnosed due to expensive screening. 
-**Korea:** Fastest aging society globally, needs early-detection AI for elderly care. 
-**Gap:** Both countries need low-cost, trustworthy AI that doctors can understand.
+📊 Performance:
+- Accuracy: 69.5%
+- AUC-ROC: 0.76
+- Recall: 67.3%
 
-### 🔬 My Solution
-I built an XGBoost model with SHAP Explainability using the PIMA Diabetes dataset. 
-Unlike black-box AI, this model shows WHY it predicts diabetes risk — important for improving transparency and trust in healthcare AI research.
+👩‍💻 Developed by: Kashish
 
-### 📈 Key Results
-| Metric | Score | Medical IT Significance |
-| --- | --- | --- |
-| **Accuracy** | 69.5% | Baseline performance |
-| **AUC-ROC** | 0.76 | Strong discrimination ability |
-| **Recall** | 67.3% | Higher recall helps reduce the chance of missing high-risk cases — critical for screening |
-| **Top Features** | Glucose, BMI, Age | Matches clinical diagnostic guidelines |
+## 🎯 Problem Statement
 
-Why South Korea | My SHAP explainability 
-approach aligns with Korea’s focus on trustworthy medical AI. At GKS, I will study 
-Federated Learning so Indian + Korean hospitals can train AI together without sharing 
-private patient data — building an India-Korea health bridge.
+Diabetes is a growing global healthcare challenge. Many individuals remain undiagnosed due to limited access to affordable screening.
 
-### 🔍 Model Validation — Proof This Isn't Tutorial Code
-1. **Confusion Matrix:** Validates 67.3% Recall for patient safety
-2. **Feature Importance:** Confirms model uses Glucose/BMI, not random noise  
-3. **SHAP Summary Plot:** Shows doctor-level reasoning for each prediction
-4. **5 Test Patients:** Sample predictions with probability scores included in notebook
+Both India and South Korea face healthcare challenges related to early disease detection and aging populations. This project explores how explainable AI can support accessible and trustworthy diabetes risk screening.
 
-### 💻 Tech Stack
-`Python` `Scikit-learn` `XGBoost` `SHAP` `Streamlit` `Pandas` `Matplotlib`
+## 🔬 Solution
 
-### ⚠️ Medical Disclaimer
-**Educational project only.** Not approved for clinical diagnosis. Trained on PIMA Indians 
-public dataset. Always consult licensed medical professionals for health decisions.
+I developed an XGBoost-based diabetes risk prediction system using the PIMA Diabetes dataset with SHAP explainability.
 
-### 🚀 Quick Start
+Unlike black-box models, this approach provides interpretable explanations for predictions, improving transparency and trust in healthcare AI research.
+
+## 📈 Model Performance
+
+| Metric | Score | Significance |
+|---|---|---|
+| Accuracy | 69.5% | Overall prediction performance |
+| AUC-ROC | 0.76 | Ability to distinguish between risk groups |
+| Recall | 67.3% | Helps reduce missed high-risk cases in screening scenarios |
+| Important Features | Glucose, BMI, Age | Consistent with established diabetes risk factors |
+
+## 🇰🇷 Connection to Medical IT Research
+
+This project aligns with South Korea's focus on trustworthy medical AI and digital healthcare innovation.
+
+Through further study, I aim to explore advanced approaches such as Federated Learning, enabling collaborative AI research between healthcare institutions while protecting patient privacy.
+
+## 🔍 Model Validation and Interpretability
+
+- Confusion Matrix: Evaluates classification performance
+- Feature Importance: Examines influential model features
+- SHAP Summary Plot: Provides interpretable explanations behind predictions
+- Test Patient Examples: Demonstrates prediction probabilities
+
+## 💻 Tech Stack
+
+- Python
+- Scikit-learn
+- XGBoost
+- SHAP
+- Streamlit
+- Pandas
+- Matplotlib
+
+## ⚠️ Medical Disclaimer
+
+This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making. The model was trained on the publicly available PIMA Indians Diabetes Dataset. Always consult qualified healthcare professionals for medical decisions.
+
+## 🚀 Quick Start
+
 ```bash
 pip install -r requirements.txt
 streamlit run app.py

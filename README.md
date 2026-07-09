@@ -1,9 +1,9 @@
-# 🩺 Diabetes Risk Prediction AI — GKS-UG 2027
+🩺 Explainable AI-Based Diabetes Risk Prediction System
 ### GKS-Undergraduate Application for Inje University, Medical Information Technology
 
 **🚀 Live Demo:** `Add your Streamlit link here after Fix #4` 
 **📊 Status:** 69.5% Accuracy | 0.76 AUC | 67.3% Recall 
-**👩‍💻 Student:** Kashish [Your Last Name], Ludhiana, Punjab, India 
+**👩‍💻 Student:** Kashish 
 
 ---
 
@@ -14,18 +14,17 @@
 
 ### 🔬 My Solution
 I built an XGBoost model with SHAP Explainability using the PIMA Diabetes dataset. 
-Unlike black-box AI, this model shows WHY it predicts diabetes risk — critical for hospital adoption.
+Unlike black-box AI, this model shows WHY it predicts diabetes risk — important for improving transparency and trust in healthcare AI research.
 
 ### 📈 Key Results
 | Metric | Score | Medical IT Significance |
 | --- | --- | --- |
 | **Accuracy** | 69.5% | Baseline performance |
 | **AUC-ROC** | 0.76 | Strong discrimination ability |
-| **Recall** | 67.3% | Misses fewer diabetic patients — critical for screening |
+| **Recall** | 67.3% | Higher recall helps reduce the chance of missing high-risk cases — critical for screening |
 | **Top Features** | Glucose, BMI, Age | Matches clinical diagnostic guidelines |
 
-### 🇰🇷 Why Inje University?
-Inje University’s Medical IT program leads in AI for aging societies. My SHAP explainability 
+Why South Korea | My SHAP explainability 
 approach aligns with Korea’s focus on trustworthy medical AI. At GKS, I will study 
 Federated Learning so Indian + Korean hospitals can train AI together without sharing 
 private patient data — building an India-Korea health bridge.

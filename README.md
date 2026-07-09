@@ -1,4 +1,12 @@
-# 🩺 Explainable AI-Based Diabetes Risk Prediction System
+## 🚀 Live Demo
+**Streamlit App:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
+
+## 🎯 GKS 2027 - Medical IT XAI Project
+- **Model:** XGBoost + SHAP Explainability
+- **Clinical Metrics:** Recall 67.3%, AUC-ROC 0.76
+- **Focus:** Interpretable AI for Diabetes Screening
+- **Tech Stack:** Python, Streamlit, SHAP, Scikit-learn
+- # 🩺 Explainable AI-Based Diabetes Risk Prediction System
 
 Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
 

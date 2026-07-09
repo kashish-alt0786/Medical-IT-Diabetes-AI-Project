@@ -1,42 +1,49 @@
-# Medical IT - Diabetes Prediction System
+# 🩺 Diabetes Risk Prediction AI — GKS-UG 2027
+### GKS-Undergraduate Application for Inje University, Medical Information Technology
 
-### Inje University | GKS Application Project
-**Applicant: Kashish | Medical IT**
+**🚀 Live Demo:** `Add your Streamlit link here after Fix #4` 
+**📊 Status:** 69.5% Accuracy | 0.76 AUC | 67.3% Recall 
+**👩‍💻 Student:** Kashish [Your Last Name], Ludhiana, Punjab, India 
 
-> Educational Project: AI system to predict diabetes risk
+---
 
-⚠️ Disclaimer: For education only - Not for medical diagnosis
+### 🎯 Problem Statement
+**India:** 77 million diabetics, many undiagnosed due to expensive screening. 
+**Korea:** Fastest aging society globally, needs early-detection AI for elderly care. 
+**Gap:** Both countries need low-cost, trustworthy AI that doctors can understand.
 
-## Introduction
-Diabetes affects 537M people. Early prediction can help.
+### 🔬 My Solution
+I built an XGBoost model with SHAP Explainability using the PIMA Diabetes dataset. 
+Unlike black-box AI, this model shows WHY it predicts diabetes risk — critical for hospital adoption.
 
-## Dataset
-- Pima Indians Database - 768 patients
-- 8 features: Glucose, BMI, Age etc.
+### 📈 Key Results
+| Metric | Score | Medical IT Significance |
+| --- | --- | --- |
+| **Accuracy** | 69.5% | Baseline performance |
+| **AUC-ROC** | 0.76 | Strong discrimination ability |
+| **Recall** | 67.3% | Misses fewer diabetic patients — critical for screening |
+| **Top Features** | Glucose, BMI, Age | Matches clinical diagnostic guidelines |
 
-## Architecture
-Patient Data → Cleaning → Machine Learning → Prediction
+### 🇰🇷 Why Inje University?
+Inje University’s Medical IT program leads in AI for aging societies. My SHAP explainability 
+approach aligns with Korea’s focus on trustworthy medical AI. At GKS, I will study 
+Federated Learning so Indian + Korean hospitals can train AI together without sharing 
+private patient data — building an India-Korea health bridge.
 
-## Models Tested
-- Logistic Regression ~76%
-- Random Forest ~77%
-- XGBoost ~78-80% (Best)
+### 🔍 Model Validation — Proof This Isn't Tutorial Code
+1. **Confusion Matrix:** Validates 67.3% Recall for patient safety
+2. **Feature Importance:** Confirms model uses Glucose/BMI, not random noise  
+3. **SHAP Summary Plot:** Shows doctor-level reasoning for each prediction
+4. **5 Test Patients:** Sample predictions with probability scores included in notebook
 
-## Results
-- Glucose is most important feature
-- Model could potentially be used in hospital systems in future
-- Early detection may help reduce complications
+### 💻 Tech Stack
+`Python` `Scikit-learn` `XGBoost` `SHAP` `Streamlit` `Pandas` `Matplotlib`
 
-## Limitations
-- Small dataset, not diverse
-- For education only, not real hospital use
+### ⚠️ Medical Disclaimer
+**Educational project only.** Not approved for clinical diagnosis. Trained on PIMA Indians 
+public dataset. Always consult licensed medical professionals for health decisions.
 
-## Future Work
-- Add web app
-- Learn with Inje University
-
-## How to Run
-Click Colab badge in code file
-
-## About Me
-Learning Medical IT and AI - For Inje University GKS
+### 🚀 Quick Start
+```bash
+pip install -r requirements.txt
+streamlit run app.py

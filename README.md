@@ -11,7 +11,10 @@
 Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
 
 🚀 Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
-![SHAP Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/demo.png)
+
+[SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/shap-demo.png)
+
+*SHAP force plot: Red bars increase diabetes risk (Age, Pedigree), green bars decrease risk (Glucose). Full transparency for clinical review.*
 
 📊 Performance:
 - Accuracy: 69.5%

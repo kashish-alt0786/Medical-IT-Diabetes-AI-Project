@@ -1,6 +1,3 @@
-## 🚀 Live Demo
-**Streamlit App:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
-
 ## 🎯 GKS 2027 - Medical IT XAI Project
 - **Model:** XGBoost + SHAP Explainability
 - **Clinical Metrics:** Recall 67.3%, AUC-ROC 0.76
@@ -10,13 +7,13 @@
 
 Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
 
-🚀 Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
+## 🚀 Live Demo
+**Streamlit App:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
 
 [SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/shap-demo.jpg)
 
 *SHAP force plot: Red bars increase diabetes risk (Age, Pedigree Function), green bars decrease risk (Glucose, BMI). Full model transparency enables clinical trust.*
 
-*SHAP force plot: Red bars increase diabetes risk (Age, Pedigree), green bars decrease risk (Glucose). Full transparency for clinical review.*
 
 📊 Performance:
 - Accuracy: 69.5%

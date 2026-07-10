@@ -12,7 +12,7 @@ Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 P
 
 🚀 Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
 
-![SHAP Explainability Demo]https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/shap-demo.jpg
+![SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/shap-demo.jpg)
 
 *SHAP force plot: Red bars increase diabetes risk (Age, Pedigree), green bars decrease risk (Glucose). Full transparency for clinical review.*
 

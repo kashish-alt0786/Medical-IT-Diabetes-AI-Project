@@ -70,8 +70,6 @@ TEXT = {
     },
         # --- User Input ---
 st.header(t["health_info"])
-...
-
 st.subheader(t["health_bg"])
 col5, col6 = st.columns(2)
 bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]

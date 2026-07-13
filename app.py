@@ -66,8 +66,9 @@ TEXT = {
         "height": "Height (cm)", "weight": "Weight (kg)",
         "bmi_calc": "Calculated BMI:", "normal": "Normal", "overweight": "Overweight", "obese": "Obese",
         "health_bg": "❤️ Health Background",
-        "bp_status": "Blood Pressure Status",
-        "bp_low": "Low", "bp_normal": "Normal", "bp_high": "High Blood Pressure", "bp_not_sure": "Not Sure",
+        bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
+        bp_option = col5.selectbox(t["bp_status"], bp_options)
+        bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85
         "pregnancies": "Number of Pregnancies", "preg_help": "Enter 0 if male or not applicable",
         "family": "Do any parents, siblings, or children have diabetes?",
         "family_no": "No", "family_1": "Yes, 1 family member", "family_2": "Yes, 2 or more family members", "family_not_sure": "Not Sure",

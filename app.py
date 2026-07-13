@@ -8,14 +8,14 @@ import seaborn as sns
 
 # --- Page Config ---
 st.set_page_config(
-    page_title="Medical IT Diabetes Risk Predictor | GKS 2027",
+    page_title="Diabetes Risk Predictor",
     page_icon="🏥",
     layout="centered"
 )
 
-# --- Header — GKS BRANDING ---
-st.title("🏥 Medical IT — Diabetes Risk Predictor")
-st.markdown("**Built by Kashish | Explainable AI for Preventive Healthcare**")
+# --- Header ---
+st.title("🏥 Diabetes Risk Predictor")
+st.caption("Explainable AI for preventive health screening")
 st.warning("⚠ **Disclaimer:** This tool predicts statistical risk only. It is NOT a medical diagnosis. Always consult a healthcare professional.")
 
 # --- Load/Train Model ---
@@ -42,27 +42,27 @@ def load_model():
 
 model, feature_names = load_model()
 
-# --- Sidebar — GKS PORTFOLIO ---
+# --- Sidebar ---
 with st.sidebar:
     st.header("📊 Model Performance")
     st.metric("Recall", "67.3%", "Optimized for Medical Screening")
     st.metric("AUC-ROC", "0.76", "Clinical threshold > 0.7")
     st.metric("Accuracy", "69.5%", "Tuned via GridSearchCV")
     st.markdown("---")
-    st.markdown("**GKS Links:**")
+    st.markdown("**Project Links:**")
     st.markdown("[📓 Kaggle Research](https://www.kaggle.com/code/kashish0000000/notebookb6b8ef2c97)")
     st.markdown("[💻 GitHub Code](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
     st.markdown("---")
     st.markdown("**Tech Stack:** `Python` `XGBoost` `SHAP` `Streamlit`")
 
-# --- User Input — ACE VERSION: NO CONFUSING FIELDS ---
-st.header("📝 Step 1: Basic Info — Everyone Knows This")
+# --- User Input ---
+st.header("📝 Step 1: Basic Info")
 col1, col2 = st.columns(2)
 age = col1.number_input("Age", 1, 120, 30)
 glucose = col2.number_input("Fasting Glucose (mg/dL)", 50, 300, 120, 
     help="Normal is 70-100. If you ate in last 2 hrs, add 30 to your reading")
 
-st.subheader("📏 Step 2: Body Info — We Calculate BMI For You")
+st.subheader("📏 Step 2: Body Info")
 col3, col4 = st.columns(2)
 height = col3.number_input("Height (cm)", 100, 250, 165)
 weight = col4.number_input("Weight (kg)", 30, 200, 65)
@@ -82,9 +82,9 @@ pedigree = st.radio("Do parents or siblings have diabetes?",
     ["No", "Yes", "Not Sure"], horizontal=True)
 dpf = 0.8 if pedigree == "Yes" else 0.3
 
-# Clinical safe defaults for fields users never know
-insulin = 80 # Median from PIMA dataset
-skin = 20 # Median from PIMA dataset
+# Clinical safe defaults
+insulin = 80
+skin = 20
 
 st.divider()
 
@@ -99,7 +99,6 @@ if st.button("🔍 Predict My Diabetes Risk", type="primary", use_container_widt
     st.markdown("---")
     st.header("📋 Risk Assessment Result")
 
-    # Risk categorization — ONLY ONCE
     if risk_percent < 30:
         st.success(f"**Low Risk: {risk_percent:.1f}%**")
         st.markdown("Statistical risk is low. Maintain healthy lifestyle and recheck annually.")
@@ -112,7 +111,7 @@ if st.button("🔍 Predict My Diabetes Risk", type="primary", use_container_widt
 
     st.markdown("---")
 
-    # SHAP Explainability — GKS UPGRADE
+    # SHAP Explainability
     st.subheader("🔍 Why This Risk Score? — AI Explainability")
     
     explainer = shap.TreeExplainer(model)
@@ -148,16 +147,8 @@ if st.button("🔍 Predict My Diabetes Risk", type="primary", use_container_widt
     2. **{shap_df.iloc[1]['feature']}** = `{shap_df.iloc[1]['input_value']:.1f}` — Secondary factor 
     3. **{shap_df.iloc[2]['feature']}** = `{shap_df.iloc[2]['input_value']:.1f}` — Moderate impact
     
-    **Medical IT Note:** This explainability aligns with Korea’s Digital Healthcare Innovation Strategy for transparent AI in clinical decision support.
+    **Note:** This explainability helps healthcare providers understand which factors contributed most to the prediction.
     """)
-
-    # Link to Project 2 — GKS STORY
-    st.divider()
-    st.subheader("🎯 Next Step: From Detection to Prevention")
-    st.markdown("**High risk?** Your daily meals impact blood sugar more than genetics.")
-    st.link_button("Open NutriGuard AI — Check If Your Meals Are Safe →", 
-        "https://github.com/kashish-alt0786") # Update after NutriGuard is live
-    st.caption("Coming Soon: AI nutritionist for Korean + Indian food |
 
 # --- Footer ---
 st.divider()

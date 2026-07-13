@@ -1,29 +1,26 @@
-import shap
-import matplotlib.pyplot as plt
-import seaborn as sns
 import streamlit as st
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_diabetes
+import shap
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # --- Page Config ---
 st.set_page_config(
-    page_title="Medical IT Diabetes Risk Predictor",
+    page_title="Medical IT Diabetes Risk Predictor | GKS 2027",
     page_icon="🏥",
     layout="centered"
 )
 
-# --- Header ---
-st.title("🏥 Medical IT — Diabetes Risk Prediction")
-st.markdown("**Early risk screening using XGBoost | Medical Information Technology Project**")
-st.warning("⚠️ **Disclaimer:** This tool predicts statistical risk only. It is NOT a medical diagnosis. Always consult a healthcare professional.")
+# --- Header — GKS BRANDING ---
+st.title("🏥 Medical IT — Diabetes Risk Predictor")
+st.markdown("**Built by Kashish | Explainable AI for Preventive Healthcare**")
+st.warning("⚠ **Disclaimer:** This tool predicts statistical risk only. It is NOT a medical diagnosis. Always consult a healthcare professional.")
 
 # --- Load/Train Model ---
 @st.cache_resource
 def load_model():
-    # Using PIMA dataset for consistency with your notebook
     url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
     names = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age','Outcome']
     df = pd.read_csv(url, names=names)
@@ -31,7 +28,6 @@ def load_model():
     X = df.drop('Outcome', axis=1)
     y = df['Outcome']
     
-    # Use same best params from your GridSearchCV
     scale_pos_weight = len(y[y==0]) / len(y[y==1])
     model = xgb.XGBClassifier(
         learning_rate=0.1,
@@ -46,36 +42,54 @@ def load_model():
 
 model, feature_names = load_model()
 
-# --- Sidebar Info ---
+# --- Sidebar — GKS PORTFOLIO ---
 with st.sidebar:
-    st.header("📊 Model Info")
-    st.metric("Recall", "67.3%", "Prioritized for Medical Screening")
+    st.header("📊 Model Performance")
+    st.metric("Recall", "67.3%", "Optimized for Medical Screening")
     st.metric("AUC-ROC", "0.76", "Clinical threshold > 0.7")
     st.metric("Accuracy", "69.5%", "Tuned via GridSearchCV")
     st.markdown("---")
-    st.markdown("**Tech Stack:**")
-    st.markdown("`Python` `XGBoost` `Streamlit` `Scikit-learn`")
+    st.markdown("**GKS Links:**")
+    st.markdown("[📓 Kaggle Research](https://www.kaggle.com/code/kashish0000000/notebookb6b8ef2c97)")
+    st.markdown("[💻 GitHub Code](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
     st.markdown("---")
-    st.markdown("**GitHub:** [kashish-alt0786/Medical-IT-Diabetes-AI-Project](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
+    st.markdown("**Tech Stack:** `Python` `XGBoost` `SHAP` `Streamlit`")
 
-# --- User Input ---
-st.header("📝 Enter Patient Screening Data")
+# --- User Input — ACE VERSION: NO CONFUSING FIELDS ---
+st.header("📝 Step 1: Basic Info — Everyone Knows This")
 col1, col2 = st.columns(2)
+age = col1.number_input("Age", 1, 120, 30)
+glucose = col2.number_input("Fasting Glucose (mg/dL)", 50, 300, 120, 
+    help="Normal is 70-100. If you ate in last 2 hrs, add 30 to your reading")
 
-with col1:
-    pregnancies = st.number_input("Pregnancies", 0, 20, 1)
-    glucose = st.slider("Glucose Level (mg/dL)", 0, 200, 120)
-    bp = st.slider("Blood Pressure (mm Hg)", 0, 140, 70)
-    skin = st.slider("Skin Thickness (mm)", 0, 100, 20)
+st.subheader("📏 Step 2: Body Info — We Calculate BMI For You")
+col3, col4 = st.columns(2)
+height = col3.number_input("Height (cm)", 100, 250, 165)
+weight = col4.number_input("Weight (kg)", 30, 200, 65)
+bmi = weight / ((height/100)**2)
+st.success(f"Your BMI: {bmi:.1f} | {'Normal' if bmi<25 else 'Overweight' if bmi<30 else 'Obese'}")
 
-with col2:
-    insulin = st.slider("Insulin (mu U/ml)", 0, 900, 80)
-    bmi = st.slider("BMI", 0.0, 70.0, 25.0, 0.1)
-    dpf = st.slider("Diabetes Pedigree Function", 0.0, 3.0, 0.5, 0.01)
-    age = st.slider("Age", 21, 90, 35)
+st.subheader("❤️ Step 3: Health Background")
+col5, col6 = st.columns(2)
+bp_option = col5.selectbox("Blood Pressure", 
+    ["Normal / No issues", "High / I take BP medicine", "Don't Know"])
+bp = 80 if "Normal" in bp_option else 100 if "High" in bp_option else 85
+
+pregnancies = col6.number_input("Number of Pregnancies", 0, 20, 0, 
+    help="Enter 0 if male or not applicable")
+
+pedigree = st.radio("Do parents or siblings have diabetes?", 
+    ["No", "Yes", "Not Sure"], horizontal=True)
+dpf = 0.8 if pedigree == "Yes" else 0.3
+
+# Clinical safe defaults for fields users never know
+insulin = 80 # Median from PIMA dataset
+skin = 20 # Median from PIMA dataset
+
+st.divider()
 
 # --- Prediction ---
-if st.button("🔍 Predict Diabetes Risk", type="primary"):
+if st.button("🔍 Predict My Diabetes Risk", type="primary", use_container_width=True):
     input_data = np.array([[pregnancies, glucose, bp, skin, insulin, bmi, dpf, age]])
     input_df = pd.DataFrame(input_data, columns=feature_names)
 
@@ -85,35 +99,27 @@ if st.button("🔍 Predict Diabetes Risk", type="primary"):
     st.markdown("---")
     st.header("📋 Risk Assessment Result")
 
-    # Risk categorization
+    # Risk categorization — ONLY ONCE
     if risk_percent < 30:
         st.success(f"**Low Risk: {risk_percent:.1f}%**")
-        st.markdown("Statistical risk is low based on input parameters.")
+        st.markdown("Statistical risk is low. Maintain healthy lifestyle and recheck annually.")
     elif risk_percent < 70:
         st.warning(f"**Moderate Risk: {risk_percent:.1f}%**")
-        st.markdown("Moderate statistical risk detected. Lifestyle monitoring recommended.")
+        st.markdown("Moderate risk detected. Consider lifestyle changes and glucose monitoring.")
     else:
         st.error(f"**High Risk: {risk_percent:.1f}%**")
-        st.markdown("High statistical risk detected. Clinical screening strongly advised.")
+        st.markdown("High risk detected. Clinical screening with HbA1c test strongly advised.")
 
     st.markdown("---")
 
-    # ===== KASHISH GKS UPGRADE: SHAP EXPLAINABILITY =====
+    # SHAP Explainability — GKS UPGRADE
     st.subheader("🔍 Why This Risk Score? — AI Explainability")
-
-    # SHAP requires these imports - add at top of file
-    import shap
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-
-    # Calculate SHAP values
+    
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(input_df)
 
-    # Kaggle Data Viz style chart
     plt.style.use('seaborn-v0_8-whitegrid')
     fig, ax = plt.subplots(figsize=(8, 5))
-
     feature_labels = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness',
                      'Insulin', 'BMI', 'Pedigree Function', 'Age']
     colors = ['#d62728' if x > 0 else '#2ca02c' for x in shap_values[0]]
@@ -123,14 +129,13 @@ if st.button("🔍 Predict Diabetes Risk", type="primary"):
     ax.set_xlabel('SHAP Value: Impact on Model Output')
     ax.axvline(x=0, color='black', linestyle='-', alpha=0.3)
     ax.grid(True, alpha=0.3)
-
     st.pyplot(fig)
-    st.caption('✅ Chart created using Seaborn — Certified via Kaggle Data Visualization course. Red bars increase risk, green bars decrease risk.')
+    plt.close()
+    
+    st.caption('✅ Red bars increase risk, green bars decrease risk. Based on SHAP explainable AI.')
 
-    # Clinical Notes - BCG X style
-    st.subheader("📋 Clinical Interpretation for Healthcare Providers")
-
-    # Get top 3 features by absolute SHAP value
+    # Clinical Interpretation
+    st.subheader("📋 Clinical Interpretation")
     shap_df = pd.DataFrame({
         'feature': feature_labels,
         'shap_value': shap_values[0],
@@ -138,39 +143,22 @@ if st.button("🔍 Predict Diabetes Risk", type="primary"):
     }).sort_values('shap_value', key=abs, ascending=False).head(3)
 
     st.markdown(f"""
-    **Patient Risk Profile:**
-    1. **{shap_df.iloc[0]['feature']}** = `{shap_df.iloc[0]['input_value']:.1f}` — Strongest driver of risk
-    2. **{shap_df.iloc[1]['feature']}** = `{shap_df.iloc[1]['input_value']:.1f}` — Secondary contributor
+    **Top 3 Risk Drivers:**
+    1. **{shap_df.iloc[0]['feature']}** = `{shap_df.iloc[0]['input_value']:.1f}` — Strongest impact
+    2. **{shap_df.iloc[1]['feature']}** = `{shap_df.iloc[1]['input_value']:.1f}` — Secondary factor 
     3. **{shap_df.iloc[2]['feature']}** = `{shap_df.iloc[2]['input_value']:.1f}` — Moderate impact
-
-    **Recommendation:** Based on BCG X Data Science healthcare case study methodology,
-    patients with risk >70% should be flagged for preventive counseling per digital
-    therapeutic guidelines. This explainability framework builds clinician trust in AI predictions.
+    
+    **Medical IT Note:** This explainability aligns with Korea’s Digital Healthcare Innovation Strategy for transparent AI in clinical decision support.
     """)
 
-    st.info("💡 **GKS 2027 Note:** This explainability approach aligns with Yonsei BSI research on transparent AI for clinical decision support. Methodology validated via BCG X Simulation + Kaggle ML certifications.")
-    # ===== END UPGRADE =====
-
-    st.markdown("---")
-    st.caption("Model trained on PIMA Indian Diabetes Dataset. Recall optimized for medical screening ethics.")
-    
-    # Risk categorization
-    if risk_percent < 30:
-        st.success(f"**Low Risk: {risk_percent:.1f}%**")
-        st.markdown("Statistical risk is low based on input parameters.")
-    elif risk_percent < 70:
-        st.warning(f"**Moderate Risk: {risk_percent:.1f}%**")
-        st.markdown("Moderate statistical risk detected. Lifestyle monitoring recommended.")
-    else:
-        st.error(f"**High Risk: {risk_percent:.1f}%**")
-        st.markdown("High statistical risk detected. Clinical screening strongly advised.")
-    
-    # Feature contribution note
-    st.info("💡 **Top risk factors in this model:** Glucose level, BMI, and Age. Based on SHAP explainability analysis.")
-    
-    st.markdown("---")
-    st.caption("Model trained on PIMA Indian Diabetes Dataset. Recall optimized for medical screening ethics.")
+    # Link to Project 2 — GKS STORY
+    st.divider()
+    st.subheader("🎯 Next Step: From Detection to Prevention")
+    st.markdown("**High risk?** Your daily meals impact blood sugar more than genetics.")
+    st.link_button("Open NutriGuard AI — Check If Your Meals Are Safe →", 
+        "https://github.com/kashish-alt0786") # Update after NutriGuard is live
+    st.caption("Coming Soon: AI nutritionist for Korean + Indian food |
 
 # --- Footer ---
-st.markdown("---")
-st.caption("Developed as independent Medical IT research project, 2026 | For educational purposes only")
+st.divider()
+st.caption("Disclaimer: For educational and informational purposes only. Not medical advice. Model trained on Pima Indian Diabetes Dataset.")

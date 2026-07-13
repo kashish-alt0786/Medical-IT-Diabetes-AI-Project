@@ -54,6 +54,8 @@ with st.sidebar:
     st.markdown("[💻 GitHub Code](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
     st.markdown("---")
     st.markdown("**Tech Stack:** `Python` `XGBoost` `SHAP` `Streamlit`")
+    st.markdown("---")
+    st.caption("Model Limitations: Trained on Pima Indian female dataset. May be less accurate for males or other ethnicities.")
 
 # --- User Input ---
 st.header("📝 Health Information")
@@ -61,58 +63,8 @@ st.header("📝 Health Information")
 col1, col2 = st.columns(2)
 age = col1.number_input("Age", 1, 120, 30, help="Your current age")
 
-# ===== ONLY THIS PART CHANGED =====
-st.subheader("🩸 Blood Sugar Level")
-
-# Option 1: User knows their number
-knows_glucose = st.radio(
-    "Do you have a blood sugar test result?",
-    ["No, I don't know", "Yes, I have a test result"],
-    horizontal=True
-)
-
-if knows_glucose == "Yes, I have a test result":
-    glucose = st.number_input(
-        "Type your Fasting Blood Sugar number", 
-        50, 300, 90,
-        help="Check your lab report for 'Fasting Blood Sugar' or 'FBS'"
-    )
-else:
-    st.markdown("**No test? Answer these 3 questions:**")
-    thirsty = st.checkbox("I feel very thirsty all the time")
-    tired = st.checkbox("I feel tired even after sleeping 8 hours") 
-    pee_lot = st.checkbox("I go to the bathroom to pee very often")
-    
-    # Estimate glucose from symptoms
-    symptom_count = sum([thirsty, tired, pee_lot])
-    if symptom_count == 0:
-        glucose = 85  # Healthy estimate
-        st.success("Estimated blood sugar: 85 (Normal range)")
-    elif symptom_count == 1:
-        glucose = 105 # Pre-diabetes estimate  
-        st.warning("Estimated blood sugar: 105 (Slightly high)")
-    elif symptom_count == 2:
-        glucose = 120 # Risk estimate
-        st.warning("Estimated blood sugar: 120 (High)")
-    else:
-        glucose = 140 # High risk estimate
-        st.error("Estimated blood sugar: 140 (Very high)")
-
-# Always show the cheat sheet
-with st.expander("📋 What do these numbers mean? Click for examples"):
-    st.markdown("""
-    | Your Number | What It Means | Real Life Example |
-    | --- | --- | --- |
-    | **70-99** | Normal | Most healthy people when they wake up |
-    | **100-125** | Pre-diabetes | Like a warning sign. Change diet now |
-    | **126+** | Diabetes | Doctor will ask for 2nd test to confirm |
-    
-    **How to get this number:**
-    1. **Lab Test:** Book "Fasting Blood Sugar" test. Don't eat 8 hours before.
-    2. **Home Meter:** Test first thing in morning before eating/drinking water is OK.
-    3. **No Test:** Use the 3 questions above. It's just an estimate.
-    """)
-# ===== END CHANGE =====
+glucose = col2.number_input("Fasting Glucose (mg/dL)", 50, 300, 100, 
+    help="Blood sugar after 8+ hours no food. Normal: 70-99. Pre-diabetes: 100-125. Diabetes: 126+. If unknown, enter 100.")
 
 st.subheader("📏 Body Measurements")
 col3, col4 = st.columns(2)
@@ -123,9 +75,12 @@ st.info(f"Calculated BMI: {bmi:.1f} | {'Normal' if bmi<25 else 'Overweight' if b
 
 st.subheader("❤️ Health Background")
 col5, col6 = st.columns(2)
+
+# ===== CHANGE 1: ADDED "LOW BP" =====
 bp_option = col5.selectbox("Blood Pressure Status", 
-    ["Normal", "High Blood Pressure", "Not Sure"])
-bp = 80 if bp_option == "Normal" else 100 if bp_option == "High Blood Pressure" else 85
+    ["Low", "Normal", "High Blood Pressure", "Not Sure"])
+bp = 60 if bp_option == "Low" else 80 if bp_option == "Normal" else 100 if bp_option == "High Blood Pressure" else 85
+# ===== END CHANGE 1 =====
 
 pregnancies = col6.number_input("Number of Pregnancies", 0, 20, 0, 
     help="Enter 0 if male or not applicable")
@@ -212,9 +167,45 @@ if st.button("🔍 Analyze My Risk", type="primary", use_container_width=True):
     1. **{shap_df.iloc[0]['feature']}**: `{shap_df.iloc[0]['input_value']:.1f}`
     2. **{shap_df.iloc[1]['feature']}**: `{shap_df.iloc[1]['input_value']:.1f}`
     3. **{shap_df.iloc[2]['feature']}**: `{shap_df.iloc[2]['input_value']:.1f}`
-    
-    *This explainability helps users and healthcare providers understand the prediction.*
     """)
+
+    # ===== CHANGE 2: ADDED PREVENTION ADVICE =====
+    st.markdown("---")
+    st.subheader("💡 How to Maintain a Healthy Life")
+    
+    # Get top risk factor to personalize advice
+    top_feature = shap_df.iloc[0]['feature']
+    
+    col_do, col_dont = st.columns(2)
+    
+    with col_do:
+        st.markdown("**✅ DO THIS:**")
+        if top_feature == 'Glucose':
+            st.markdown("• Choose whole grains over white rice/bread")
+            st.markdown("• Eat vegetables first, then carbs")
+            st.markdown("• Walk 10 mins after meals")
+        elif top_feature == 'BMI':
+            st.markdown("• Aim for 30 min activity daily")
+            st.markdown("• Use smaller plates for portions")
+            st.markdown("• Drink water before meals")
+        elif top_feature == 'Family History':
+            st.markdown("• Get blood sugar checked yearly")
+            st.markdown("• Maintain healthy weight")
+            st.markdown("• Exercise 150 min/week")
+        else:
+            st.markdown("• Sleep 7-8 hours nightly")
+            st.markdown("• Manage stress with deep breathing")
+            st.markdown("• Regular health checkups")
+    
+    with col_dont:
+        st.markdown("**❌ AVOID THIS:**")
+        st.markdown("• Sugary drinks: soda, juice, energy drinks")
+        st.markdown("• Sitting for 2+ hours without moving")
+        st.markdown("• Smoking or excess alcohol")
+        st.markdown("• Skipping meals then overeating")
+    
+    st.info("**Gold Standard:** The WHO recommends 150 minutes of moderate exercise per week + balanced diet for diabetes prevention.")
+    # ===== END CHANGE 2 =====
 
 # --- Footer ---
 st.divider()

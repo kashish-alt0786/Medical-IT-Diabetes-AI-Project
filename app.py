@@ -99,4 +99,4 @@ if st.button("🔍 Check My Risk", type="primary", use_container_width=True):
     st.subheader("🤔 Why did I get this result?")
     
     reasons = []
-    if glucose > 120: reasons.append("• Your blood sugar number was
+    if glucose > 120: reasons.append("• Your blood sugar number was high")

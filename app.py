@@ -72,7 +72,7 @@ TEXT = {
 st.header(t["health_info"]):
 
 st.subheader(t["health_bg"]),
-col5, col6 = st.columns(2)
+col5, col6 = st.columns(2):
 bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
 bp_option = col5.selectbox(t["bp_status"], bp_options)
 bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85

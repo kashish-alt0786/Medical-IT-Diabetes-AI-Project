@@ -123,7 +123,7 @@ st.info(f"Calculated BMI: {bmi:.1f} | {'Normal' if bmi<25 else 'Overweight' if b
 st.subheader("❤️ Health Background")
 col5, col6 = st.columns(2)
 bp_option = col5.selectbox("Blood Pressure Status", 
-    ["Normal", "High Blood Pressure", "Not Sure"])
+    ["Low", "Normal", "High Blood Pressure", "Not Sure"])
 bp = 80 if bp_option == "Normal" else 100 if bp_option == "High Blood Pressure" else 85
 
 pregnancies = col6.number_input("Number of Pregnancies", 0, 20, 0, 

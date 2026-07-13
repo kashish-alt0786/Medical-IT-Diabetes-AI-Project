@@ -55,7 +55,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("**Tech Stack:** `Python` `XGBoost` `SHAP` `Streamlit`")
     st.markdown("---")
-    st.caption("Model Limitations: Trained on Pima Indian female dataset. May be less accurate for males or other ethnicities.")
+    st.caption("Model Limitations: Trained on Pima Indian female dataset. For screening only.")
 
 # --- User Input ---
 st.header("📝 Health Information")
@@ -75,12 +75,9 @@ st.info(f"Calculated BMI: {bmi:.1f} | {'Normal' if bmi<25 else 'Overweight' if b
 
 st.subheader("❤️ Health Background")
 col5, col6 = st.columns(2)
-
-# ===== CHANGE 1: ADDED "LOW BP" =====
 bp_option = col5.selectbox("Blood Pressure Status", 
-    ["Low", "Normal", "High Blood Pressure", "Not Sure"])
-bp = 60 if bp_option == "Low" else 80 if bp_option == "Normal" else 100 if bp_option == "High Blood Pressure" else 85
-# ===== END CHANGE 1 =====
+    ["Normal", "High Blood Pressure", "Not Sure"])
+bp = 80 if bp_option == "Normal" else 100 if bp_option == "High Blood Pressure" else 85
 
 pregnancies = col6.number_input("Number of Pregnancies", 0, 20, 0, 
     help="Enter 0 if male or not applicable")
@@ -120,14 +117,74 @@ if st.button("🔍 Analyze My Risk", type="primary", use_container_width=True):
     st.header("📋 Risk Assessment Result")
 
     if risk_percent < 30:
+        risk_level = "Low"
         st.success(f"**Lower Risk: {risk_percent:.1f}%**")
         st.markdown("Your statistical risk is low. Maintaining a healthy lifestyle is recommended.")
     elif risk_percent < 70:
+        risk_level = "Moderate"
         st.warning(f"**Moderate Risk: {risk_percent:.1f}%**")
         st.markdown("Your statistical risk is moderate. Consider lifestyle monitoring and regular health checkups.")
     else:
+        risk_level = "High"
         st.error(f"**Elevated Risk: {risk_percent:.1f}%**")
         st.markdown("Your statistical risk is elevated. Consulting a healthcare professional for further testing is strongly advised.")
+
+    # ===== NEW SECTION: PERSONALIZED SUGGESTIONS =====
+    st.markdown("---")
+    with st.expander("💡 Personalized Health Tips: What to Eat & Avoid", expanded=True):
+        st.markdown("**Based on general diabetes prevention guidelines from WHO & ADA:**")
+        
+        if risk_level == "Low":
+            st.success("**Keep doing what you're doing! Focus on maintaining:**")
+            st.markdown("""
+            **✅ EAT MORE:**
+            - Whole grains: Brown rice, oats, whole wheat roti
+            - Vegetables: Spinach, broccoli, carrots, bitter gourd (karela)
+            - Fruits: Apple, orange, guava, berries - eat whole, not juice
+            - Protein: Lentils (dal), chickpeas, fish, eggs, paneer
+            - Healthy fats: Nuts, seeds, olive oil
+            
+            **🏃 LIFESTYLE:** 30 min walking 5 days/week + 7-8 hours sleep
+            """)
+            
+        elif risk_level == "Moderate":
+            st.warning("**Small changes make a big difference. Start here:**")
+            st.markdown("""
+            **✅ EAT MORE:**
+            - High fiber: Oats, daliya, rajma, vegetables with every meal
+            - Protein: Grilled chicken/fish, tofu, sprouts - helps control sugar spikes
+            - Good snacks: Handful of almonds, cucumber, roasted chana
+            
+            **❌ REDUCE/AVOID:**
+            - Sugary drinks: Soda, packaged juice, sweet tea/coffee
+            - White carbs: White bread, white rice, maida - switch to brown/whole grain
+            - Sweets: Mithai, cakes, cookies - limit to special occasions
+            - Fried food: Samosa, pakora, chips - try air-fried or baked
+            
+            **🏃 LIFESTYLE:** 45 min brisk walk daily + reduce sitting time. Check blood sugar every 6 months.
+            """)
+            
+        else: # High Risk
+            st.error("**Important: Please consult a doctor. These tips support medical care:**")
+            st.markdown("""
+            **✅ PRIORITIZE THESE FOODS:**
+            - Non-starchy vegetables: 50% of your plate - spinach, cauliflower, bhindi, lauki
+            - Lean protein: 25% of plate - grilled fish, chicken breast, dal, paneer
+            - Complex carbs: 25% of plate - quinoa, brown rice, millets (bajra, jowar)
+            - Best fruits: Jamun, guava, apple, pear - 1 serving/day
+            
+            **❌ STRICTLY LIMIT:**
+            - Sugar: Table sugar, honey, jaggery, sweets, desserts
+            - Refined carbs: White rice, white bread, pasta, potatoes
+            - Packaged food: Biscuits, namkeen, instant noodles - high hidden sugar/salt
+            - Fruit juice: Even 100% juice spikes sugar - eat whole fruit instead
+            - Alcohol: Can cause dangerous sugar drops
+            
+            **🏃 LIFESTYLE:** Doctor-supervised exercise plan. Monitor blood sugar as advised. Never skip meals.
+            """)
+        
+        st.caption("**Note:** These are general guidelines, not personalized medical advice. Portion size and specific needs vary. Consult a dietitian or doctor for a custom meal plan.")
+    # ===== END NEW SECTION =====
 
     st.markdown("---")
 
@@ -154,60 +211,7 @@ if st.button("🔍 Analyze My Risk", type="primary", use_container_width=True):
     
     st.caption('Red bars increase risk. Green bars decrease risk.')
 
-    # Clinical Interpretation
-    st.subheader("📋 Key Risk Factors")
-    shap_df = pd.DataFrame({
-        'feature': feature_labels,
-        'shap_value': shap_values[0],
-        'input_value': input_df.iloc[0].values
-    }).sort_values('shap_value', key=abs, ascending=False).head(3)
-
-    st.markdown(f"""
-    **Top 3 factors influencing your result:**
-    1. **{shap_df.iloc[0]['feature']}**: `{shap_df.iloc[0]['input_value']:.1f}`
-    2. **{shap_df.iloc[1]['feature']}**: `{shap_df.iloc[1]['input_value']:.1f}`
-    3. **{shap_df.iloc[2]['feature']}**: `{shap_df.iloc[2]['input_value']:.1f}`
-    """)
-
-    # ===== CHANGE 2: ADDED PREVENTION ADVICE =====
-    st.markdown("---")
-    st.subheader("💡 How to Maintain a Healthy Life")
-    
-    # Get top risk factor to personalize advice
-    top_feature = shap_df.iloc[0]['feature']
-    
-    col_do, col_dont = st.columns(2)
-    
-    with col_do:
-        st.markdown("**✅ DO THIS:**")
-        if top_feature == 'Glucose':
-            st.markdown("• Choose whole grains over white rice/bread")
-            st.markdown("• Eat vegetables first, then carbs")
-            st.markdown("• Walk 10 mins after meals")
-        elif top_feature == 'BMI':
-            st.markdown("• Aim for 30 min activity daily")
-            st.markdown("• Use smaller plates for portions")
-            st.markdown("• Drink water before meals")
-        elif top_feature == 'Family History':
-            st.markdown("• Get blood sugar checked yearly")
-            st.markdown("• Maintain healthy weight")
-            st.markdown("• Exercise 150 min/week")
-        else:
-            st.markdown("• Sleep 7-8 hours nightly")
-            st.markdown("• Manage stress with deep breathing")
-            st.markdown("• Regular health checkups")
-    
-    with col_dont:
-        st.markdown("**❌ AVOID THIS:**")
-        st.markdown("• Sugary drinks: soda, juice, energy drinks")
-        st.markdown("• Sitting for 2+ hours without moving")
-        st.markdown("• Smoking or excess alcohol")
-        st.markdown("• Skipping meals then overeating")
-    
-    st.info("**Gold Standard:** The WHO recommends 150 minutes of moderate exercise per week + balanced diet for diabetes prevention.")
-    # ===== END CHANGE 2 =====
-
 # --- Footer ---
 st.divider()
 st.caption("Disclaimer: For educational and informational purposes only. Not medical advice. Model trained on Pima Indian Diabetes Dataset.")
-st.caption("Built with Python, Streamlit, XGBoost, SHAP.")
+st.caption("Built with Python, Streamlit, XGBoost, SHAP. Nutrition tips based on WHO/ADA guidelines.")

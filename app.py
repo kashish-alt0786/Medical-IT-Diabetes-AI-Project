@@ -63,8 +63,55 @@ st.header("📝 Health Information")
 col1, col2 = st.columns(2)
 age = col1.number_input("Age", 1, 120, 30, help="Your current age")
 
-glucose = col2.number_input("Fasting Glucose (mg/dL)", 50, 300, 100, 
-    help="Blood sugar after 8+ hours no food. Normal: 70-99. Pre-diabetes: 100-125. Diabetes: 126+. If unknown, enter 100.")
+st.subheader("🩸 Blood Sugar Level")
+
+# Option 1: User knows their number
+knows_glucose = st.radio(
+    "Do you have a blood sugar test result?",
+    ["No, I don't know", "Yes, I have a test result"],
+    horizontal=True
+)
+
+if knows_glucose == "Yes, I have a test result":
+    glucose = st.number_input(
+        "Type your Fasting Blood Sugar number", 
+        50, 300, 90,
+        help="Check your lab report for 'Fasting Blood Sugar' or 'FBS'"
+    )
+else:
+    st.markdown("**No test? Answer these 3 questions:**")
+    thirsty = st.checkbox("I feel very thirsty all the time")
+    tired = st.checkbox("I feel tired even after sleeping 8 hours") 
+    pee_lot = st.checkbox("I go to the bathroom to pee very often")
+    
+    # Estimate glucose from symptoms
+    symptom_count = sum([thirsty, tired, pee_lot])
+    if symptom_count == 0:
+        glucose = 85  # Healthy estimate
+        st.success("Estimated blood sugar: 85 (Normal range)")
+    elif symptom_count == 1:
+        glucose = 105 # Pre-diabetes estimate  
+        st.warning("Estimated blood sugar: 105 (Slightly high)")
+    elif symptom_count == 2:
+        glucose = 120 # Risk estimate
+        st.warning("Estimated blood sugar: 120 (High)")
+    else:
+        glucose = 140 # High risk estimate
+        st.error("Estimated blood sugar: 140 (Very high)")
+
+with st.expander("📋 What do these numbers mean? Click for examples"):
+    st.markdown("""
+    | Your Number | What It Means | Real Life Example |
+    | --- | --- | --- |
+    | **70-99** | Normal | Most healthy people when they wake up |
+    | **100-125** | Pre-diabetes | Like a warning sign. Change diet now |
+    | **126+** | Diabetes | Doctor will ask for 2nd test to confirm |
+    
+    **How to get this number:**
+    1. **Lab Test:** Book "Fasting Blood Sugar" test. Don't eat 8 hours before.
+    2. **Home Meter:** Test first thing in morning before eating/drinking water is OK.
+    3. **No Test:** Use the 3 questions above. It's just an estimate.
+    """)
 
 st.subheader("📏 Body Measurements")
 col3, col4 = st.columns(2)

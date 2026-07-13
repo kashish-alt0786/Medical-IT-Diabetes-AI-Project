@@ -18,10 +18,6 @@ LANGUAGES = {
     "English": "en",
     "हिन्दी": "hi",
     "한국어": "ko",
-    "Français": "fr",
-    "Español": "es",
-    "தமிழ்": "ta",
-    "Deutsch": "de"
 }
 
 TEXT = {

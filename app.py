@@ -67,32 +67,29 @@ TEXT = {
         "bmi_calc": "Calculated BMI:", "normal": "Normal", "overweight": "Overweight", "obese": "Obese",
         "health_bg": "❤️ Health Background",
         "bp_status": "Blood pressure status",
-    },
-        # --- User Input ---
-st.header(t["health_info"]):
+        "bp_low": "Low",
+        "bp_normal": "Normal", 
+        "bp_high": "High Blood Pressure",
+        "bp_not_sure": "Not Sure",
+ },
+   # --- User Input ---
+   st.header(t["health_info"]):
 
-st.subheader(t["health_bg"]),
-col5, col6 = st.columns(2):
-bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
-bp_option = col5.selectbox(t["bp_status"], bp_options)
-bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85
+   st.subheader(t["health_bg"]),
+   col5, col6 = st.columns(2):
+   bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
+   bp_option = col5.selectbox(t["bp_status"], bp_options)
+   bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85
 
-pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
-        "pregnancies": "Number of Pregnancies", "preg_help": "Enter 0 if male or not applicable",
-        "family": "Do any parents, siblings, or children have diabetes?",
-        "family_no": "No", "family_1": "Yes, 1 family member", "family_2": "Yes, 2 or more family members", "family_not_sure": "Not Sure",
-        "family_help": "This helps assess genetic risk",
-        "analyze_btn": "🔍 Analyze My Risk",
-        "result_header": "📋 Risk Assessment Result",
-        "low_risk": "Lower Risk:", "low_desc": "Your statistical risk is low. Maintaining a healthy lifestyle is recommended.",
-        "mod_risk": "Moderate Risk:", "mod_desc": "Your statistical risk is moderate. Consider lifestyle monitoring and regular health checkups.",
-        "high_risk": "Elevated Risk:", "high_desc": "Your statistical risk is elevated. Consulting a healthcare professional for further testing is strongly advised.",
-        "how_calc": "🔬 How This Result Was Calculated",
-        "chart_caption": "The chart shows which factors increased or decreased your risk score:",
-        "chart_xlabel": "Impact on Model Output",
-        "chart_title": "Feature Impact on Risk Prediction",
-        "red_bars": "Red bars increase risk. Green bars decrease risk.",
-        "risk_factors": "📋 Key Risk Factors",
+   pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
+         "pregnancies": "Number of Pregnancies", "preg_help": "Enter 0 if male or not applicable",
+  "family": "Do any parents, siblings, or children have diabetes?",
+   "family_no": "No", "family_1": "Yes, 1 family member", "family_2": "Yes, 2 or more family members", "family_not_sure
+   "family_help": "This helps assess genetic risk",
+   "analyze_btn": "🔍 Analyze My Risk",
+   "result_header": "📋 Risk Assessment Result",
+
+   "red_bars": "Red bars increase risk. Green bars decrease risk.",
         "top_factors": "**Top 3 factors influencing your result:**",
         "explain_help": "*This explainability helps users and healthcare providers understand the prediction.*",
         "health_tips": "💡 Personalized Health Tips: What to Eat & Avoid",
@@ -793,7 +790,8 @@ pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
         "footer_disc": "Haftungsausschluss: Nur zu Bildungs- und Informationszwecken. Keine medizinische Beratung. Das Modell wurde mit dem „Pima Indian Diabetes Dataset“ trainiert.",
         "footer_built": "Erstellt mit Python, Streamlit, XGBoost, SHAP.",
         "limitations": "Modellbeschränkungen: Trainiert mit einem Datensatz von Frauen der Pima-Indianer. Die Genauigkeit bei Männern oder anderen ethnischen Gruppen kann geringer sein. Nur für ein erstes Screening gedacht."
-    },
+    }
+}
 
 # --- Language Selector ---
 lang = st.sidebar.selectbox("🌐 Language / भाषा / 언어", list(LANGUAGES.keys()))
@@ -804,6 +802,28 @@ st.title(t["title"])
 st.caption(t["subtitle"])
 st.warning(t["disclaimer"])
 
+# --- Load/Train Model ---
+@st.cache_resource
+def load_model():
+   ...
+
+model, feature_names = load_model()
+
+# --- Sidebar ---
+with st.sidebar:
+   ...
+
+# --- User Input ---
+st.header(t["health_info"])
+...
+
+st.subheader(t["health_bg"])
+col5, col6 = st.columns(2) # NO COLON HERE
+bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
+bp_option = col5.selectbox(t["bp_status"], bp_options)
+bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85
+
+pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
 # --- Load/Train Model ---
 @st.cache_resource
 def load_model():

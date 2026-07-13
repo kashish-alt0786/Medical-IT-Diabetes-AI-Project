@@ -67,6 +67,7 @@ TEXT = {
         "bmi_calc": "Calculated BMI:", "normal": "Normal", "overweight": "Overweight", "obese": "Obese",
         "health_bg": "❤️ Health Background",
         "bp_status": "Blood pressure status",
+    },
         # --- User Input ---
 st.header(t["health_info"])
 ...
@@ -793,7 +794,7 @@ pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
         "footer_disc": "Haftungsausschluss: Nur zu Bildungs- und Informationszwecken. Keine medizinische Beratung. Das Modell wurde mit dem „Pima Indian Diabetes Dataset“ trainiert.",
         "footer_built": "Erstellt mit Python, Streamlit, XGBoost, SHAP.",
         "limitations": "Modellbeschränkungen: Trainiert mit einem Datensatz von Frauen der Pima-Indianer. Die Genauigkeit bei Männern oder anderen ethnischen Gruppen kann geringer sein. Nur für ein erstes Screening gedacht."
-    }
+    },
 
 # --- Language Selector ---
 lang = st.sidebar.selectbox("🌐 Language / भाषा / 언어", list(LANGUAGES.keys()))

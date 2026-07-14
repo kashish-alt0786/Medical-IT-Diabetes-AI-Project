@@ -1,4 +1,4 @@
-# 🩺 Explainable AI-Based Diabetes Risk Prediction System 
+# 🩺 Explainable AI-Based Diabetes Risk Prediction System
 
 > Independent Medical Information Technology AI Project | Interpretable Machine Learning for Healthcare Screening
 
@@ -22,7 +22,7 @@
 - **Tech Stack:** Python, Streamlit, SHAP, XGBoost, Scikit-learn
 - **Domain:** Medical Information Technology | Digital Healthcare | Trustworthy AI
 
-![SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/IMG_20260710_080138.jpg)
+[SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/IMG_20260710_080138.jpg)
 
 *SHAP force plot: Red bars increase diabetes risk (Age, Diabetes Pedigree Function), green bars decrease risk (Glucose, BMI). Full model transparency enables clinical trust and research reproducibility.*
 
@@ -92,8 +92,6 @@ This project aligns with global research priorities in trustworthy medical AI an
 ---
 
 ## 📂 Project Structure
-
----
 Medical-IT-Diabetes-AI-Project/
 ├── LICENSE                    # MIT License
 ├── README.md                  # Project documentation  
@@ -108,6 +106,8 @@ Medical-IT-Diabetes-AI-Project/
 │   └── architecture.png     # System diagram
 └── data/                     # Datasets
     └── diabetes.csv         # PIMA Indians Dataset
+    
+---
 
 ## 📚 Relevant Learning
 
@@ -130,28 +130,37 @@ git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
 pip install -r requirements.txt
 streamlit run app.py
-🔮 Future Research Improvements • Federated Learning: Explore privacy-preserving collaborative training across institutions • Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability • FHIR Integration: Connect with educational Electronic Health Record standards • Mobile Deployment: Progressive Web App for community health workers • Clinical Validation: Collaborate with medical students for real-world usability testing 
-⚠️ Medical Disclaimer
+Open browser: http://localhost:8501
+
+Or use Live Demo: Click here
+
+## 🔮 Future Research Improvements
+• Federated Learning: Explore privacy-preserving collaborative training across institutions
+ • Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability • FHIR Integration: Connect with educational Electronic Health Record standards
+ • Mobile Deployment: Progressive Web App for community health workers • Clinical Validation: Collaborate with medical students for real-world usability testing
+
+## ⚠️ Medical Disclaimer
 This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making.
 
 The model was trained on the publicly available PIMA Indians Diabetes Dataset and may contain demographic bias. It may not generalize to all populations, age groups, or ethnicities.
 
 Always consult qualified healthcare professionals for medical decisions. The developer assumes no liability for any health outcomes resulting from the use of this software.
-🤝 Contributing
-This is an educational Medical IT research project. Suggestions for improving clinical accuracy, explainability, or multilingual support are welcome via GitHub Issues.
 
-For academic collaboration on trustworthy medical AI, please open an issue.
-Kashish
-GitHub: @kashish-alt0786
+## 📧 Contact
+Kashish  
+GitHub: @kashish-alt0786  
 Live App: Streamlit Cloud
- Acknowledgments
-Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
-Courses: Kaggle Learn, OpenWHO Digital Health Program
-Frameworks: XGBoost, SHAP, Streamlit open-source communities
-Guidelines: WHO & American Diabetes Association for clinical reference ranges
-📄 License
+
+## Acknowledgments
+• Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
+ • Courses: Kaggle Learn, OpenWHO Digital Health Program
+ • Frameworks: XGBoost, SHAP, Streamlit open-source communities
+ • Guidelines: WHO & American Diabetes Association for clinical reference ranges
+
+## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Open-source software for healthcare education and responsible AI research.
-Built for Medical IT Education | July 2026
+
+## Built for Medical IT Education | July 2026  
 🌐 Multilingual | 🔍 Explainable | ⚕️ Trustworthy AI

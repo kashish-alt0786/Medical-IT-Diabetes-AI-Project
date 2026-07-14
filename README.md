@@ -7,6 +7,7 @@
 [[XGBoost](https://img.shields.io/badge/XGBoost-ML-orange.svg)](https://xgboost.ai/)
 [[SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)](https://shap.readthedocs.io/)
 [[Live App](https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B.svg)](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)
+[[Kaggle](https://img.shields.io/badge/Kaggle-Notebook-20BEFF.svg)](https://www.kaggle.com/code/kashish0000000/explainable-ai-diabetes-risk-prediction)
 
 **🌐 Live Demo:** [medical-it-diabetes-ai-project.streamlit.app](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)  
 **👩‍💻 Developed by:** Kashish | Data Analytics | Medical IT  
@@ -157,6 +158,7 @@ Always consult qualified healthcare professionals for medical decisions. The dev
 Kashish  
 GitHub: https://github.com/kashish-alt0786
 Live App: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
+Kaggle: https://www.kaggle.com/code/kashish0000000/explainable-ai-diabetes-risk-prediction
 
 ## Acknowledgments
  - Dataset: National Institute of Diabetes and Digestive and Kidney Diseases

@@ -157,6 +157,7 @@ Always consult qualified healthcare professionals for medical decisions. The dev
 Kashish  
 GitHub: https://github.com/kashish-alt0786
 Live App: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
+Kaggle: https://www.kaggle.com/code/kashish0000000/notebookb6b8ef2c97
 
 ## Acknowledgments
  • Dataset: National Institute of Diabetes and Digestive and Kidney Diseases

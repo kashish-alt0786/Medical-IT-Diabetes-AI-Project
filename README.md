@@ -142,7 +142,6 @@ streamlit run app.py
 
 **4. Open browser:** http://localhost:8501
 **Or use Live Demo:** [Click here](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)
-
 ## 🔮 Future Research Improvements
 - Federated Learning: Explore privacy-preserving collaborative training across institutions
 - Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability

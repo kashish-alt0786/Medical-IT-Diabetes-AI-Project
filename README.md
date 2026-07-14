@@ -129,7 +129,6 @@ These courses strengthened my understanding of machine learning, healthcare data
 git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
 
-
 ##4.Open browser: http://localhost:8501
 
 ##Or use Live Demo: Click here

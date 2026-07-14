@@ -1,77 +1,143 @@
-## 🎯 GKS 2027 - Medical IT XAI Project
+# 🩺 Explainable AI-Based Diabetes Risk Prediction System
+
+> Independent Medical Information Technology AI Project | Interpretable Machine Learning for Healthcare Screening
+
+[[Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[[Streamlit](https://img.shields.io/badge/Streamlit-1.38-red.svg)](https://streamlit.io/)
+[[XGBoost](https://img.shields.io/badge/XGBoost-ML-orange.svg)](https://xgboost.ai/)
+[[SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)](https://shap.readthedocs.io/)
+[[Live App](https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B.svg)](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)
+
+**🌐 Live Demo:** [medical-it-diabetes-ai-project.streamlit.app](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)  
+**👩‍💻 Developed by:** Kashish | Data Analytics | Medical IT  
+**🌍 Languages:** English | हिन्दी | 한국어
+
+---
+
+## 🎯 Medical IT XAI Project Overview
+
 - **Model:** XGBoost + SHAP Explainability
-- **Clinical Metrics:** Recall 67.3%, AUC-ROC 0.76
+- **Clinical Metrics:** Recall 67.3%, AUC-ROC 0.76, Accuracy 69.5%
 - **Focus:** Interpretable AI for Diabetes Screening
-- **Tech Stack:** Python, Streamlit, SHAP, Scikit-learn
-- # 🩺 Explainable AI-Based Diabetes Risk Prediction System
-
-Independent Medical Information Technology AI Project | GKS-Undergraduate 2027 Portfolio
-
-## 🚀 Live Demo
-**Streamlit App:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frffut.streamlit.app
+- **Tech Stack:** Python, Streamlit, SHAP, XGBoost, Scikit-learn
+- **Domain:** Medical Information Technology | Digital Healthcare | Trustworthy AI
 
 ![SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/IMG_20260710_080138.jpg)
 
-*SHAP force plot: Red bars increase diabetes risk (Age, Pedigree Function), green bars decrease risk (Glucose, BMI). Full model transparency enables clinical trust.*
+*SHAP force plot: Red bars increase diabetes risk (Age, Diabetes Pedigree Function), green bars decrease risk (Glucose, BMI). Full model transparency enables clinical trust and research reproducibility.*
 
-
-📊 Performance:
-- Accuracy: 69.5%
-- AUC-ROC: 0.76
-- Recall: 67.3%
-
-👩‍💻 Developed by: Kashish
+---
 
 ## 🎯 Problem Statement
 
 Diabetes is a growing global healthcare challenge. Many individuals remain undiagnosed due to limited access to affordable screening.
 
-Both India and South Korea face healthcare challenges related to early disease detection and aging populations. This project explores how explainable AI can support accessible and trustworthy diabetes risk screening.
+Both India and South Korea face healthcare challenges related to early disease detection and aging populations. This project explores how explainable AI can support accessible and trustworthy diabetes risk screening in diverse healthcare settings.
 
-## 🔬 Solution
+---
 
-I developed an XGBoost-based diabetes risk prediction system using the PIMA Diabetes dataset with SHAP explainability.
+## 🔬 Solution: Interpretable AI for Healthcare
 
-Unlike black-box models, this approach provides interpretable explanations for predictions, improving transparency and trust in healthcare AI research.
+I developed an XGBoost-based diabetes risk prediction system using the PIMA Indians Diabetes dataset with integrated SHAP explainability.
 
-## 📈 Model Performance
+**Why Explainability Matters in Medical IT:**
+Unlike black-box models, this approach provides interpretable explanations for every prediction, improving transparency and trust in healthcare AI research. SHAP force plots show exactly which clinical factors increased or decreased risk, enabling validation by healthcare researchers.
 
-| Metric | Score | Significance |
-|---|---|---|
-| Accuracy | 69.5% | Overall prediction performance |
-| AUC-ROC | 0.76 | Ability to distinguish between risk groups |
-| Recall | 67.3% | Helps reduce missed high-risk cases in screening scenarios |
-| Important Features | Glucose, BMI, Age | Consistent with established diabetes risk factors |
+**Clinical Relevance:**
+- **Recall 67.3%** - Optimized to reduce missed high-risk cases in screening scenarios
+- **AUC-ROC 0.76** - Strong ability to distinguish between risk groups
+- **Feature Importance** - Glucose, BMI, Age align with established diabetes risk factors
 
-## 🇰🇷 Connection to Medical IT Research
+---
 
-This project aligns with South Korea's focus on trustworthy medical AI and digital healthcare innovation.
+## 📈 Model Performance & Validation
 
-Through further study, I aim to explore advanced approaches such as Federated Learning, enabling collaborative AI research between healthcare institutions while protecting patient privacy.
+| Metric | Score | Clinical Significance |
+| --- | --- | --- |
+| **Accuracy** | 69.5% | Overall prediction performance on test set |
+| **AUC-ROC** | 0.76 | Strong discrimination between diabetic/non-diabetic |
+| **Recall** | 67.3% | Minimizes false negatives - critical for screening |
+| **Important Features** | Glucose, BMI, Age | Consistent with medical literature |
 
-## 🔍 Model Validation and Interpretability
+### 🔍 Model Validation and Interpretability
+- **Confusion Matrix:** Evaluates classification performance and error types
+- **Feature Importance:** Examines influential model features using XGBoost gain
+- **SHAP Summary Plot:** Provides global and local interpretable explanations
+- **Test Patient Examples:** Demonstrates prediction probabilities with explanations
 
-- Confusion Matrix: Evaluates classification performance
-- Feature Importance: Examines influential model features
-- SHAP Summary Plot: Provides interpretable explanations behind predictions
-- Test Patient Examples: Demonstrates prediction probabilities
+---
+
+## 🌏 Connection to Medical IT Research
+
+This project aligns with global research priorities in trustworthy medical AI and digital healthcare innovation.
+
+**Research Directions:**
+- **Explainable AI (XAI):** SHAP integration demonstrates commitment to transparent ML in healthcare
+- **Digital Health Accessibility:** Multilingual interface (English/Hindi/Korean) supports diverse populations
+- **Preventive Screening:** Focus on early detection aligns with public health priorities in aging societies
+- **Future Work:** Through further study, I aim to explore advanced approaches such as Federated Learning, enabling collaborative AI research between healthcare institutions while protecting patient privacy
+
+---
 
 ## 💻 Tech Stack
 
-- Python
-- Scikit-learn
-- XGBoost
-- SHAP
-- Streamlit
-- Pandas
-- Matplotlib
+- **Python 3.9+** - Core programming language
+- **Scikit-learn** - Data preprocessing and model evaluation
+- **XGBoost** - Gradient boosting classifier with class balancing
+- **SHAP** - TreeExplainer for model interpretability
+- **Streamlit** - Interactive web application framework
+- **Pandas** - Data manipulation and analysis
+- **Matplotlib / Seaborn** - Visualization and SHAP plots
 
-## ⚠️ Medical Disclaimer
+---
 
-This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making. The model was trained on the publicly available PIMA Indians Diabetes Dataset. Always consult qualified healthcare professionals for medical decisions.
+## 📂 Project Structure
+
+---
+
+## 📚 Relevant Learning
+
+This project was developed after completing courses in:
+
+- **Kaggle** – Intro to Machine Learning, Pandas, Data Visualization
+- **OpenWHO** – Digital Health, Ethics & Governance of AI for Health
+
+These courses strengthened my understanding of machine learning, healthcare data analysis, data visualization, and responsible AI, which I applied while developing this explainable medical screening tool.
+
+---
 
 ## 🚀 Quick Start
 
+**Prerequisites:** Python 3.9+
+
+**1. Clone repository**
 ```bash
+git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
+cd Medical-IT-Diabetes-AI-Project
 pip install -r requirements.txt
 streamlit run app.py
+⚠️ Medical Disclaimer
+This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making.
+
+The model was trained on the publicly available PIMA Indians Diabetes Dataset and may contain demographic bias. It may not generalize to all populations, age groups, or ethnicities.
+
+Always consult qualified healthcare professionals for medical decisions. The developer assumes no liability for any health outcomes resulting from the use of this software.
+🤝 Contributing
+This is an educational Medical IT research project. Suggestions for improving clinical accuracy, explainability, or multilingual support are welcome via GitHub Issues.
+
+For academic collaboration on trustworthy medical AI, please open an issue.
+Kashish
+GitHub: @kashish-alt0786
+Live App: Streamlit Cloud
+ Acknowledgments
+Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
+Courses: Kaggle Learn, OpenWHO Digital Health Program
+Frameworks: XGBoost, SHAP, Streamlit open-source communities
+Guidelines: WHO & American Diabetes Association for clinical reference ranges
+ Acknowledgments
+Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
+Courses: Kaggle Learn, OpenWHO Digital Health Program
+Frameworks: XGBoost, SHAP, Streamlit open-source communities
+Guidelines: WHO & American Diabetes Association for clinical reference ranges
+Built for Medical IT Education | July 2026
+🌐 Multilingual | 🔍 Explainable | ⚕️ Trustworthy AI

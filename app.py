@@ -377,6 +377,7 @@ with st.sidebar:
     st.markdown("---")
     st.markdown(f"**{t['project_links']}**")
     st.markdown("[💻 GitHub Code](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
+    st.markdown("[Kaggle Notebook](https://www.kaggle.com/code/kashish0000000/explainable-ai-diabetes-risk-prediction)")
     st.markdown("---")
     st.markdown(f"**{t['tech_stack']}** `Python` `XGBoost` `SHAP` `Streamlit`")
 

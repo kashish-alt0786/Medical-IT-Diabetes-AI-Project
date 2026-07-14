@@ -92,14 +92,17 @@ This project aligns with global research priorities in trustworthy medical AI an
 ---
 
 ## 📂 Project Structure
+
+```text
 Medical-IT-Diabetes-AI-Project/
 ├── LICENSE                    # MIT License
-├── README.md                  # Project documentation  
+├── README.md                  # Project documentation
 ├── requirements.txt           # Python dependencies
-├── .gitignore                # Git ignore rules
-├── app.py                    # Main Streamlit application
-└── data/                     # Datasets
-    └── diabetes.csv         # PIMA Indians Database
+├── .gitignore                 # Git ignore rules
+├── app.py                     # Main Streamlit application
+└── data/
+    └── diabetes.csv           # Pima Indians Diabetes Database
+```
     
 ---
 

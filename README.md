@@ -17,14 +17,14 @@
 ## 🎯 Medical IT XAI Project Overview
 
 - **Model:** XGBoost + SHAP Explainability
-- **Clinical Metrics:** Recall 67.3%, AUC-ROC 0.76, Accuracy 69.5%
+- **Model performance:** Recall 67.3%, AUC-ROC 0.76, Accuracy 69.5%
 - **Focus:** Interpretable AI for Diabetes Screening
 - **Tech Stack:** Python, Streamlit, SHAP, XGBoost, Scikit-learn
 - **Domain:** Medical Information Technology | Digital Healthcare | Trustworthy AI
 
 [SHAP Explainability Demo](https://raw.githubusercontent.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project/main/IMG_20260710_080138.jpg)
 
-*SHAP force plot: Red bars increase diabetes risk (Age, Diabetes Pedigree Function), green bars decrease risk (Glucose, BMI). Full model transparency enables clinical trust and research reproducibility.*
+*SHAP force plot: Red features increase the predicted diabetes risk, while green features decrease it for the individual prediction shown.*
 
 ---
 
@@ -44,8 +44,8 @@ I developed an XGBoost-based diabetes risk prediction system using the PIMA Indi
 Unlike black-box models, this approach provides interpretable explanations for every prediction, improving transparency and trust in healthcare AI research. SHAP force plots show exactly which clinical factors increased or decreased risk, enabling validation by healthcare researchers.
 
 **Clinical Relevance:**
-- **Recall 67.3%** - Optimized to reduce missed high-risk cases in screening scenarios
-- **AUC-ROC 0.76** - Strong ability to distinguish between risk groups
+- **Recall 67.3%** - Indicates the proportion of diabetic cases correctly identified by the model
+- **AUC-ROC 0.76** - Good discrimination between diabetic and non-diabetic cases
 - **Feature Importance** - Glucose, BMI, Age align with established diabetes risk factors
 
 ---
@@ -152,19 +152,18 @@ Always consult qualified healthcare professionals for medical decisions. The dev
 
 ## 📧 Contact
 Kashish  
-GitHub: @kashish-alt0786  
-Live App: Streamlit Cloud
+GitHub: https://github.com/kashish-alt0786
+Live App: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
 ## Acknowledgments
  • Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
  • Courses: Kaggle Learn, OpenWHO Digital Health Program
  • Frameworks: XGBoost, SHAP, Streamlit open-source communities
- • Guidelines: WHO & American Diabetes Association for clinical reference ranges
-
+ 
 ## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 Open-source software for healthcare education and responsible AI research.
 
-## Built for Medical IT Education | July 2026  
+## Developed for Medical Information Technology Education and Explainable AI Research | July 2026  
 🔍 Explainable | ⚕️ Trustworthy AI

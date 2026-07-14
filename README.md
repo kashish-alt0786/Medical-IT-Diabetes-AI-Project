@@ -141,7 +141,7 @@ streamlit run app.py
 ```
 
 **4. Open browser:** http://localhost:8501
-**Or use Live Demo:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
+**Or use Live Demo:** [Click here] https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)
 
 ## 🔮 Future Research Improvements
 - Federated Learning: Explore privacy-preserving collaborative training across institutions
@@ -174,4 +174,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Open-source software for healthcare education and responsible AI research.
 
 ## Built for Medical IT Education | July 2026  
-🌐 Multilingual | 🔍 Explainable | ⚕️ Trustworthy AI
+🔍 Explainable | ⚕️ Trustworthy AI

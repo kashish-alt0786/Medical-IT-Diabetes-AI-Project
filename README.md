@@ -43,7 +43,7 @@ I developed an XGBoost-based diabetes risk prediction system using the PIMA Indi
 **Why Explainability Matters in Medical IT:**
 Unlike black-box models, this approach provides interpretable explanations for every prediction, improving transparency and trust in healthcare AI research. SHAP force plots show exactly which clinical factors increased or decreased risk, enabling validation by healthcare researchers.
 
-**Clinical Relevance:**
+**Clinical Significance:**
 - **Recall 67.3%** - Indicates the proportion of diabetic cases correctly identified by the model
 - **AUC-ROC 0.76** - Good discrimination between diabetic and non-diabetic cases
 - **Feature Importance** - Glucose, BMI, Age align with established diabetes risk factors
@@ -52,7 +52,7 @@ Unlike black-box models, this approach provides interpretable explanations for e
 
 ## 📈 Model Performance & Validation
 
-| Metric | Score | Clinical Significance |
+| Metric | Score | Screening relevance |
 | --- | --- | --- |
 | **Accuracy** | 69.5% | Overall prediction performance on test set |
 | **AUC-ROC** | 0.76 | Strong discrimination between diabetic/non-diabetic |
@@ -99,7 +99,7 @@ Medical-IT-Diabetes-AI-Project/
 ├── .gitignore                # Git ignore rules
 ├── app.py                    # Main Streamlit application
 └── data/                     # Datasets
-    └── diabetes.csv         # PIMA Indians  Dataset
+    └── diabetes.csv         # PIMA Indians  Database
     
 ---
 

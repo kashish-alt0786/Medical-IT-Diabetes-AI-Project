@@ -94,6 +94,20 @@ This project aligns with global research priorities in trustworthy medical AI an
 ## 📂 Project Structure
 
 ---
+Medical-IT-Diabetes-AI-Project/
+├── LICENSE                    # MIT License
+├── README.md                  # Project documentation  
+├── requirements.txt           # Python dependencies
+├── .gitignore                # Git ignore rules
+├── app.py                    # Main Streamlit application
+├── screenshots/              # Application images
+│   ├── app_home.png         # Homepage screenshot
+│   ├── prediction_result.png # Risk assessment
+│   └── shap_plot.png        # Explainability demo
+├── docs/                     # Documentation
+│   └── architecture.png     # System diagram
+└── data/                     # Datasets
+    └── diabetes.csv         # PIMA Indians Dataset
 
 ## 📚 Relevant Learning
 
@@ -116,6 +130,7 @@ git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
 pip install -r requirements.txt
 streamlit run app.py
+🔮 Future Research Improvements • Federated Learning: Explore privacy-preserving collaborative training across institutions • Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability • FHIR Integration: Connect with educational Electronic Health Record standards • Mobile Deployment: Progressive Web App for community health workers • Clinical Validation: Collaborate with medical students for real-world usability testing 
 ⚠️ Medical Disclaimer
 This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making.
 
@@ -134,10 +149,9 @@ Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
 Courses: Kaggle Learn, OpenWHO Digital Health Program
 Frameworks: XGBoost, SHAP, Streamlit open-source communities
 Guidelines: WHO & American Diabetes Association for clinical reference ranges
- Acknowledgments
-Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
-Courses: Kaggle Learn, OpenWHO Digital Health Program
-Frameworks: XGBoost, SHAP, Streamlit open-source communities
-Guidelines: WHO & American Diabetes Association for clinical reference ranges
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Open-source software for healthcare education and responsible AI research.
 Built for Medical IT Education | July 2026
 🌐 Multilingual | 🔍 Explainable | ⚕️ Trustworthy AI

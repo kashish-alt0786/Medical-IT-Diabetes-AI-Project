@@ -8,7 +8,6 @@
 [[SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)](https://shap.readthedocs.io/)
 [[Live App](https://img.shields.io/badge/🚀_Live_Demo-Streamlit-FF4B4B.svg)](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)
 [[Kaggle](https://img.shields.io/badge/Kaggle-Notebook-20BEFF.svg)](https://www.kaggle.com/code/kashish0000000/explainable-ai-diabetes-risk-prediction)
-
 **🌐 Live Demo:** [medical-it-diabetes-ai-project.streamlit.app](https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/)  
 **👩‍💻 Developed by:** Kashish | Data Analytics | Medical IT  
 **🌍 Languages:** English | हिन्दी | 한국어

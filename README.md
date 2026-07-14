@@ -105,7 +105,7 @@ Medical-IT-Diabetes-AI-Project/
 ├── docs/                     # Documentation
 │   └── architecture.png     # System diagram
 └── data/                     # Datasets
-    └── diabetes.csv         # PIMA Indians Dataset
+    └── diabetes.csv         # PIMA Indians| Dataset
     
 ---
 
@@ -128,16 +128,18 @@ These courses strengthened my understanding of machine learning, healthcare data
 ```bash
 git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
-pip install -r requirements.txt
-streamlit run app.py
-Open browser: http://localhost:8501
 
-Or use Live Demo: Click here
+
+##4.Open browser: http://localhost:8501
+
+##Or use Live Demo: Click here
 
 ## 🔮 Future Research Improvements
-• Federated Learning: Explore privacy-preserving collaborative training across institutions
- • Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability • FHIR Integration: Connect with educational Electronic Health Record standards
- • Mobile Deployment: Progressive Web App for community health workers • Clinical Validation: Collaborate with medical students for real-world usability testing
+- Federated Learning: Explore privacy-preserving collaborative training across institutions
+- Multi-ethnic Datasets: Validate model on Korean National Health data for broader applicability
+- FHIR Integration: Connect with educational Electronic Health Record standards
+- Mobile Deployment: Progressive Web App for community health workers
+- Clinical Validation: Collaborate with medical students for real-world usability testing
 
 ## ⚠️ Medical Disclaimer
 This project is an educational research prototype and is not intended for clinical diagnosis or medical decision-making.
@@ -152,7 +154,7 @@ GitHub: @kashish-alt0786
 Live App: Streamlit Cloud
 
 ## Acknowledgments
-• Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
+ • Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
  • Courses: Kaggle Learn, OpenWHO Digital Health Program
  • Frameworks: XGBoost, SHAP, Streamlit open-source communities
  • Guidelines: WHO & American Diabetes Association for clinical reference ranges

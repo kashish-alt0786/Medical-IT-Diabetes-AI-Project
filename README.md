@@ -98,14 +98,8 @@ Medical-IT-Diabetes-AI-Project/
 ├── requirements.txt           # Python dependencies
 ├── .gitignore                # Git ignore rules
 ├── app.py                    # Main Streamlit application
-├── screenshots/              # Application images
-│   ├── app_home.png         # Homepage screenshot
-│   ├── prediction_result.png # Risk assessment
-│   └── shap_plot.png        # Explainability demo
-├── docs/                     # Documentation
-│   └── architecture.png     # System diagram
 └── data/                     # Datasets
-    └── diabetes.csv         # PIMA Indians| Dataset
+    └── diabetes.csv         # PIMA Indians  Dataset
     
 ---
 

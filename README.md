@@ -99,7 +99,7 @@ Medical-IT-Diabetes-AI-Project/
 ├── .gitignore                # Git ignore rules
 ├── app.py                    # Main Streamlit application
 └── data/                     # Datasets
-    └── diabetes.csv         # PIMA Indians  Database
+    └── diabetes.csv         # PIMA Indians Database
     
 ---
 

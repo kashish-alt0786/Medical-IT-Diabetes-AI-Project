@@ -157,12 +157,11 @@ Always consult qualified healthcare professionals for medical decisions. The dev
 Kashish  
 GitHub: https://github.com/kashish-alt0786
 Live App: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
-Kaggle: https://www.kaggle.com/code/kashish0000000/notebookb6b8ef2c97
 
 ## Acknowledgments
- • Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
- • Courses: Kaggle Learn, OpenWHO Digital Health Program
- • Frameworks: XGBoost, SHAP, Streamlit open-source communities
+ - Dataset: National Institute of Diabetes and Digestive and Kidney Diseases
+ - Courses: Kaggle Learn, OpenWHO Digital Health Program
+ - Frameworks: XGBoost, SHAP, Streamlit open-source communities
  
 ## 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.

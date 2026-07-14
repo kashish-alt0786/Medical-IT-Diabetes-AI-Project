@@ -55,7 +55,7 @@ Unlike black-box models, this approach provides interpretable explanations for e
 | Metric | Score | Screening relevance |
 | --- | --- | --- |
 | **Accuracy** | 69.5% | Overall prediction performance on test set |
-| **AUC-ROC** | 0.76 | Strong discrimination between diabetic/non-diabetic |
+| **AUC-ROC** | 0.76 | Good discrimination between diabetic/non-diabetic |
 | **Recall** | 67.3% | Minimizes false negatives - critical for screening |
 | **Important Features** | Glucose, BMI, Age | Consistent with medical literature |
 

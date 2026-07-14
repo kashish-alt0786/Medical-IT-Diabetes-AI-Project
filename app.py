@@ -376,7 +376,6 @@ with st.sidebar:
     st.metric(t["accuracy"], "69.5%", t["accuracy_desc"])
     st.markdown("---")
     st.markdown(f"**{t['project_links']}**")
-    st.markdown("[📓 Kaggle Research](https://www.kaggle.com/code/kashish0000000/notebookb6b8ef2c97)")
     st.markdown("[💻 GitHub Code](https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project)")
     st.markdown("---")
     st.markdown(f"**{t['tech_stack']}** `Python` `XGBoost` `SHAP` `Streamlit`")

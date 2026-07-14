@@ -135,13 +135,13 @@ cd Medical-IT-Diabetes-AI-Project
 ```bash
 pip install -r requirements.txt
 ```
-**3. Install dependencies**
+**3. Run the app**
 ```bash
 streamlit run app.py
 ```
 
-##4. Open browser: http://localhost:8501:
-** Or use Live Demo**: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
+**4. Open browser:** http://localhost:8501
+**Or use Live Demo:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
 ## 🔮 Future Research Improvements
 - Federated Learning: Explore privacy-preserving collaborative training across institutions

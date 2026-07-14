@@ -128,6 +128,13 @@ These courses strengthened my understanding of machine learning, healthcare data
 ```bash
 git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
+``` 
+
+**2. Install dependencies** 👈 ADD THIS WHOLE STEP
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
 ##4. Open browser: http://localhost:8501
 ##Or use Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 

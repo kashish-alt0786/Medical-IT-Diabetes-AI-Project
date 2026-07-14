@@ -128,10 +128,8 @@ These courses strengthened my understanding of machine learning, healthcare data
 ```bash
 git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
 cd Medical-IT-Diabetes-AI-Project
-
-##4.Open browser: http://localhost:8501
-
-##Or use Live Demo: Click here
+##4. Open browser: http://localhost:8501
+##Or use Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
 ## 🔮 Future Research Improvements
 - Federated Learning: Explore privacy-preserving collaborative training across institutions

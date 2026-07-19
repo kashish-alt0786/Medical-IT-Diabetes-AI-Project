@@ -1,1 +1,75 @@
+# Current Model
 
+## Current Dataset
+Pima Indians Diabetes Dataset
+
+## Current Features
+- Pregnancies
+- Glucose
+- Blood Pressure
+- Skin Thickness
+- Insulin
+- BMI
+- Diabetes Pedigree Function
+- Age
+
+## Current Algorithm
+XGBoost Classifier
+
+## Current Accuracy
+69.5%
+
+## Current Limitations
+- Uses only the Pima dataset.
+- No external validation.
+- Limited patient features.
+- Educational use only.
+
+## Future Improvements
+- Compare multiple machine learning models.
+- Add larger and more diverse datasets.
+- Improve explainability for both doctors and patients.
+- Enhance the user interface.
+- Add PDF report generation.
+
+
+
+
+
+# Development Journal
+
+## Day 1 (20 July 2026)
+
+### Goal
+Organize the project for Version 2.0.
+
+### Work Completed
+- Created Version 2.0 branch.
+- Created documentation folder.
+- Started documenting the current model.
+
+### Problems Faced
+None.
+
+### Next Goal
+Compare machine learning models.
+
+
+
+
+
+
+# Changelog
+
+## Version 1.0
+- Diabetes Risk Prediction
+- XGBoost Model
+- SHAP Explainability
+- Streamlit Deployment
+
+## Version 2.0 (In Progress)
+- Research-oriented project structure
+- Improved documentation
+- Model comparison
+- Enhanced explainability
+- Clinical decision support features

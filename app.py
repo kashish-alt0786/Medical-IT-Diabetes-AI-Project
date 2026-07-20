@@ -387,7 +387,7 @@ age, glucose, bmi, bp, pregnancies, dpf, insulin, skin = show_input_form(t)
 # --- Prediction ---
 if st.button(t["analyze_btn"], type="primary", use_container_width=True):
 
-    risk_percent, input_df = predict_risk(
+    risk_percent, risk_level, color, input_df, top_reasons = predict_risk(
         model,
         feature_names,
         pregnancies,
@@ -399,6 +399,20 @@ if st.button(t["analyze_btn"], type="primary", use_container_width=True):
         dpf,
         age
     )
+
+    st.markdown("---")
+
+    # === PHASE 2 UPGRADE ===
+    from results import show_results
+    show_results(t, risk_percent, risk_level, color, top_reasons, input_df)
+
+    st.markdown("---")
+    # SHAP Explainability
+    st.subheader(t["how_calc"])
+    st.caption(t["chart_caption"])
+    fig = create_shap_plot(model, input_df, t)
+    st.pyplot(fig)
+    st.caption(t["red_bars"])
 
 # Show prediction result
     risk_percent, risk_level, color, input_df, top_reasons = predict_risk(user_input)

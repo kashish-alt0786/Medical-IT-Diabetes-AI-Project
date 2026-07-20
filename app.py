@@ -4,6 +4,11 @@ import numpy as np
 import joblib
 from explainability import create_shap_plot
 from predictor import predict_risk
+from config import (
+    FEATURE_NAMES,
+    DEFAULT_INSULIN,
+    DEFAULT_SKIN_THICKNESS
+)
 from preprocessing import (
     calculate_bmi,
     map_blood_pressure,

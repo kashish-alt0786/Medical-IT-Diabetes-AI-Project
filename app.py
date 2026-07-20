@@ -371,18 +371,7 @@ st.warning(t["disclaimer"])
 def load_model():
     model = joblib.load("model.pkl")
 
-    feature_names = [
-        "Pregnancies",
-        "Glucose",
-        "BloodPressure",
-        "SkinThickness",
-        "Insulin",
-        "BMI",
-        "DiabetesPedigreeFunction",
-        "Age"
-    ]
-
-    return model, feature_names
+    return model, FEATURE_NAMES
 
 model, feature_names = load_model()
 # --- Sidebar ---
@@ -462,8 +451,8 @@ family_history = st.radio(t["family"], family_options, horizontal=True, help=t["
 
 dpf = map_family_history(family_history, t)
 
-insulin = 80
-skin = 20
+insulin = DEFAULT_INSULIN
+skin = DEFAULT_SKIN_THICKNESS
 
 st.divider()
 

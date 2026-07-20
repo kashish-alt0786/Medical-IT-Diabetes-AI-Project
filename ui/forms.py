@@ -13,7 +13,7 @@ from config import (
 )
 
 def show_input_form(t):
-    pass
+    
 # --- User Input ---
 st.header(t["health_info"])
 

@@ -93,7 +93,7 @@ def show_input_form(t):
 
 
     # FIXED: pass translation dictionary
-    bmi, bmi_category = calculate_bmi(height, weight, t)
+    bmi, bmi_category = calculate_bmi(height, weight)
 
 
     st.info(

@@ -1,47 +1,69 @@
 # preprocessing.py
 
-def calculate_bmi(height_cm, weight_kg):
+
+def calculate_bmi(height_cm, weight_kg, t):
+    """
+    Calculate BMI and return translated BMI category
+    """
+
     bmi = weight_kg / ((height_cm / 100) ** 2)
 
     if bmi < 25:
-        category = "normal"
+        category = t["bmi_normal"]
     elif bmi < 30:
-        category = "overweight"
+        category = t["bmi_overweight"]
     else:
-        category = "obese"
+        category = t["bmi_obese"]
 
-    return bmi, category
+    return round(bmi, 2), category
 
-def map_blood_pressure(bp_option):
+
+
+def map_blood_pressure(bp_option, t):
+    """
+    Convert blood pressure selection into numerical value
+    """
+
     mapping = {
-        "Low": 70,
-        "Normal": 80,
-        "High Blood Pressure": 100,
-        "Not Sure": 85
+        t["bp_low"]: 70,
+        t["bp_normal"]: 80,
+        t["bp_high"]: 100,
+        t["bp_not_sure"]: 85
     }
 
-    return mapping.get(bp_option, 85)
+    return mapping.get(bp_option, 80)
 
 
-def map_family_history(option):
+
+def map_family_history(option, t):
+    """
+    Convert family history selection into Diabetes Pedigree Function value
+    """
+
     mapping = {
-        "No": 0.15,
-        "Yes, 1 family member": 0.5,
-        "Yes, 2 or more family members": 1.2,
-        "Not Sure": 0.3
+        t["family_no"]: 0.15,
+        t["family_1"]: 0.50,
+        t["family_2"]: 1.20,
+        t["family_not_sure"]: 0.30
     }
 
-    return mapping.get(option, 0.3)
+    return mapping.get(option, 0.30)
+
 
 
 def estimate_glucose(symptom_count):
+    """
+    Estimate glucose level from symptom count
+    """
+
     if symptom_count == 0:
         return 85
+
     elif symptom_count == 1:
         return 105
+
     elif symptom_count == 2:
         return 120
+
     else:
         return 140
-
-

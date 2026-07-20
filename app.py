@@ -65,8 +65,12 @@ TEXT = {
         3. **No Test:** Use the 3 questions above. It's just an estimate.
         """,
         "body_measure": "📏 Body Measurements",
-        "height": "Height (cm)", "weight": "Weight (kg)",
-        "bmi_calc": "Calculated BMI:", "normal": "Normal", "overweight": "Overweight", "obese": "Obese",
+        "height": "Height (cm)",
+        "weight": "Weight (kg)",
+        "bmi_calc": "Calculated BMI:",
+        "normal": "Normal",
+        "overweight": "Overweight",
+        "obese": "Obese",
         "health_bg": "❤ Health Background",
         "bp_status": "Blood pressure status",
         "bp_low": "Low", "bp_normal": "Normal", "bp_high": "High Blood Pressure", "bp_not_sure": "Not Sure",
@@ -428,8 +432,9 @@ st.subheader(t["body_measure"])
 col3, col4 = st.columns(2)
 height = col3.number_input(t["height"], 100, 250, 165)
 weight = col4.number_input(t["weight"], 30, 200, 65)
-bmi = weight / ((height/100)**2)
-bmi_label = t["normal"] if bmi<25 else t["overweight"] if bmi<30 else t["obese"]
+bmi, bmi_category = calculate_bmi(height, weight)
+
+bmi_label = t[bmi_category]
 st.info(f"{t['bmi_calc']} {bmi:.1f} | {bmi_label}")
 
 st.subheader(t["health_bg"])

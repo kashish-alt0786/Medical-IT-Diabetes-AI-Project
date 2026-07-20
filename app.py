@@ -414,6 +414,8 @@ else:
     symptom_count = sum([thirsty, tired, pee])
     glucose = estimate_glucose(symptom_count)
 
+glucose = estimate_glucose(symptom_count)
+
 if glucose == 85:
     st.success(t["est_85"])
 elif glucose == 105:
@@ -439,21 +441,14 @@ st.subheader(t["health_bg"])
 col5, col6 = st.columns(2)
 bp_options = [t["bp_low"], t["bp_normal"], t["bp_high"], t["bp_not_sure"]]
 bp_option = col5.selectbox(t["bp_status"], bp_options)
-bp = 70 if bp_option == t["bp_low"] else 80 if bp_option == t["bp_normal"] else 100 if bp_option == t["bp_high"] else 85
+bp = map_blood_pressure(bp_option, t)
 
 pregnancies = col6.number_input(t["pregnancies"], 0, 20, 0, help=t["preg_help"])
 
 family_options = [t["family_no"], t["family_1"], t["family_2"], t["family_not_sure"]]
 family_history = st.radio(t["family"], family_options, horizontal=True, help=t["family_help"])
 
-if family_history == t["family_no"]:
-    dpf = 0.15
-elif family_history == t["family_1"]:
-    dpf = 0.5
-elif family_history == t["family_2"]:
-    dpf = 1.2
-else:
-    dpf = 0.3
+dpf = map_family_history(family_history, t)
 
 insulin = 80
 skin = 20

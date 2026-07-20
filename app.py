@@ -1,6 +1,6 @@
 import streamlit as st
-from ui.sidebar import show_sidebar
 import joblib
+from ui.sidebar import show_sidebar
 from explainability import create_shap_plot
 from results import show_results
 from predictor import predict_risk

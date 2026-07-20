@@ -400,8 +400,43 @@ if st.button(t["analyze_btn"], type="primary", use_container_width=True):
         age
     )
 
-    # Show prediction result
-    show_results(risk_percent, t)
+# Show prediction result
+    risk_percent, risk_level, color, input_df, top_reasons = predict_risk(user_input)
+
+    st.markdown("---")
+    
+    # --- PHASE 2 UPGRADE: Clinical Decision Support UI ---
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        st.metric(label="Diabetes Risk", value=f"{risk_percent}%")
+        st.markdown(f"#### Risk Level: <span style='color:{color}; font-weight:800;'>{risk_level}</span>", unsafe_allow_html=True)
+
+        if risk_level == "Low":
+            st.success("Great! Your risk is low. Maintain healthy lifestyle.")
+        elif risk_level == "Moderate":
+            st.warning("Moderate risk. Consider lifestyle changes and regular checkup.")
+        else:
+            st.error("High risk. Please consult a healthcare professional.")
+
+    with col2:
+        st.subheader("Main Contributing Factors")
+        st.caption("Based on Explainable AI (SHAP) - why model predicted this")
+        for feature, shap_val in top_reasons:
+            # Human readable names
+            name_map = {
+                'Glucose': 'Glucose Level',
+                'BMI': 'Body Mass Index (BMI)',
+                'Age': 'Age',
+                'BloodPressure': 'Blood Pressure',
+                'Insulin': 'Insulin Level',
+                'DiabetesPedigreeFunction': 'Family History Score',
+                'Pregnancies': 'Pregnancies',
+                'SkinThickness': 'Skin Thickness'
+            }
+            readable = name_map.get(feature, feature)
+            icon = "🔺" if shap_val > 0 else "🔹"
+            st.write(f"{icon} **{readable}:** {shap_val:+.3f} impact")
 
     st.markdown("---")
 

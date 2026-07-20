@@ -118,7 +118,7 @@ def show_input_form(t):
         bp_options
     )
 
-    bp = map_blood_pressure(bp_option, t)
+    bp = map_blood_pressure(bp_option)
 
 
     pregnancies = col6.number_input(
@@ -147,7 +147,7 @@ def show_input_form(t):
 
 
     # Already correct
-    dpf = map_family_history(family_history, t)
+    dpf = map_family_history(family_history)
 
 
     insulin = DEFAULT_INSULIN

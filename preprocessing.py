@@ -4,14 +4,13 @@ def calculate_bmi(height_cm, weight_kg):
     bmi = weight_kg / ((height_cm / 100) ** 2)
 
     if bmi < 25:
-        label = "Normal"
+        category = "normal"
     elif bmi < 30:
-        label = "Overweight"
+        category = "overweight"
     else:
-        label = "Obese"
+        category = "obese"
 
-    return bmi, label
-
+    return bmi, category
 
 def map_blood_pressure(bp_option):
     mapping = {

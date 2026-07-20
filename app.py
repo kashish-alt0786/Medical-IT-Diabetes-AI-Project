@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import xgboost as xgb
+import joblib
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -353,21 +353,26 @@ st.title(t["title"])
 st.caption(t["subtitle"])
 st.warning(t["disclaimer"])
 
-# --- Load/Train Model ---
+import joblib
+
 @st.cache_resource
 def load_model():
-    url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
-    names = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age','Outcome']
-    df = pd.read_csv(url, names=names)
-    X = df.drop('Outcome', axis=1)
-    y = df['Outcome']
-    scale_pos_weight = len(y[y==0]) / len(y[y==1])
-    model = xgb.XGBClassifier(learning_rate=0.1, max_depth=3, n_estimators=100, scale_pos_weight=scale_pos_weight, random_state=42, eval_metric='logloss')
-    model.fit(X, y)
-    return model, X.columns.tolist()
+    model = joblib.load("model.pkl")
+
+    feature_names = [
+        "Pregnancies",
+        "Glucose",
+        "BloodPressure",
+        "SkinThickness",
+        "Insulin",
+        "BMI",
+        "DiabetesPedigreeFunction",
+        "Age"
+    ]
+
+    return model, feature_names
 
 model, feature_names = load_model()
-
 # --- Sidebar ---
 with st.sidebar:
     st.header(t["model_perf"])

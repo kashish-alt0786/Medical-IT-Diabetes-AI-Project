@@ -105,21 +105,19 @@ def show_input_form(t):
     st.subheader(t["health_bg"])
 
     col5, col6 = st.columns(2)
+bp_options = [
+    t["bp_low"],
+    t["bp_normal"],
+    t["bp_high"],
+    t["bp_not_sure"]
+]
 
-    bp_options = [
-        t["bp_low"],
-        t["bp_normal"],
-        t["bp_high"],
-        t["bp_not_sure"]
-    ]
+bp_option = col5.selectbox(
+    t["bp_status"],
+    bp_options
+)
 
-    bp_option = col5.selectbox(
-        t["bp_status"],
-        bp_options
-    )
-
-    bp = map_blood_pressure(bp_option, t)
-
+bp = map_blood_pressure(bp_option, t)
 
     pregnancies = col6.number_input(
         t["pregnancies"],

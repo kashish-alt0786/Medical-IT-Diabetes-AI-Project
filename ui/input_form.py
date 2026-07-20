@@ -71,6 +71,7 @@ def show_input_form(t):
     with st.expander(t["cheat_sheet"]):
         st.markdown(t["cheat_table"])
 
+
     # ---------------- Body Measurements ----------------
     st.subheader(t["body_measure"])
 
@@ -90,13 +91,15 @@ def show_input_form(t):
         65
     )
 
-    bmi, bmi_category = calculate_bmi(height, weight)
 
-    bmi_label = t[bmi_category]
+    # FIXED: pass translation dictionary
+    bmi, bmi_category = calculate_bmi(height, weight, t)
+
 
     st.info(
-        f"{t['bmi_calc']} {bmi:.1f} | {bmi_label}"
+        f"{t['bmi_calc']} {bmi:.1f} | {bmi_category}"
     )
+
 
     # ---------------- Health Background ----------------
     st.subheader(t["health_bg"])
@@ -117,6 +120,7 @@ def show_input_form(t):
 
     bp = map_blood_pressure(bp_option, t)
 
+
     pregnancies = col6.number_input(
         t["pregnancies"],
         0,
@@ -125,12 +129,14 @@ def show_input_form(t):
         help=t["preg_help"]
     )
 
+
     family_options = [
         t["family_no"],
         t["family_1"],
         t["family_2"],
         t["family_not_sure"]
     ]
+
 
     family_history = st.radio(
         t["family"],
@@ -139,12 +145,17 @@ def show_input_form(t):
         help=t["family_help"]
     )
 
+
+    # Already correct
     dpf = map_family_history(family_history, t)
+
 
     insulin = DEFAULT_INSULIN
     skin = DEFAULT_SKIN_THICKNESS
 
+
     st.divider()
+
 
     return (
         age,

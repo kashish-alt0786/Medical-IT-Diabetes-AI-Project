@@ -5,6 +5,12 @@ import joblib
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
+from preprocessing import (
+    calculate_bmi,
+    map_blood_pressure,
+    map_family_history,
+    estimate_glucose
+)
 
 # --- Page Config ---
 st.set_page_config(

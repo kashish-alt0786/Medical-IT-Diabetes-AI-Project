@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import joblib
 from explainability import create_shap_plot
+from results import show_results
 from predictor import predict_risk
 from config import (
     FEATURE_NAMES,
@@ -470,40 +471,7 @@ if st.button(t["analyze_btn"], type="primary", use_container_width=True):
     dpf,
     age
 )
-    st.markdown("---")
-    st.header(t["result_header"])
-
-    if risk_percent < 30:
-        st.success(f"**{t['low_risk']} {risk_percent:.1f}%**")
-        st.markdown(t["low_desc"])
-        st.markdown("---")
-        with st.expander(t["health_tips"], expanded=True):
-            st.markdown(t["tips_desc"])
-            st.markdown(t["low_tips_title"])
-            st.markdown(t["low_tips"])
-            st.caption(t["note"])
-    elif risk_percent < 70:
-        st.warning(f"**{t['mod_risk']} {risk_percent:.1f}%**")
-        st.markdown(t["mod_desc"])
-        st.markdown("---")
-        with st.expander(t["health_tips"], expanded=True):
-            st.markdown(t["tips_desc"])
-            st.markdown(t["mod_tips_title"])
-            st.markdown(t["mod_tips"])
-            st.caption(t["note"])
-    else:
-        st.error(f"**{t['high_risk']} {risk_percent:.1f}%**")
-        st.markdown(t["high_desc"])
-        st.markdown("---")
-        with st.expander(t["health_tips"], expanded=True):
-            st.markdown(t["tips_desc"])
-            st.markdown(t["high_tips_title"])
-            st.markdown(t["high_tips"])
-            st.caption(t["note"])
-
-    st.markdown("---")
-
-   st.markdown("---")
+    show_results(risk_percent, t)
 
 # SHAP Explainability
 st.subheader(t["how_calc"])
@@ -514,3 +482,8 @@ fig = create_shap_plot(model, input_df, t)
 st.pyplot(fig)
 
 st.caption(t["red_bars"])
+
+st.divider()
+st.caption(t["footer_disc"])
+st.caption(t["footer_built"])
+st.caption(t["limitations"])

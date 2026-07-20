@@ -412,19 +412,17 @@ else:
     tired = st.checkbox(t["tired"])
     pee = st.checkbox(t["pee"])
     symptom_count = sum([thirsty, tired, pee])
-    if symptom_count == 0:
-        glucose = 85
-        st.success(t["est_85"])
-    elif symptom_count == 1:
-        glucose = 105
-        st.warning(t["est_105"])
-    elif symptom_count == 2:
-        glucose = 120
-        st.warning(t["est_120"])
-    else:
-        glucose = 140
-        st.error(t["est_140"])
+    glucose = estimate_glucose(symptom_count)
 
+if glucose == 85:
+    st.success(t["est_85"])
+elif glucose == 105:
+    st.warning(t["est_105"])
+elif glucose == 120:
+    st.warning(t["est_120"])
+else:
+    st.error(t["est_140"])
+    
 with st.expander(t["cheat_sheet"]):
     st.markdown(t["cheat_table"])
 

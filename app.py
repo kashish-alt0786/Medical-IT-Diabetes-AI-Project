@@ -353,8 +353,6 @@ st.title(t["title"])
 st.caption(t["subtitle"])
 st.warning(t["disclaimer"])
 
-import joblib
-
 @st.cache_resource
 def load_model():
     model = joblib.load("model.pkl")

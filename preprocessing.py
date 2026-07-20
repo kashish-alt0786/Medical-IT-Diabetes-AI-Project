@@ -17,21 +17,16 @@ def calculate_bmi(height_cm, weight_kg):
 
 
 def map_blood_pressure(bp_option, t):
-    """
-    Convert blood pressure selection into numerical value
-    """
 
     mapping = {
-        t["bp_low"]: 70,
-        t["bp_normal"]: 80,
-        t["bp_high"]: 100,
-        t["bp_not_sure"]: 85
+        t.get("bp_low", "Low"): 70,
+        t.get("bp_normal", "Normal"): 80,
+        t.get("bp_high", "High Blood Pressure"): 100,
+        t.get("bp_not_sure", "Not Sure"): 85
     }
 
     return mapping.get(bp_option, 80)
-
-
-
+    
 def map_family_history(option, t):
     """
     Convert family history selection into Diabetes Pedigree Function value

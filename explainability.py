@@ -4,17 +4,17 @@ import matplotlib.pyplot as plt
 
 def create_shap_plot(model, input_df, t):
 
-    explainer = shap.TreeExplainer(model)
+    explainer = shap.Explainer(
+        model.predict,
+        input_df
+    )
 
-    shap_values = explainer.shap_values(input_df)
+    shap_values = explainer(input_df)
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
-    shap.summary_plot(
-        shap_values,
-        input_df,
-        feature_names=input_df.columns,
-        plot_type="bar",
+    shap.plots.bar(
+        shap_values[0],
         show=False
     )
 

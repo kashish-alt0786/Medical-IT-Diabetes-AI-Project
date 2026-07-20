@@ -377,32 +377,41 @@ model, feature_names = load_model()
 
 show_sidebar(t)
 
+# --- User Input Form ---
+age, glucose, bmi, bp, pregnancies, dpf, insulin, skin = show_input_form(t)
+
 # --- Prediction ---
 if st.button(t["analyze_btn"], type="primary", use_container_width=True):
+
     risk_percent, input_df = predict_risk(
-    model,
-    feature_names,
-    pregnancies,
-    glucose,
-    bp,
-    skin,
-    insulin,
-    bmi,
-    dpf,
-    age
-)
+        model,
+        feature_names,
+        pregnancies,
+        glucose,
+        bp,
+        skin,
+        insulin,
+        bmi,
+        dpf,
+        age
+    )
+
+    # Show prediction result
     show_results(risk_percent, t)
 
-# SHAP Explainability
-st.subheader(t["how_calc"])
-st.caption(t["chart_caption"])
+    st.markdown("---")
 
-fig = create_shap_plot(model, input_df, t)
+    # SHAP Explainability
+    st.subheader(t["how_calc"])
+    st.caption(t["chart_caption"])
 
-st.pyplot(fig)
+    fig = create_shap_plot(model, input_df, t)
 
-st.caption(t["red_bars"])
+    st.pyplot(fig)
 
+    st.caption(t["red_bars"])
+
+# --- Footer ---
 st.divider()
 st.caption(t["footer_disc"])
 st.caption(t["footer_built"])

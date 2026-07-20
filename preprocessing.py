@@ -1,19 +1,16 @@
 # preprocessing.py
 
 
-def calculate_bmi(height_cm, weight_kg, t):
-    """
-    Calculate BMI and return translated BMI category
-    """
+def calculate_bmi(height_cm, weight_kg):
 
     bmi = weight_kg / ((height_cm / 100) ** 2)
 
     if bmi < 25:
-        category = t["bmi_normal"]
+        category = "normal"
     elif bmi < 30:
-        category = t["bmi_overweight"]
+        category = "overweight"
     else:
-        category = t["bmi_obese"]
+        category = "obese"
 
     return round(bmi, 2), category
 

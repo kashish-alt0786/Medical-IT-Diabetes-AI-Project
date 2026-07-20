@@ -5,6 +5,7 @@ import joblib
 import shap
 import matplotlib.pyplot as plt
 import seaborn as sns
+from predictor import predict_risk
 from preprocessing import (
     calculate_bmi,
     map_blood_pressure,
@@ -465,12 +466,18 @@ st.divider()
 
 # --- Prediction ---
 if st.button(t["analyze_btn"], type="primary", use_container_width=True):
-    input_data = np.array([[pregnancies, glucose, bp, skin, insulin, bmi, dpf, age]])
-    input_df = pd.DataFrame(input_data, columns=feature_names)
-
-    risk_proba = model.predict_proba(input_df)[0][1]
-    risk_percent = risk_proba * 100
-
+    risk_percent, input_df = predict_risk(
+    model,
+    feature_names,
+    pregnancies,
+    glucose,
+    bp,
+    skin,
+    insulin,
+    bmi,
+    dpf,
+    age
+)
     st.markdown("---")
     st.header(t["result_header"])
 

@@ -364,8 +364,12 @@ TEXT = {
 }
 
 # --- Language Selector ---
-lang = st.sidebar.selectbox("🌐 Language / भाषा / 언어", list(LANGUAGES.keys()))
+lang = st.sidebar.selectbox(
+    "🌐 Language / भाषा / 언어",
+    list(LANGUAGES.keys())
+)
 t = TEXT[LANGUAGES[lang]]
+
 
 # --- Header ---
 st.title(t["title"])
@@ -373,6 +377,7 @@ st.caption(t["subtitle"])
 st.warning(t["disclaimer"])
 
 
+# --- Load Model ---
 @st.cache_resource
 def load_model():
     model = joblib.load("model.pkl")
@@ -381,52 +386,65 @@ def load_model():
 
 model, feature_names = load_model()
 
+
+# --- Sidebar ---
 show_sidebar(t)
 
 
-# ---------------- USER INPUT ----------------
+# --- User Input Form ---
 age, glucose, bmi, bp, pregnancies, dpf, insulin, skin = show_input_form(t)
 
 
-# ---------------- PREDICTION ----------------
-if st.button(t["analyze_btn"], type="primary", use_container_width=True):
+# --- Prediction ---
+if st.button(
+    t["analyze_btn"],
+    type="primary",
+    use_container_width=True,
+):
 
     risk_percent, risk_level, color, input_df, top_reasons = predict_risk(
-        model,
-        feature_names,
-        pregnancies,
-        glucose,
-        bp,
-        skin,
-        insulin,
-        bmi,
-        dpf,
-        age
+        model=model,
+        feature_names=feature_names,
+        pregnancies=pregnancies,
+        glucose=glucose,
+        bp=bp,
+        skin=skin,
+        insulin=insulin,
+        bmi=bmi,
+        dpf=dpf,
+        age=age,
     )
 
     st.markdown("---")
 
+    # --- Results ---
     show_results(
-        t,
-        risk_percent,
-        risk_level,
-        color,
-        top_reasons,
-        input_df
+        t=t,
+        risk_percent=risk_percent,
+        risk_level=risk_level,
+        color=color,
+        top_reasons=top_reasons,
+        input_df=input_df,
     )
 
     st.markdown("---")
 
+    # --- SHAP Explainability ---
     st.subheader(t["how_calc"])
     st.caption(t["chart_caption"])
 
-    fig = create_shap_plot(model, input_df, t)
-    st.pyplot(fig)
+    fig = create_shap_plot(
+        model,
+        input_df,
+        t
+    )
+
+    st.pyplot(fig, use_container_width=True)
 
     st.caption(t["red_bars"])
 
 
-# ---------------- FOOTER ----------------
+# --- Footer ---
 st.divider()
 st.caption(t["footer_disc"])
 st.caption(t["footer_built"])

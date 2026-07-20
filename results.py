@@ -5,82 +5,67 @@ def show_results(
     t,
     risk_percent,
     risk_level,
+    color,
     top_reasons,
+    input_df=None
 ):
-    """
-    Display diabetes prediction results and personalized recommendations.
-    """
-
     st.header(t["result_header"])
 
     col1, col2 = st.columns([1, 2])
 
-    # ---------------- LEFT COLUMN ----------------
     with col1:
 
         st.metric(
-            t["diabetes_risk"],
-            f"{risk_percent:.1f}%"
+            "Diabetes Risk",
+            f"{risk_percent}%"
         )
 
         if risk_level == "Low":
             st.success(
-                f"**{t['low_risk']} ({risk_percent:.1f}%)**\n\n"
+                f"**{t['low_risk']} ({risk_percent}%)**\n\n"
                 f"{t['low_desc']}"
             )
 
         elif risk_level == "Moderate":
             st.warning(
-                f"**{t['mod_risk']} ({risk_percent:.1f}%)**\n\n"
+                f"**{t['mod_risk']} ({risk_percent}%)**\n\n"
                 f"{t['mod_desc']}"
             )
 
         else:
             st.error(
-                f"**{t['high_risk']} ({risk_percent:.1f}%)**\n\n"
+                f"**{t['high_risk']} ({risk_percent}%)**\n\n"
                 f"{t['high_desc']}"
             )
 
-    # ---------------- RIGHT COLUMN ----------------
     with col2:
 
-        st.subheader(t["main_reasons"])
+        st.subheader("Main Risk Factors")
 
         feature_map = {
-            "Glucose": t["glucose"],
+            "Glucose": "Blood Sugar",
             "BMI": "BMI",
-            "Age": t["age"],
-            "BloodPressure": t["bp_status"],
-            "Family History": t["family"],
-            "Pregnancies": t["pregnancies"],
-            "Insulin": "Insulin",
-            "SkinThickness": "Skin Thickness",
-            "DiabetesPedigreeFunction": "DPF",
+            "Age": "Age",
+            "BloodPressure": "Blood Pressure",
+            "Family History": "Family History"
         }
 
-        if len(top_reasons) == 0:
-            st.info("No important risk factors found.")
-        else:
+        for feature, impact in top_reasons:
 
-            for feature, impact in top_reasons[:5]:
+            name = feature_map.get(feature, feature)
 
-                display_name = feature_map.get(feature, feature)
+            if impact >= 0.35:
+                icon = "🔴"
 
-                if impact >= 0.35:
-                    icon = "🔴"
+            elif impact >= 0.15:
+                icon = "🟠"
 
-                elif impact >= 0.15:
-                    icon = "🟠"
+            else:
+                icon = "🟢"
 
-                else:
-                    icon = "🟢"
-
-                st.write(
-                    f"{icon} **{display_name}**  \n"
-                    f"Impact: **{impact:+.2f}**"
-                )
-
-    # ---------------- HEALTH TIPS ----------------
+            st.write(
+                f"{icon} **{name}** — Impact: {impact:+.2f}"
+            )
 
     st.divider()
 

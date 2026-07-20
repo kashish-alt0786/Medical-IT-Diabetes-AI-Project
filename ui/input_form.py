@@ -28,6 +28,7 @@ def show_input_form(t):
         help=t["age_help"]
     )
 
+
     # ---------------- Blood Sugar ----------------
     st.subheader(t["blood_sugar_header"])
 
@@ -61,12 +62,16 @@ def show_input_form(t):
 
         if glucose == 85:
             st.success(t["est_85"])
+
         elif glucose == 105:
             st.warning(t["est_105"])
+
         elif glucose == 120:
             st.warning(t["est_120"])
+
         else:
             st.error(t["est_140"])
+
 
     with st.expander(t["cheat_sheet"]):
         st.markdown(t["cheat_table"])
@@ -92,12 +97,12 @@ def show_input_form(t):
     )
 
 
-    # FIXED: pass translation dictionary
     bmi, bmi_category = calculate_bmi(height, weight)
 
+    bmi_label = t[bmi_category]
 
     st.info(
-        f"{t['bmi_calc']} {bmi:.1f} | {bmi_category}"
+        f"{t['bmi_calc']} {bmi:.1f} | {bmi_label}"
     )
 
 
@@ -105,19 +110,24 @@ def show_input_form(t):
     st.subheader(t["health_bg"])
 
     col5, col6 = st.columns(2)
-bp_options = [
-    t["bp_low"],
-    t["bp_normal"],
-    t["bp_high"],
-    t["bp_not_sure"]
-]
 
-bp_option = col5.selectbox(
-    t["bp_status"],
-    bp_options
-)
 
-bp = map_blood_pressure(bp_option, t)
+    bp_options = [
+        t["bp_low"],
+        t["bp_normal"],
+        t["bp_high"],
+        t["bp_not_sure"]
+    ]
+
+
+    bp_option = col5.selectbox(
+        t["bp_status"],
+        bp_options
+    )
+
+
+    bp = map_blood_pressure(bp_option, t)
+
 
     pregnancies = col6.number_input(
         t["pregnancies"],
@@ -128,6 +138,7 @@ bp = map_blood_pressure(bp_option, t)
     )
 
 
+    # ---------------- Family History ----------------
     family_options = [
         t["family_no"],
         t["family_1"],
@@ -144,11 +155,16 @@ bp = map_blood_pressure(bp_option, t)
     )
 
 
-    # Already correct
-    dpf = map_family_history(family_history, t)
+    dpf = map_family_history(
+        family_history,
+        t
+    )
 
+
+    # ---------------- Default Values ----------------
 
     insulin = DEFAULT_INSULIN
+
     skin = DEFAULT_SKIN_THICKNESS
 
 

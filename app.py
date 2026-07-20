@@ -1,14 +1,19 @@
 import streamlit as st
 import joblib
+
 from ui.sidebar import show_sidebar
+from ui.input_form import show_input_form
+
 from explainability import create_shap_plot
 from results import show_results
 from predictor import predict_risk
+
 from config import (
     FEATURE_NAMES,
     DEFAULT_INSULIN,
     DEFAULT_SKIN_THICKNESS
 )
+
 from preprocessing import (
     calculate_bmi,
     map_blood_pressure,

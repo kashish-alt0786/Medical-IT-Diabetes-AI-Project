@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
 from ui.sidebar import show_sidebar
 import joblib
 from explainability import create_shap_plot

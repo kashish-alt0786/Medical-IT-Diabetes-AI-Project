@@ -419,13 +419,11 @@ if st.button(
 
     # --- Results ---
     show_results(
-        t=t,
-        risk_percent=risk_percent,
-        risk_level=risk_level,
-        color=color,
-        top_reasons=top_reasons,
-        input_df=input_df,
-    )
+    t=t,
+    risk_percent=risk_percent,
+    risk_level=risk_level,
+    top_reasons=top_reasons,
+)
 
     st.markdown("---")
 

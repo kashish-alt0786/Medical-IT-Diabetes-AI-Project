@@ -17,7 +17,7 @@ def predict_risk(model, feature_names, pregnancies, glucose, bp, skin, insulin, 
 
     # Ensure order matches training
     input_df = pd.DataFrame([input_dict])
-    input_df = input_df[feature_names]
+    input_df = input_df.reindex(columns=feature_names)
 
     # SAFE prediction - works with both xgboost 1.7.6 and 2.x
     try:

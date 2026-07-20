@@ -7,67 +7,92 @@ def show_results(
     risk_level,
     color,
     top_reasons,
-    input_df=None
+    input_df=None,
 ):
+    """
+    Displays prediction results.
+    Compatible with current predictor.py
+    """
+
     st.header(t["result_header"])
 
-    col1, col2 = st.columns([1, 2])
+    # --------------------------
+    # Risk Meter
+    # --------------------------
 
-    with col1:
+    left, right = st.columns([1, 2])
+
+    with left:
 
         st.metric(
-            "Diabetes Risk",
-            f"{risk_percent}%"
+            label="Risk",
+            value=f"{risk_percent:.1f}%"
         )
 
+        st.progress(min(int(risk_percent), 100))
+
+    with right:
+
         if risk_level == "Low":
+
             st.success(
-                f"**{t['low_risk']} ({risk_percent}%)**\n\n"
+                f"### {t['low_risk']}\n\n"
                 f"{t['low_desc']}"
             )
 
         elif risk_level == "Moderate":
+
             st.warning(
-                f"**{t['mod_risk']} ({risk_percent}%)**\n\n"
+                f"### {t['mod_risk']}\n\n"
                 f"{t['mod_desc']}"
             )
 
         else:
+
             st.error(
-                f"**{t['high_risk']} ({risk_percent}%)**\n\n"
+                f"### {t['high_risk']}\n\n"
                 f"{t['high_desc']}"
             )
 
-    with col2:
+    st.divider()
 
-        st.subheader("Main Risk Factors")
+    # --------------------------
+    # Main Reasons
+    # --------------------------
 
-        feature_map = {
-            "Glucose": "Blood Sugar",
-            "BMI": "BMI",
-            "Age": "Age",
-            "BloodPressure": "Blood Pressure",
-            "Family History": "Family History"
-        }
+    st.subheader("📌 Main Risk Factors")
 
-        for feature, impact in top_reasons:
+    feature_map = {
+        "Glucose": t.get("blood_sugar_header", "Blood Sugar"),
+        "BMI": "BMI",
+        "Age": t.get("age", "Age"),
+        "BloodPressure": t.get("bp_status", "Blood Pressure"),
+        "Family History": t.get("family", "Family History"),
+    }
 
-            name = feature_map.get(feature, feature)
+    for feature, impact in top_reasons:
 
-            if impact >= 0.35:
-                icon = "🔴"
+        name = feature_map.get(feature, feature)
 
-            elif impact >= 0.15:
-                icon = "🟠"
+        if impact >= 0.35:
+            icon = "🔴"
 
-            else:
-                icon = "🟢"
+        elif impact >= 0.15:
+            icon = "🟠"
 
-            st.write(
-                f"{icon} **{name}** — Impact: {impact:+.2f}"
-            )
+        else:
+            icon = "🟢"
+
+        st.write(
+            f"{icon} **{name}**   "
+            f"(Impact: {impact:+.2f})"
+        )
 
     st.divider()
+
+    # --------------------------
+    # Personalized Advice
+    # --------------------------
 
     st.subheader(t["health_tips"])
 
@@ -89,3 +114,50 @@ def show_results(
         st.markdown(t["high_tips"])
 
     st.info(t["note"])
+
+    # --------------------------
+    # Recommendation Box
+    # --------------------------
+
+    st.divider()
+
+    st.subheader("🩺 Recommendation")
+
+    if risk_level == "Low":
+
+        st.success(
+            "Maintain a healthy diet, exercise regularly, "
+            "and consider a yearly health check."
+        )
+
+    elif risk_level == "Moderate":
+
+        st.warning(
+            "Consider improving your lifestyle, reducing sugar intake, "
+            "and scheduling a blood sugar test."
+        )
+
+    else:
+
+        st.error(
+            "Please consult a healthcare professional as soon as possible. "
+            "A laboratory blood glucose test is strongly recommended."
+        )
+
+    # --------------------------
+    # Educational Note
+    # --------------------------
+
+    with st.expander("ℹ️ About this prediction"):
+
+        st.write(
+            """
+This prediction is generated using an Explainable AI model trained
+on the Pima Indians Diabetes Dataset.
+
+The result represents **statistical risk**, not a medical diagnosis.
+
+Always consult a qualified healthcare professional before making
+medical decisions.
+"""
+        )

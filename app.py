@@ -376,6 +376,9 @@ st.warning(t["disclaimer"])
 def load_model():
     model = joblib.load("model.pkl")
     return model, FEATURE_NAMES
+
+
+model, feature_names = load_model()
 show_sidebar(t)
 
 # --- User Input Form ---

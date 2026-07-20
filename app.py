@@ -405,26 +405,34 @@ st.subheader(t["blood_sugar_header"])
 knows_glucose = st.radio(t["have_test"], [t["no_test"], t["yes_test"]], horizontal=True)
 
 if knows_glucose == t["yes_test"]:
-    glucose = st.number_input(t["type_fbs"], 50, 300, 90, help=t["fbs_help"])
+    glucose = st.number_input(
+        t["type_fbs"],
+        50,
+        300,
+        90,
+        help=t["fbs_help"]
+    )
+
 else:
     st.markdown(t["no_test_title"])
+
     thirsty = st.checkbox(t["thirsty"])
     tired = st.checkbox(t["tired"])
     pee = st.checkbox(t["pee"])
+
     symptom_count = sum([thirsty, tired, pee])
+    
     glucose = estimate_glucose(symptom_count)
 
-glucose = estimate_glucose(symptom_count)
-
-if glucose == 85:
-    st.success(t["est_85"])
-elif glucose == 105:
-    st.warning(t["est_105"])
-elif glucose == 120:
-    st.warning(t["est_120"])
-else:
-    st.error(t["est_140"])
-    
+    if glucose == 85:
+        st.success(t["est_85"])
+    elif glucose == 105:
+        st.warning(t["est_105"])
+    elif glucose == 120:
+        st.warning(t["est_120"])
+    else:
+        st.error(t["est_140"])
+        
 with st.expander(t["cheat_sheet"]):
     st.markdown(t["cheat_table"])
 

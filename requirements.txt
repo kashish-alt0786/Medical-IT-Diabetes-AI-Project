@@ -1,5 +1,5 @@
 streamlit==1.38.0
-xgboost==3.2.0
+xgboost==1.7.6
 shap==0.42.1
 pandas==2.2.2
 numpy==1.26.4

@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
-import shap
-import matplotlib.pyplot as plt
-import seaborn as sns
+from explainability import create_shap_plot
 from predictor import predict_risk
 from preprocessing import (
     calculate_bmi,
@@ -511,30 +509,14 @@ if st.button(t["analyze_btn"], type="primary", use_container_width=True):
 
     st.markdown("---")
 
-    # SHAP Explainability
-    st.subheader(t["how_calc"])
-    st.caption(t["chart_caption"])
+   st.markdown("---")
 
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(input_df)
+# SHAP Explainability
+st.subheader(t["how_calc"])
+st.caption(t["chart_caption"])
 
-    plt.style.use('seaborn-v0_8-whitegrid')
-    fig, ax = plt.subplots(figsize=(8, 5))
-    feature_labels = ['Pregnancies', 'Glucose', 'Blood Pressure', 'Skin Thickness', 'Insulin', 'BMI', 'Family History', 'Age']
-    colors = ['#d62728' if x > 0 else '#2ca02c' for x in shap_values[0]]
+fig = create_shap_plot(model, input_df, t)
 
-    sns.barplot(x=shap_values[0], y=feature_labels, palette=colors, ax=ax)
-    ax.set_title(t["chart_title"], fontsize=14, fontweight='bold')
-    ax.set_xlabel(t["chart_xlabel"])
-    ax.axvline(x=0, color='black', linestyle='-', alpha=0.3)
-    ax.grid(True, alpha=0.3)
-    st.pyplot(fig)
-    plt.close()
+st.pyplot(fig)
 
-    st.caption(t["red_bars"])
-
-# --- Footer ---
-st.divider()
-st.caption(t["footer_disc"])
-st.caption(t["footer_built"])
-st.caption(t["limitations"])
+st.caption(t["red_bars"])

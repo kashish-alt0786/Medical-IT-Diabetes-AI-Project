@@ -27,55 +27,45 @@ def show_results(
     left, right = st.columns([1, 2])
 
     with left:
-
         if risk_level == "Low":
             st.success(f"## {risk_percent}%")
-
         elif risk_level == "Moderate":
             st.warning(f"## {risk_percent}%")
-
         else:
             st.error(f"## {risk_percent}%")
 
         st.metric(
-            label=t["diabetes_risk"],
+            label=t.get("diabetes_risk", "Diabetes Risk"),
             value=f"{risk_percent}%"
         )
 
     with right:
-
         if risk_level == "Low":
-
             st.success(
                 f"""
-### 🟢 {t["low_risk"]}
+### 🟢 {t.get("low_risk", "Low Risk")}
 
-{t["low_desc"]}
+{t.get("low_desc", "")}
 """
             )
-
         elif risk_level == "Moderate":
-
             st.warning(
                 f"""
-### 🟠 {t["mod_risk"]}
+### 🟠 {t.get("mod_risk", "Moderate Risk")}
 
-{t["mod_desc"]}
+{t.get("mod_desc", "")}
 """
             )
-
         else:
-
             st.error(
                 f"""
-### 🔴 {t["high_risk"]}
+### 🔴 {t.get("high_risk", "High Risk")}
 
-{t["high_desc"]}
+{t.get("high_desc", "")}
 """
             )
 
     st.markdown("---")
-
     # ============================================
     # QUICK SUMMARY CARDS
     # ============================================

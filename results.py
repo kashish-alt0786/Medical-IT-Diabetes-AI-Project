@@ -236,29 +236,41 @@ recommended.
     # HEALTH SUMMARY
     # ============================================
 
-    if input_df is not None:
+   # ============================================
+# HEALTH SUMMARY
+# ============================================
 
-        st.subheader("📈 Health Summary")
+st.subheader("📈 Health Summary")
 
-        col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-        with col1:
+with col1:
+    glucose = float(input_df["Glucose"].iloc[0])
+    bmi = float(input_df["BMI"].iloc[0])
 
-        glucose = float(input_df["Glucose"].iloc[0])
-        bmi = float(input_df["BMI"].iloc[0])
+    st.metric(
+        "Blood Glucose",
+        f"{glucose:.0f} mg/dL"
+    )
 
-        st.metric("Blood Glucose", f"{glucose:.0f} mg/dL")
-        st.metric("BMI", f"{bmi:.1f}")
+    st.metric(
+        "BMI",
+        f"{bmi:.1f}"
+    )
 
-    with col2:
+with col2:
+    age = int(input_df["Age"].iloc[0])
+    bp = float(input_df["BloodPressure"].iloc[0])
 
-        age = int(input_df["Age"].iloc[0])
-        bp = float(input_df["BloodPressure"].iloc[0])
+    st.metric(
+        "Age",
+        age
+    )
 
-        st.metric("Age", age)
-        st.metric("Blood Pressure", f"{bp:.0f}")
-
-    st.markdown("---")
+    st.metric(
+        "Blood Pressure",
+        f"{bp:.0f}"
+    )
     # ============================================
     # RISK CATEGORY EXPLANATION
     # ============================================

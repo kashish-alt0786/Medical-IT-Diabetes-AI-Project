@@ -232,42 +232,28 @@ recommended.
 
     st.markdown("---")
 
+   # ============================================
+    # HEALTH SUMMARY - FIXED INDENTATION + GUARD
     # ============================================
-    # HEALTH SUMMARY
-    # ============================================
-
-
     st.subheader("📈 Health Summary")
 
+    if input_df is not None and not input_df.empty:
         col1, col2 = st.columns(2)
-
         with col1:
-        glucose = float(input_df["Glucose"].iloc[0])
-        bmi = float(input_df["BMI"].iloc[0])
+            glucose = float(input_df["Glucose"].iloc[0])
+            bmi = float(input_df["BMI"].iloc[0])
+            st.metric("Blood Glucose", f"{glucose:.0f} mg/dL")
+            st.metric("BMI", f"{bmi:.1f}")
+        with col2:
+            age = int(input_df["Age"].iloc[0])
+            bp = float(input_df["BloodPressure"].iloc[0])
+            st.metric("Age", age)
+            st.metric("Blood Pressure", f"{bp:.0f}")
+    else:
+        st.caption("Health summary data not available.")
 
-       st.metric(
-        "Blood Glucose",
-        f"{glucose:.0f} mg/dL"
-    )
+    st.markdown("---")
 
-       st.metric(
-        "BMI",
-        f"{bmi:.1f}"
-    )
-
-       with col2:
-       age = int(input_df["Age"].iloc[0])
-       bp = float(input_df["BloodPressure"].iloc[0])
-
-       st.metric(
-        "Age",
-        age
-    )
-
-    st.metric(
-        "Blood Pressure",
-        f"{bp:.0f}"
-    )
     # ============================================
     # RISK CATEGORY EXPLANATION
     # ============================================

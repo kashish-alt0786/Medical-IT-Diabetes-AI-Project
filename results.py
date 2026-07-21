@@ -9,155 +9,518 @@ def show_results(
     top_reasons,
     input_df=None,
 ):
-    """
-    Displays prediction results.
-    Compatible with current predictor.py
-    """
 
-    st.header(t["result_header"])
+    # ============================================
+    # RESULT HEADER
+    # ============================================
 
-    # --------------------------
-    # Risk Meter
-    # --------------------------
+    st.header("📋 " + t["result_header"])
+
+    st.caption(
+        "AI-powered diabetes risk estimation based on your health information."
+    )
+
+    st.markdown("---")
+
+    # ============================================
+    # MAIN RISK SCORE
+    # ============================================
 
     left, right = st.columns([1, 2])
 
     with left:
 
-        st.metric(
-            label="Risk",
-            value=f"{risk_percent:.1f}%"
-        )
+        if risk_level == "Low":
+            st.success(f"## {risk_percent}%")
 
-        st.progress(min(int(risk_percent), 100))
+        elif risk_level == "Moderate":
+            st.warning(f"## {risk_percent}%")
+
+        else:
+            st.error(f"## {risk_percent}%")
+
+        st.metric(
+            label=t["diabetes_risk"],
+            value=f"{risk_percent}%"
+        )
 
     with right:
 
         if risk_level == "Low":
 
             st.success(
-                f"### {t['low_risk']}\n\n"
-                f"{t['low_desc']}"
+                f"""
+### 🟢 {t["low_risk"]}
+
+{t["low_desc"]}
+"""
             )
 
         elif risk_level == "Moderate":
 
             st.warning(
-                f"### {t['mod_risk']}\n\n"
-                f"{t['mod_desc']}"
+                f"""
+### 🟠 {t["mod_risk"]}
+
+{t["mod_desc"]}
+"""
             )
 
         else:
 
             st.error(
-                f"### {t['high_risk']}\n\n"
-                f"{t['high_desc']}"
+                f"""
+### 🔴 {t["high_risk"]}
+
+{t["high_desc"]}
+"""
             )
 
-    st.divider()
+    st.markdown("---")
 
-    # --------------------------
-    # Main Reasons
-    # --------------------------
+    # ============================================
+    # QUICK SUMMARY CARDS
+    # ============================================
 
-    st.subheader("📌 Main Risk Factors")
+    c1, c2, c3 = st.columns(3)
 
-    feature_map = {
-        "Glucose": t.get("blood_sugar_header", "Blood Sugar"),
-        "BMI": "BMI",
-        "Age": t.get("age", "Age"),
-        "BloodPressure": t.get("bp_status", "Blood Pressure"),
-        "Family History": t.get("family", "Family History"),
-    }
+    with c1:
 
-    for feature, impact in top_reasons:
-
-        name = feature_map.get(feature, feature)
-
-        if impact >= 0.35:
-            icon = "🔴"
-
-        elif impact >= 0.15:
-            icon = "🟠"
-
-        else:
-            icon = "🟢"
-
-        st.write(
-            f"{icon} **{name}**   "
-            f"(Impact: {impact:+.2f})"
+        st.metric(
+            "Risk Level",
+            risk_level
         )
 
-    st.divider()
+    with c2:
 
-    # --------------------------
-    # Personalized Advice
-    # --------------------------
+        if risk_percent < 30:
+            label = "Healthy"
 
-    st.subheader(t["health_tips"])
+        elif risk_percent < 65:
+            label = "Needs Monitoring"
 
-    st.caption(t["tips_desc"])
+        else:
+            label = "Medical Check"
+
+        st.metric(
+            "Recommendation",
+            label
+        )
+
+    with c3:
+
+        if risk_percent < 30:
+            emoji = "😊"
+
+        elif risk_percent < 65:
+            emoji = "🙂"
+
+        else:
+            emoji = "⚠️"
+
+        st.metric(
+            "Status",
+            emoji
+        )
+
+    st.markdown("---")
+
+    # ============================================
+    # CLINICAL INTERPRETATION
+    # ============================================
+
+    st.subheader("🩺 Clinical Interpretation")
 
     if risk_level == "Low":
 
-        st.markdown(f"### {t['low_tips_title']}")
-        st.markdown(t["low_tips"])
+        st.info(
+            """
+Your predicted diabetes risk is currently **low**.
 
-    elif risk_level == "Moderate":
+This suggests your health profile is generally
+consistent with people who have a lower probability
+of Type 2 Diabetes.
 
-        st.markdown(f"### {t['mod_tips_title']}")
-        st.markdown(t["mod_tips"])
-
-    else:
-
-        st.markdown(f"### {t['high_tips_title']}")
-        st.markdown(t["high_tips"])
-
-    st.info(t["note"])
-
-    # --------------------------
-    # Recommendation Box
-    # --------------------------
-
-    st.divider()
-
-    st.subheader("🩺 Recommendation")
-
-    if risk_level == "Low":
-
-        st.success(
-            "Maintain a healthy diet, exercise regularly, "
-            "and consider a yearly health check."
+Maintaining healthy eating habits, regular exercise,
+and periodic health check-ups is recommended.
+"""
         )
 
     elif risk_level == "Moderate":
 
         st.warning(
-            "Consider improving your lifestyle, reducing sugar intake, "
-            "and scheduling a blood sugar test."
+            """
+Your estimated diabetes risk is **moderate**.
+
+Although this is **not a diagnosis**, improving
+lifestyle habits now may significantly reduce your
+future diabetes risk.
+
+Regular blood glucose monitoring is recommended.
+"""
         )
 
     else:
 
         st.error(
-            "Please consult a healthcare professional as soon as possible. "
-            "A laboratory blood glucose test is strongly recommended."
-        )
-
-    # --------------------------
-    # Educational Note
-    # --------------------------
-
-    with st.expander("ℹ️ About this prediction"):
-
-        st.write(
             """
-This prediction is generated using an Explainable AI model trained
-on the Pima Indians Diabetes Dataset.
+Your estimated diabetes risk is **high**.
 
-The result represents **statistical risk**, not a medical diagnosis.
+This result should **NOT** be considered a medical
+diagnosis.
 
-Always consult a qualified healthcare professional before making
-medical decisions.
+However, consultation with a healthcare professional
+and laboratory blood glucose testing are strongly
+recommended.
 """
         )
+
+    st.markdown("---")
+
+    # ============================================
+    # TOP RISK FACTORS
+    # ============================================
+
+    st.subheader("🔍 Main Factors Affecting Your Risk")
+
+    st.caption(
+        "These factors had the greatest influence on the AI prediction."
+    )
+
+    feature_map = {
+        "Glucose": "🩸 Blood Glucose",
+        "BMI": "⚖️ Body Mass Index",
+        "Age": "🎂 Age",
+        "BloodPressure": "❤️ Blood Pressure",
+        "Family History": "🧬 Family History"
+    }
+
+    if len(top_reasons) == 0:
+
+        st.info(
+            "No major contributing factors were detected."
+        )
+
+    else:
+
+        for feature, impact in top_reasons:
+
+            display_name = feature_map.get(feature, feature)
+
+            if impact >= 0.40:
+
+                st.error(
+                    f"**{display_name}**\n\n"
+                    f"Very strong influence on prediction "
+                    f"({impact:.2f})"
+                )
+
+            elif impact >= 0.20:
+
+                st.warning(
+                    f"**{display_name}**\n\n"
+                    f"Moderate influence on prediction "
+                    f"({impact:.2f})"
+                )
+
+            else:
+
+                st.success(
+                    f"**{display_name}**\n\n"
+                    f"Small influence on prediction "
+                    f"({impact:.2f})"
+                )
+
+    st.markdown("---")
+
+    # ============================================
+    # HEALTH SUMMARY
+    # ============================================
+
+    st.subheader("📈 Health Summary")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        glucose = float(input_df["Glucose"].iloc[0])
+        bmi = float(input_df["BMI"].iloc[0])
+
+        st.metric(
+            "Blood Glucose",
+            f"{glucose:.0f} mg/dL"
+        )
+
+        st.metric(
+            "BMI",
+            f"{bmi:.1f}"
+        )
+
+    with col2:
+
+        age = int(input_df["Age"].iloc[0])
+        bp = float(input_df["BloodPressure"].iloc[0])
+
+        st.metric(
+            "Age",
+            age
+        )
+
+        st.metric(
+            "Blood Pressure",
+            f"{bp:.0f}"
+        )
+
+    st.markdown("---")
+
+    # ============================================
+    # RISK CATEGORY EXPLANATION
+    # ============================================
+
+    st.subheader("📚 Understanding Your Risk")
+
+    if risk_level == "Low":
+
+        st.success(
+            """
+### 🟢 Low Risk
+
+Your current health indicators suggest
+a relatively low probability of diabetes.
+
+Continue maintaining:
+
+• Healthy diet
+
+• Regular physical activity
+
+• Healthy body weight
+
+• Annual health screening
+"""
+        )
+
+    elif risk_level == "Moderate":
+
+        st.warning(
+            """
+### 🟠 Moderate Risk
+
+Some health indicators suggest
+an increased likelihood of developing
+Type 2 Diabetes in the future.
+
+Lifestyle improvement at this stage
+can significantly reduce future risk.
+"""
+        )
+
+    else:
+
+        st.error(
+            """
+### 🔴 High Risk
+
+Multiple risk factors are present.
+
+This prediction indicates that
+additional laboratory testing
+and consultation with a physician
+should be considered.
+
+Early intervention greatly improves
+long-term health outcomes.
+"""
+        )
+
+    st.markdown("---")
+
+    # ============================================
+    # AI MODEL CONFIDENCE
+    # ============================================
+
+    st.subheader("🤖 AI Assessment")
+
+    confidence = max(risk_percent, 100 - risk_percent)
+
+    st.progress(confidence / 100)
+
+    st.write(
+        f"Prediction Confidence: **{confidence:.1f}%**"
+    )
+
+    st.caption(
+        "Confidence reflects how strongly the model supports its prediction. "
+        "It does not represent medical certainty."
+    )
+
+    st.markdown("---")
+
+    # ============================================
+    # PERSONALIZED HEALTH RECOMMENDATIONS
+    # ============================================
+
+    st.subheader("💡 Personalized Health Recommendations")
+
+    st.caption(t["tips_desc"])
+
+    if risk_level == "Low":
+
+        st.success(t["low_tips_title"])
+        st.markdown(t["low_tips"])
+
+    elif risk_level == "Moderate":
+
+        st.warning(t["mod_tips_title"])
+        st.markdown(t["mod_tips"])
+
+    else:
+
+        st.error(t["high_tips_title"])
+        st.markdown(t["high_tips"])
+
+    st.info(t["note"])
+
+    st.markdown("---")
+
+    # ============================================
+    # PREVENTION CHECKLIST
+    # ============================================
+
+    st.subheader("✅ Diabetes Prevention Checklist")
+
+    checklist_col1, checklist_col2 = st.columns(2)
+
+    with checklist_col1:
+
+        st.checkbox("Exercise 30–45 min daily", disabled=True)
+        st.checkbox("Eat vegetables every day", disabled=True)
+        st.checkbox("Avoid sugary drinks", disabled=True)
+        st.checkbox("Maintain healthy BMI", disabled=True)
+
+    with checklist_col2:
+
+        st.checkbox("Sleep 7–8 hours", disabled=True)
+        st.checkbox("Drink enough water", disabled=True)
+        st.checkbox("Annual blood sugar check", disabled=True)
+        st.checkbox("Manage blood pressure", disabled=True)
+
+    st.markdown("---")
+
+    # ============================================
+    # WHEN TO SEE A DOCTOR
+    # ============================================
+
+    st.subheader("👨‍⚕️ When Should You Consult a Doctor?")
+
+    if risk_level == "High":
+
+        st.error(
+            """
+### Immediate Recommendation
+
+Please consider scheduling a medical consultation if you experience:
+
+• Frequent urination
+
+• Constant thirst
+
+• Unexplained weight loss
+
+• Blurred vision
+
+• Persistent fatigue
+
+• Slow wound healing
+
+A laboratory blood glucose test
+(HbA1c or Fasting Blood Sugar)
+is recommended.
+"""
+        )
+
+    elif risk_level == "Moderate":
+
+        st.warning(
+            """
+Consider visiting a healthcare provider if:
+
+• Symptoms continue for several weeks
+
+• Diabetes runs in your family
+
+• Blood pressure remains high
+
+• BMI continues increasing
+
+Routine screening every
+6–12 months is recommended.
+"""
+        )
+
+    else:
+
+        st.success(
+            """
+No urgent medical action is suggested
+based on this AI assessment.
+
+Continue maintaining a healthy lifestyle
+and undergo routine health screening.
+"""
+        )
+
+    st.markdown("---")
+
+    # ============================================
+    # EDUCATIONAL NOTE
+    # ============================================
+
+    with st.expander("📚 About this AI Prediction"):
+
+        st.markdown(
+            """
+### How does this system work?
+
+This application uses an **XGBoost Machine Learning model**
+trained on the well-known **Pima Indian Diabetes Dataset**.
+
+The prediction considers several health indicators:
+
+- Blood Glucose
+- Body Mass Index (BMI)
+- Age
+- Blood Pressure
+- Family History
+- Pregnancy History
+
+The Explainable AI (XAI) module highlights
+which factors contributed most to your prediction.
+
+---
+
+### Important
+
+This prediction **does not diagnose diabetes.**
+
+Only a qualified healthcare professional
+can diagnose diabetes using laboratory tests
+and clinical evaluation.
+"""
+        )
+
+    st.markdown("---")
+
+    # ============================================
+    # FINAL DISCLAIMER
+    # ============================================
+
+    st.caption("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+    st.caption(t["footer_disc"])
+
+    st.caption(t["footer_built"])
+
+    st.caption(t["limitations"])
+
+    st.caption("© 2026 Diabetes Risk Predictor • Explainable AI Screening Tool")

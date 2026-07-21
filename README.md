@@ -72,6 +72,29 @@ The application is designed as an **educational healthcare screening tool** rath
 
 ---
 
+## 🏗️ Project Architecture
+
+```text
+                  User Input
+                       │
+                       ▼
+         Data Preprocessing & Validation
+                       │
+                       ▼
+            XGBoost Risk Prediction Model
+                       │
+         ┌─────────────┴─────────────┐
+         ▼                           ▼
+  Risk Probability            SHAP Explainability
+         │                           │
+         └─────────────┬─────────────┘
+                       ▼
+      Personalized Health Recommendation
+                       │
+                       ▼
+           Interactive Streamlit Interface
+```
+
 ### 📊 Explainable AI (SHAP)
 
 ![Explainable AI](Explainable%20AI%20(XAI).png)

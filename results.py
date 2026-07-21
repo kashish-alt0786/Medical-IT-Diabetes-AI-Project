@@ -236,13 +236,13 @@ recommended.
     # HEALTH SUMMARY
     # ============================================
 
-   if input_df is not None:
+    if input_df is not None:
 
-    st.subheader("📈 Health Summary")
+        st.subheader("📈 Health Summary")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-    with col1:
+        with col1:
 
         glucose = float(input_df["Glucose"].iloc[0])
         bmi = float(input_df["BMI"].iloc[0])

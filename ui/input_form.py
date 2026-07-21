@@ -124,7 +124,7 @@ def show_input_form(t):
     # BODY MEASUREMENTS
     # =====================================================
 
-        col3, col4 = st.columns(2)
+    col3, col4 = st.columns(2)
 
     height = col3.number_input(
         t["height"],
@@ -153,7 +153,7 @@ def show_input_form(t):
     c1.metric("BMI", f"{bmi:.1f}")
 
     if bmi_category == "normal":
-        c2.success(f"✅ {bmi_label}")
+        c2.success(f"✅ {t['normal']}")
     elif bmi_category == "overweight":
         c2.warning(f"⚠️ {bmi_label}")
     else:
@@ -201,7 +201,7 @@ def show_input_form(t):
     # FAMILY HISTORY
     # =====================================================
 
-    st.subheader("👨‍👩‍👧‍👦 Family History")
+    st.subheader("👨‍👩‍👧‍👦 " + t["family"])
     st.caption("Step 5 of 5 • Genetic Risk Assessment")
 
     family_options = [

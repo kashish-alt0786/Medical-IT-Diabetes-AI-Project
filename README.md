@@ -72,6 +72,11 @@ The application is designed as an **educational healthcare screening tool** rath
 
 ---
 
+### 📊 Explainable AI (SHAP)
+
+![Explainable AI](Explainable%20AI%20(XAI).png)
+## 🌍 Problem Statement
+
 ## 🏗️ Project Architecture
 
 ```text
@@ -94,11 +99,6 @@ The application is designed as an **educational healthcare screening tool** rath
                        ▼
            Interactive Streamlit Interface
 ```
-
-### 📊 Explainable AI (SHAP)
-
-![Explainable AI](Explainable%20AI%20(XAI).png)
-## 🌍 Problem Statement
 
 Diabetes affects hundreds of millions of people worldwide, yet many individuals remain undiagnosed because regular laboratory screening is not always accessible.
 

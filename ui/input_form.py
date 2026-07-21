@@ -15,18 +15,28 @@ from preprocessing import (
 
 def show_input_form(t):
 
-    # =====================================================
-    # PERSONAL INFORMATION
-    # =====================================================
+    # ======================================================
+    # PAGE HEADER
+    # ======================================================
 
     st.header("📝 " + t["health_info"])
-    st.caption("Step 1 of 5 • Personal Information")
+    st.caption("Complete the following health assessment")
 
-    with st.container():
+    progress = st.progress(0)
 
-        col1, col2 = st.columns([1, 1])
+    # ======================================================
+    # STEP 1 — PERSONAL INFORMATION
+    # ======================================================
 
-        age = col1.number_input(
+    progress.progress(20)
+
+    st.markdown("## 👤 Personal Information")
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+
+        age = st.number_input(
             t["age"],
             min_value=1,
             max_value=120,
@@ -34,18 +44,26 @@ def show_input_form(t):
             help=t["age_help"]
         )
 
-        col2.info(
-            "💡 Regular diabetes screening becomes increasingly important after age 35, especially if you have additional risk factors."
+    with col2:
+
+        st.info(
+            """
+Older age slightly increases the risk of Type 2 Diabetes.
+
+Regular screening is recommended after age 35,
+especially if you have additional risk factors.
+"""
         )
 
-    st.markdown("---")
+    st.divider()
 
-    # =====================================================
-    # BLOOD SUGAR
-    # =====================================================
+    # ======================================================
+    # STEP 2 — BLOOD GLUCOSE
+    # ======================================================
 
-    st.subheader("🩸 " + t["blood_sugar_header"])
-    st.caption("Step 2 of 5 • Blood Sugar Assessment")
+    progress.progress(40)
+
+    st.markdown("## 🩸 Blood Sugar")
 
     knows_glucose = st.radio(
         t["have_test"],
@@ -55,10 +73,7 @@ def show_input_form(t):
         ],
         horizontal=True
     )
-
-    if knows_glucose == "🧪 " + t["yes_test"]:
-
-        st.success("Laboratory value selected")
+        if knows_glucose == "🧪 " + t["yes_test"]:
 
         glucose = st.number_input(
             t["type_fbs"],
@@ -68,79 +83,76 @@ def show_input_form(t):
             help=t["fbs_help"]
         )
 
+        if glucose < 100:
+            st.success("✅ Normal fasting blood sugar")
+
+        elif glucose < 126:
+            st.warning("⚠ Prediabetes range")
+
+        else:
+            st.error("🔴 Diabetes range")
+
     else:
 
         st.info(
-            "Answer the symptom questions below to estimate your fasting blood glucose."
+            "We'll estimate your fasting glucose using a few common symptoms."
         )
 
         st.markdown(t["no_test_title"])
 
-        thirsty = st.checkbox(
-            "💧 " + t["thirsty"]
-        )
+        thirsty = st.checkbox("💧 " + t["thirsty"])
+        tired = st.checkbox("😴 " + t["tired"])
+        pee = st.checkbox("🚻 " + t["pee"])
 
-        tired = st.checkbox(
-            "😴 " + t["tired"]
-        )
-
-        pee = st.checkbox(
-            "🚻 " + t["pee"]
-        )
-
-        symptom_count = sum([
-            thirsty,
-            tired,
-            pee
-        ])
+        symptom_count = sum([thirsty, tired, pee])
 
         glucose = estimate_glucose(symptom_count)
 
-        st.markdown("### Estimated Fasting Blood Glucose")
-
         if glucose == 85:
-
             st.success(t["est_85"])
 
         elif glucose == 105:
-
             st.warning(t["est_105"])
 
         elif glucose == 120:
-
             st.warning(t["est_120"])
 
         else:
-
             st.error(t["est_140"])
 
-    with st.expander("📘 " + t["cheat_sheet"]):
+    with st.expander("📖 " + t["cheat_sheet"]):
 
         st.markdown(t["cheat_table"])
 
-    st.markdown("---")
+    # ======================================================
+    # STEP 3 — BODY MEASUREMENTS
+    # ======================================================
 
-    # =====================================================
-    # BODY MEASUREMENTS
-    # =====================================================
+    progress.progress(60)
+
+    st.markdown("## 📏 Body Measurements")
 
     col3, col4 = st.columns(2)
 
-    height = col3.number_input(
-        t["height"],
-        min_value=100,
-        max_value=250,
-        value=165,
-        help="Enter your height without shoes."
-    )
+    with col3:
 
-    weight = col4.number_input(
-        t["weight"],
-        min_value=30,
-        max_value=200,
-        value=65,
-        help="Enter your current body weight."
-    )
+        height = st.number_input(
+            t["height"],
+            min_value=100,
+            max_value=250,
+            value=165,
+            help="Enter your height in centimeters."
+        )
+
+    with col4:
+
+        weight = st.number_input(
+            t["weight"],
+            min_value=30,
+            max_value=200,
+            value=65,
+            help="Enter your body weight in kilograms."
+        )
 
     bmi, bmi_category = calculate_bmi(height, weight)
 
@@ -148,25 +160,43 @@ def show_input_form(t):
 
     st.markdown("### 📊 Body Mass Index")
 
-    c1, c2 = st.columns([1, 2])
+    metric1, metric2, metric3 = st.columns(3)
 
-    c1.metric("BMI", f"{bmi:.1f}")
+    metric1.metric(
+        "BMI",
+        f"{bmi:.1f}"
+    )
 
-    if bmi_category == "normal":
-        c2.success(f"✅ {t['normal']}")
-    elif bmi_category == "overweight":
-        c2.warning(f"⚠️ {bmi_label}")
+    if bmi < 18.5:
+        metric2.info("Underweight")
+    elif bmi < 25:
+        metric2.success(bmi_label)
+    elif bmi < 30:
+        metric2.warning(bmi_label)
     else:
-        c2.error(f"🔴 {bmi_label}")
+        metric2.error(bmi_label)
 
-    st.markdown("---")
+    if bmi < 25:
+        metric3.success("🟢 Healthy")
+    elif bmi < 30:
+        metric3.warning("🟠 Increased Risk")
+    else:
+        metric3.error("🔴 High Risk")
 
-    # =====================================================
-    # HEALTH BACKGROUND
-    # =====================================================
+    st.info(
+        "💡 BMI is one of the strongest predictors of Type 2 Diabetes. "
+        "Maintaining a healthy BMI can significantly reduce long-term risk."
+    )
 
-    st.subheader("❤️ " + t["health_bg"])
-    st.caption("Step 4 of 5 • Medical History")
+    st.divider()
+
+    # ======================================================
+    # STEP 4 — HEALTH BACKGROUND
+    # ======================================================
+
+    progress.progress(80)
+
+    st.markdown("## ❤️ Health Background")
 
     col5, col6 = st.columns(2)
 
@@ -177,60 +207,40 @@ def show_input_form(t):
         t["bp_not_sure"]
     ]
 
-    bp_option = col5.selectbox(
-        t["bp_status"],
-        bp_options
-    )
+    with col5:
 
-    bp = map_blood_pressure(
-        bp_option,
-        t
-    )
+        bp_option = st.selectbox(
+            t["bp_status"],
+            bp_options
+        )
 
-    pregnancies = col6.number_input(
-        t["pregnancies"],
-        min_value=0,
-        max_value=20,
-        value=0,
-        help=t["preg_help"]
-    )
+        bp = map_blood_pressure(
+            bp_option,
+            t
+        )
 
-    st.markdown("---")
+    with col6:
 
-    # =====================================================
-    # FAMILY HISTORY
-    # =====================================================
+        pregnancies = st.number_input(
+            t["pregnancies"],
+            min_value=0,
+            max_value=20,
+            value=0,
+            help=t["preg_help"]
+        )
 
-    st.subheader("👨‍👩‍👧‍👦 " + t["family"])
-    st.caption("Step 5 of 5 • Genetic Risk Assessment")
+    if bp_option == t["bp_high"]:
+        st.warning(
+            "⚠ High blood pressure often occurs together with diabetes "
+            "and increases cardiovascular risk."
+        )
+    elif bp_option == t["bp_low"]:
+        st.info(
+            "Low blood pressure is generally not a major diabetes risk factor."
+        )
+    else:
+        st.success("Blood pressure information recorded.")
 
-    family_options = [
-        t["family_no"],
-        t["family_1"],
-        t["family_2"],
-        t["family_not_sure"]
-    ]
-
-    family_history = st.radio(
-        t["family"],
-        family_options,
-        horizontal=True,
-        help=t["family_help"]
-    )
-
-    dpf = map_family_history(
-        family_history,
-        t
-    )
-
-    st.info(
-        "🧬 Family history is one of the strongest known risk factors for Type 2 Diabetes."
-    )
-
-    st.markdown("---")
-
-    insulin = DEFAULT_INSULIN
-    skin = DEFAULT_SKIN_THICKNESS
 
     st.divider()
 

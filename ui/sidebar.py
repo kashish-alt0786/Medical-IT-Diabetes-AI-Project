@@ -2,78 +2,106 @@ import streamlit as st
 
 
 def show_sidebar(t):
+
     with st.sidebar:
 
-        st.markdown(f"## {t['title']}")
-        st.caption(t["subtitle"])
+        # ==========================================
+        # LOGO
+        # ==========================================
+
+        st.markdown("# 🩺 Diabetes Risk Predictor")
+
+        st.caption(
+            "Explainable Artificial Intelligence for Preventive Healthcare"
+        )
+
+        st.success("Version 3.0")
 
         st.divider()
 
-        st.subheader(t["model_perf"])
+        # ==========================================
+        # MODEL PERFORMANCE
+        # ==========================================
 
-        col1, col2 = st.columns(2)
+        st.subheader("📊 AI Model Performance")
 
-        with col1:
+        c1, c2 = st.columns(2)
+
+        with c1:
             st.metric(
-                t["accuracy"],
-                "69.5%",
-                help=t["accuracy_desc"]
+                "Accuracy",
+                "69.5%"
             )
 
-        with col2:
+        with c2:
             st.metric(
-                t["auc"],
-                "0.76",
-                help=t["auc_desc"]
+                "AUC",
+                "0.76"
             )
 
         st.metric(
-            t["recall"],
-            "67.3%",
-            help=t["recall_desc"]
+            "Recall",
+            "67.3%"
+        )
+
+        st.caption(
+            "Optimized for screening (higher recall reduces missed high-risk patients)."
         )
 
         st.divider()
 
-        st.subheader("🧠 AI Model")
+        # ==========================================
+        # MODEL DETAILS
+        # ==========================================
+
+        st.subheader("🧠 Machine Learning")
 
         st.markdown("""
-**Algorithm**
+**Prediction Model**
 - XGBoost Classifier
 
 **Explainability**
-- SHAP
+- SHAP (Explainable AI)
 
-**Dataset**
+**Training Dataset**
 - Pima Indian Diabetes Dataset
 
-**Deployment**
-- Streamlit Cloud
+**Hyperparameter Optimization**
+- GridSearchCV
+
+**Language Support**
+- English
+- हिन्दी
+- 한국어
 """)
 
         st.divider()
 
-        st.subheader(t["project_links"])
+        # ==========================================
+        # PROJECT LINKS
+        # ==========================================
 
-        st.markdown(
-            """
-💻 **GitHub**
+        st.subheader("🔗 Project")
 
-https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project
-"""
+        st.link_button(
+            "💻 GitHub Repository",
+            "https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project",
+            use_container_width=True
         )
 
-        st.markdown(
-            """
-🌐 **Live Demo**
-
-https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
-"""
+        st.link_button(
+            "🌐 Live Demo",
+            "https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/",
+            use_container_width=True
         )
 
         st.divider()
 
-        st.subheader(t["tech_stack"])
+        # ==========================================
+        # TECHNOLOGY
+        # ==========================================
+
+        st.subheader("⚙ Technology Stack")
 
         st.markdown("""
 - Python
@@ -87,6 +115,18 @@ https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
         st.divider()
 
-        st.warning(t["disclaimer"])
+        # ==========================================
+        # DISCLAIMER
+        # ==========================================
 
-        st.caption("Version 3.0")
+        st.warning(
+            """
+This tool is designed for **educational and preventive health screening only**.
+
+It **does not diagnose diabetes** and should never replace professional medical advice.
+"""
+        )
+
+        st.caption(
+            "Developed as an Explainable AI Healthcare Project."
+        )

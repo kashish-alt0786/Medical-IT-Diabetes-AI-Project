@@ -427,14 +427,7 @@ if st.button(
     st.markdown("---")
 
     # --- Results ---
-    show_results(
-    t=t,
-    risk_percent=risk_percent,
-    risk_level=risk_level,
-    color=color,
-    top_reasons=top_reasons,
-    input_df=input_df,
-)
+    show_results(t, risk_percent, risk_level, top_reasons, input_df)
     st.markdown("---")
 
     # --- SHAP Explainability ---

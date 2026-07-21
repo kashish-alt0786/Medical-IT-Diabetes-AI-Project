@@ -5,7 +5,6 @@ def show_results(
     t,
     risk_percent,
     risk_level,
-    color,
     top_reasons,
     input_df=None,
 ):
@@ -237,6 +236,8 @@ recommended.
     # HEALTH SUMMARY
     # ============================================
 
+   if input_df is not None:
+
     st.subheader("📈 Health Summary")
 
     col1, col2 = st.columns(2)
@@ -246,33 +247,18 @@ recommended.
         glucose = float(input_df["Glucose"].iloc[0])
         bmi = float(input_df["BMI"].iloc[0])
 
-        st.metric(
-            "Blood Glucose",
-            f"{glucose:.0f} mg/dL"
-        )
-
-        st.metric(
-            "BMI",
-            f"{bmi:.1f}"
-        )
+        st.metric("Blood Glucose", f"{glucose:.0f} mg/dL")
+        st.metric("BMI", f"{bmi:.1f}")
 
     with col2:
 
         age = int(input_df["Age"].iloc[0])
         bp = float(input_df["BloodPressure"].iloc[0])
 
-        st.metric(
-            "Age",
-            age
-        )
-
-        st.metric(
-            "Blood Pressure",
-            f"{bp:.0f}"
-        )
+        st.metric("Age", age)
+        st.metric("Blood Pressure", f"{bp:.0f}")
 
     st.markdown("---")
-
     # ============================================
     # RISK CATEGORY EXPLANATION
     # ============================================
@@ -341,7 +327,7 @@ long-term health outcomes.
 
     st.subheader("🤖 AI Assessment")
 
-    confidence = max(risk_percent, 100 - risk_percent)
+    confidence = abs(risk_percent-50)*2
 
     st.progress(confidence / 100)
 

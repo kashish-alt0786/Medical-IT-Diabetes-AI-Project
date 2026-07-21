@@ -54,24 +54,35 @@ The application is designed as an **educational healthcare screening tool** rath
 
 # 🖼 Application Preview
 
-*(Replace these with screenshots from your application.)*
+## 📸 Application Preview
 
 ### Home Page
 
-![Home](images/home.png)
+![Home Page](images/home.png)
+
+---
 
 ### Health Information Form
 
-![Form](images/form.png)
+![Input Form](images/input-form.png)
 
-### Prediction Result
+---
 
-![Result](images/result.png)
+### Risk Prediction
+
+![Prediction](images/prediction.png)
+
+---
 
 ### SHAP Explainability
 
 ![SHAP](images/shap.png)
 
+---
+
+### Personalized Nutrition Guidance
+
+![Nutrition](images/nutrition.png)
 ---
 
 ## 🌍 Problem Statement

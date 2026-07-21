@@ -1,14 +1,16 @@
+import sys
+import os
+from pathlib import Path
+
+# --- MUST BE FIRST, before any `from ui.` imports ---
+ROOT = Path(__file__).parent
+sys.path.insert(0, str(ROOT))
+
 import streamlit as st
 import joblib
 
+# Now these will work
 from ui.sidebar import show_sidebar
-
-import sys
-import os
-
-# Add project root to path so `ui` can be found
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 from ui.input_form import show_input_form
 
 from explainability import create_shap_plot

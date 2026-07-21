@@ -2,6 +2,13 @@ import streamlit as st
 import joblib
 
 from ui.sidebar import show_sidebar
+
+import sys
+import os
+
+# Add project root to path so `ui` can be found
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from ui.input_form import show_input_form
 
 from explainability import create_shap_plot

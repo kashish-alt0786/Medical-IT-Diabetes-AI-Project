@@ -430,21 +430,20 @@ if st.button(
     show_results(t, risk_percent, risk_level, top_reasons, input_df)
     st.markdown("---")
 
-    # --- SHAP Explainability ---
-    st.subheader(t["how_calc"])
-    st.caption(t["chart_caption"])
+       # --- SHAP Explainability ---
+    st.subheader(t.get("how_calc", "How is this calculated?"))
+    st.caption(t.get("chart_caption", "SHAP explanation of the prediction"))
 
-fig = create_shap_plot(
-    top_reasons,
-    t
-)
+    fig = create_shap_plot(
+        top_reasons,
+        t
+    )
     st.pyplot(fig, use_container_width=True)
 
-    st.caption(t["red_bars"])
+    st.caption(t.get("red_bars", "Red bars increase risk, blue bars decrease risk."))
 
-
-# --- Footer ---
-st.divider()
-st.caption(t["footer_disc"])
-st.caption(t["footer_built"])
-st.caption(t["limitations"])
+    # --- Footer ---
+    st.divider()
+    st.caption(t.get("footer_disc", "This is not a medical diagnosis."))
+    st.caption(t.get("footer_built", "Built with XGBoost + SHAP"))
+    st.caption(t.get("limitations", "For educational purposes only."))

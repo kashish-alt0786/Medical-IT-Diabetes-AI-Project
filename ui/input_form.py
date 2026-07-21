@@ -123,7 +123,7 @@ def show_input_form(t):
     # =====================================================
     # BODY MEASUREMENTS
     # =====================================================
-     col3, col4 = st.columns(2)
+    col3, col4 = st.columns(2)
 
     height = col3.number_input(
         t["height"],

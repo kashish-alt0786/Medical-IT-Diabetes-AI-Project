@@ -52,39 +52,29 @@ The application is designed as an **educational healthcare screening tool** rath
 
 ---
 
-# 🖼 Application Preview
+## 📱 Application Preview
 
-## 📸 Application Preview
+### 🏠 Homepage
 
-### Home Page
-
-![Home Page](images/home.png)
+![Homepage](Homepage.png)
 
 ---
 
-### Health Information Form
+### 📝 Patient Information Input
 
-![Input Form](images/input-form.png)
-
----
-
-### Risk Prediction
-
-![Prediction](images/prediction.png)
+![Input Form](Inputform.png)
 
 ---
 
-### SHAP Explainability
+### 💡 Personalized Health Recommendation
 
-![SHAP](images/shap.png)
+![Health Recommendation](Health%20recommendation.png)
 
 ---
 
-### Personalized Nutrition Guidance
+### 📊 Explainable AI (SHAP)
 
-![Nutrition](images/nutrition.png)
----
-
+![Explainable AI](Explainable%20AI%20(XAI).png)
 ## 🌍 Problem Statement
 
 Diabetes affects hundreds of millions of people worldwide, yet many individuals remain undiagnosed because regular laboratory screening is not always accessible.

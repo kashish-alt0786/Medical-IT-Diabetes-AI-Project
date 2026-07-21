@@ -434,11 +434,10 @@ if st.button(
     st.subheader(t["how_calc"])
     st.caption(t["chart_caption"])
 
-    fig = create_shap_plot(
-        model,
-        input_df,
-        t
-    )
+   fig = create_shap_plot(
+    top_reasons,
+    t
+)
 
     st.pyplot(fig, use_container_width=True)
 

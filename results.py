@@ -236,33 +236,30 @@ recommended.
     # HEALTH SUMMARY
     # ============================================
 
-   # ============================================
-# HEALTH SUMMARY
-# ============================================
 
-st.subheader("📈 Health Summary")
+    st.subheader("📈 Health Summary")
 
-col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-with col1:
-    glucose = float(input_df["Glucose"].iloc[0])
-    bmi = float(input_df["BMI"].iloc[0])
+        with col1:
+        glucose = float(input_df["Glucose"].iloc[0])
+        bmi = float(input_df["BMI"].iloc[0])
 
-    st.metric(
+       st.metric(
         "Blood Glucose",
         f"{glucose:.0f} mg/dL"
     )
 
-    st.metric(
+       st.metric(
         "BMI",
         f"{bmi:.1f}"
     )
 
-with col2:
-    age = int(input_df["Age"].iloc[0])
-    bp = float(input_df["BloodPressure"].iloc[0])
+       with col2:
+       age = int(input_df["Age"].iloc[0])
+       bp = float(input_df["BloodPressure"].iloc[0])
 
-    st.metric(
+       st.metric(
         "Age",
         age
     )

@@ -1,4 +1,13 @@
 import streamlit as st
+def show_results(
+    risk_percent,
+    risk_level, 
+    top_reasons,
+    input_df=None,
+    t=None
+):
+    if t is None:
+        t = {}
 
 
 def show_results(

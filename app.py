@@ -434,8 +434,9 @@ if st.button(
     st.subheader(t["how_calc"])
     st.caption(t["chart_caption"])
 
-   fig = create_shap_plot(
-    top_reasons,
+  fig = create_shap_plot(
+    model,
+    input_df,
     t
 )
 

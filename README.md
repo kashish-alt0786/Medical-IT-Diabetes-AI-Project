@@ -7,9 +7,10 @@
 ![XGBoost](https://img.shields.io/badge/XGBoost-2.1.1-orange.svg)
 ![SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--Learn-1.6.1-F7931E.svg)
+
 📄 Published DOI(PROJECT1): https://doi.org/10.5281/zenodo.21514842 | 
+
 Published DOI(PROJECT2): https://doi.org/10.5281/zenodo.21534708 |
-Live Demo: https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
 ## 🌐 Live Demo(PROJECT1):
 

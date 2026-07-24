@@ -8,6 +8,8 @@
 ![SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--Learn-1.6.1-F7931E.svg)
 📄 Published DOI: https://doi.org/10.5281/zenodo.21514842 | 
+Published DOI: https://doi.org/10.5281/zenodo.21534708 |
+Live Demo: https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
 ## 🌐 Live Demo
 

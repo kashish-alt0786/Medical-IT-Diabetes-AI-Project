@@ -492,5 +492,4 @@ and clinical evaluation.
     st.caption(t["footer_built"])
 
     st.caption(t["limitations"])
-
-    st.caption("© 2026 Diabetes Risk Predictor • Explainable AI Screening Tool")
+    

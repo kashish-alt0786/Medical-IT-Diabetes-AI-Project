@@ -26,7 +26,7 @@ https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
 ## 🎯 Project Overview
 
-Explainable AI-Based Diabetes Risk Prediction System is an educational healthcare application that combines **Explainable Artificial Intelligence (XAI)** with **diabetes risk screening**
+Explainable AI-Based Diabetes Risk Prediction System is an educational healthcare application that combines **Explainable Artificial Intelligence (XAI)** with **diabetes risk screening**.
 We developed an end-to-end, version-safe inference pipeline that dynamically extracts tree-node split gains directly from the XGBoost booster structure, ensuring the clinical explanations remain true to the underlying machine learning mathematics
 
 The system allows users to:

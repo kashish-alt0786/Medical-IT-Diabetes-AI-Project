@@ -18,38 +18,52 @@ def _load_json(filename):
 
 
 def _normalise_metrics(raw_metrics, meta):
-    """Support both the current list-format metrics file and older dict formats."""
+    """Support list-format and dictionary-format validation files."""
     if isinstance(raw_metrics, list):
-        models = {
-            row.get("Model", f"Model {i + 1}"): row
-            for i, row in enumerate(raw_metrics)
-            if isinstance(row, dict) and row.get("Model")
-        }
-        selected = (meta or {}).get("selected_model")
-        return selected, models
+        models = {}
+        for i, row in enumerate(raw_metrics):
+            if isinstance(row, dict):
+                name = row.get("Model") or f"Model {i + 1}"
+                models[str(name)] = row
+        return (meta or {}).get("selected_model"), models
 
     if isinstance(raw_metrics, dict):
-        models = raw_metrics.get("models")
-        if isinstance(models, dict):
-            return raw_metrics.get("selected_model"), models
-        if isinstance(models, list):
-            model_map = {
-                row.get("Model", f"Model {i + 1}"): row
-                for i, row in enumerate(models)
-                if isinstance(row, dict) and row.get("Model")
+        raw_models = raw_metrics.get("models")
+        if isinstance(raw_models, dict):
+            models = {
+                str(name): row
+                for name, row in raw_models.items()
+                if isinstance(row, dict)
             }
-            return raw_metrics.get("selected_model") or (meta or {}).get("selected_model"), model_map
+            return raw_metrics.get("selected_model") or (meta or {}).get("selected_model"), models
+        if isinstance(raw_models, list):
+            models = {}
+            for i, row in enumerate(raw_models):
+                if isinstance(row, dict):
+                    name = row.get("Model") or f"Model {i + 1}"
+                    models[str(name)] = row
+            return raw_metrics.get("selected_model") or (meta or {}).get("selected_model"), models
 
-    # model_meta.json also contains a complete metrics list.
     if isinstance(meta, dict) and isinstance(meta.get("metrics"), list):
-        model_map = {
-            row.get("Model", f"Model {i + 1}"): row
-            for i, row in enumerate(meta["metrics"])
-            if isinstance(row, dict) and row.get("Model")
-        }
-        return meta.get("selected_model"), model_map
+        models = {}
+        for i, row in enumerate(meta["metrics"]):
+            if isinstance(row, dict):
+                name = row.get("Model") or f"Model {i + 1}"
+                models[str(name)] = row
+        return meta.get("selected_model"), models
 
     return None, {}
+
+
+def _metric_value(row, *keys):
+    for key in keys:
+        value = row.get(key) if isinstance(row, dict) else None
+        if value is not None:
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return 0.0
+    return 0.0
 
 
 def show_sidebar(t):
@@ -64,9 +78,9 @@ def show_sidebar(t):
         if isinstance(meta, dict):
             trained = meta.get("trained_at_utc", "Unknown")
             commit = meta.get("commit_sha", "Unknown")
-            selected = meta.get("selected_model", "Unknown")
+            selected_meta = meta.get("selected_model", "Unknown")
             st.caption(f"Model automatically retrained on: **{trained}** via GitHub Actions.")
-            st.caption(f"Selected model: **{selected}**")
+            st.caption(f"Selected model: **{selected_meta}**")
             st.caption(f"Commit: `{str(commit)[:7]}`")
         else:
             st.info("No successful automated training metadata is available yet. Run the GitHub Actions retraining workflow.")
@@ -80,27 +94,33 @@ def show_sidebar(t):
             if not selected or selected not in models:
                 selected = next(iter(models))
 
-            selected_metrics = models[selected]
+            selected_metrics = models.get(selected, {})
             st.success(f"Selected model: **{selected}**")
 
             cols = st.columns(2)
-            cols[0].metric("Accuracy", f"{selected_metrics.get('Accuracy', 0) * 100:.1f}%")
-            cols[1].metric("F1-Score", f"{selected_metrics.get('F1-Score', selected_metrics.get('F1', 0)) * 100:.1f}%")
+            cols[0].metric("Accuracy", f"{_metric_value(selected_metrics, 'Accuracy') * 100:.1f}%")
+            cols[1].metric("F1-Score", f"{_metric_value(selected_metrics, 'F1-Score', 'F1') * 100:.1f}%")
             cols = st.columns(2)
-            cols[0].metric("Recall", f"{selected_metrics.get('Recall', 0) * 100:.1f}%")
-            cols[1].metric("ROC-AUC", f"{selected_metrics.get('ROC-AUC', 0):.3f}")
+            cols[0].metric("Recall", f"{_metric_value(selected_metrics, 'Recall') * 100:.1f}%")
+            cols[1].metric("ROC-AUC", f"{_metric_value(selected_metrics, 'ROC-AUC'):.2f}")
 
+            # Build the comparison table without relying on a DataFrame index.
+            # This avoids a pandas KeyError if a future metrics artifact changes its columns.
             comparison_rows = []
             for model_name, row in models.items():
+                if not isinstance(row, dict):
+                    continue
                 comparison_rows.append({
-                    "Model": model_name,
-                    "Accuracy": row.get("Accuracy", 0),
-                    "F1-Score": row.get("F1-Score", row.get("F1", 0)),
-                    "Recall": row.get("Recall", 0),
-                    "ROC-AUC": row.get("ROC-AUC", 0),
+                    "Model": str(model_name),
+                    "Accuracy": _metric_value(row, "Accuracy"),
+                    "F1-Score": _metric_value(row, "F1-Score", "F1"),
+                    "Recall": _metric_value(row, "Recall"),
+                    "ROC-AUC": _metric_value(row, "ROC-AUC"),
                 })
-            comparison = pd.DataFrame(comparison_rows).set_index("Model")
-            st.dataframe(comparison.round(3), use_container_width=True)
+
+            if comparison_rows:
+                comparison = pd.DataFrame(comparison_rows, columns=["Model", "Accuracy", "F1-Score", "Recall", "ROC-AUC"])
+                st.dataframe(comparison.round(3), use_container_width=True, hide_index=True)
 
             st.caption(
                 "Evaluation uses an untouched 20% held-out test set. "

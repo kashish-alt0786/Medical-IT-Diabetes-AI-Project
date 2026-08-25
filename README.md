@@ -26,42 +26,31 @@ The upgraded workflow now includes:
 - Interactive what-if analysis
 - Clinical input constraints
 - Three Streamlit areas: Clinical Calculator, XAI Diagnostic Room and Model Metrics & Validation
+- Automated GitHub Actions retraining with reproducibility metadata
+- `model_meta.json` for the latest successful training timestamp and commit
+- `history.csv` for longitudinal held-out metric monitoring
 - Multilingual interface in the existing calculator: English, हिन्दी and 한국어
 - Educational nutrition guidance and a companion nutrition application
 
-## 🏗️ System Design
+## 🔄 MLOps / CI-CD Architecture
 
-```text
-                    User Clinical Inputs
-                            │
-                            ▼
-              Validation + Missing-Value Handling
-                            │
-                            ▼
-              Train Split ──┴── Held-out Test Split
-                    │
-                    ▼
-                    SMOTE
-                    │
-        ┌───────────┼────────────┐
-        ▼           ▼            ▼
-   Logistic      Random       XGBoost
-  Regression     Forest       Ensemble
-        └───────────┼────────────┘
-                    ▼
-          F1 / Recall / ROC-AUC
-                    │
-                    ▼
-             Best Model Selection
-                    │
-          ┌─────────┴──────────┐
-          ▼                    ▼
-     Risk Estimate          SHAP XAI
-          │                    │
-          └─────────┬──────────┘
-                    ▼
-             Educational Output
+```mermaid
+flowchart LR
+    A[Code / Model Change] --> B[GitHub Actions Trigger]
+    B --> C[Install Pinned Dependencies]
+    C --> D[Train + SMOTE + Model Comparison]
+    D --> E[Held-out Evaluation]
+    E --> F[Save model.pkl]
+    E --> G[Save model_metrics.json]
+    E --> H[Save model_meta.json]
+    E --> I[Append history.csv]
+    F --> J[Streamlit App]
+    G --> J
+    H --> J
+    I --> J
 ```
+
+The workflow is triggered manually or when the training code, dependencies, or workflow definition changes. The training job receives the GitHub commit SHA, evaluates the models on the held-out test set, and commits the refreshed model and monitoring artifacts back to the repository. The Streamlit application reads the metadata and history files so the visible dashboard reflects the latest successful training state rather than a hard-coded performance claim.
 
 ## 📊 Model Validation Strategy
 
@@ -80,6 +69,12 @@ The validation page trains three models under the same protocol and reports:
 
 The application reports the **actual held-out results**. It does not alter or fabricate the accuracy percentage to reach a target such as 80%.
 
+### Why F1 → Recall → ROC-AUC?
+
+For a screening-oriented system, a **false negative** means a positive case was missed. That can be more consequential than sending a low-risk person for an additional check. Therefore the project prioritizes **F1-score**, then **Recall**, then **ROC-AUC** when selecting among models. Accuracy remains visible because it is useful context, but it is not treated as the only objective.
+
+This hierarchy is a modeling choice for an educational screening project, not a claim that the system is clinically validated.
+
 ### Training protocol
 
 1. Load the Pima Indians Diabetes Dataset.
@@ -91,6 +86,18 @@ The application reports the **actual held-out results**. It does not alter or fa
 7. Tune the classification threshold for the F1/Recall trade-off.
 8. Evaluate on the untouched held-out test set.
 9. Select the model using F1-score, then Recall, then ROC-AUC.
+
+## ⚙ Automated Training Metadata
+
+Every successful training run records:
+
+- **Training timestamp** in `model_meta.json`
+- **Git commit SHA** associated with the run
+- Selected model and classification threshold
+- Full model comparison metrics
+- Selected-model metrics appended to `history.csv`
+
+The Streamlit sidebar displays the latest training timestamp and commit when `model_meta.json` is available. The Model Metrics & Validation page plots the selected model's Accuracy, F1-score, Recall and ROC-AUC over successful runs.
 
 ## 🔬 Explainable AI
 
@@ -118,7 +125,7 @@ The existing main application provides the user-facing screening form, validatio
 Accessible through Streamlit's native multipage navigation. Provides individual SHAP explanations and what-if analysis.
 
 ### 3. Model Metrics & Validation
-Shows side-by-side model comparison, confusion-matrix counts, selected threshold and validation notes.
+Shows side-by-side model comparison, confusion-matrix counts, selected threshold, live training metadata and historical validation metrics.
 
 ## 📱 Companion Nutrition App
 
@@ -144,6 +151,7 @@ The nutrition application is educational and does not provide a substitute for p
 - NumPy
 - Matplotlib
 - Joblib
+- GitHub Actions
 
 All runtime dependencies are pinned in `requirements.txt` for reproducibility.
 
@@ -162,6 +170,14 @@ Medical-IT-Diabetes-AI-Project/
 ├── config.py
 ├── requirements.txt
 ├── model.pkl
+├── model_metrics.json
+├── model_selection.json
+├── model_meta.json
+├── history.csv
+│
+├── .github/
+│   └── workflows/
+│       └── retrain-model.yml
 │
 ├── pages/
 │   ├── 2_XAI_Diagnostic_Room.py
@@ -192,9 +208,17 @@ To run the upgraded model-comparison workflow independently:
 python train_model.py
 ```
 
+## 🔐 Secrets & Deployment Security
+
+The repository workflow does not contain deployment tokens or API keys. GitHub Actions uses the repository's built-in `GITHUB_TOKEN` for committing model artifacts. If a future deployment step requires an external token, it should be stored as a GitHub Actions secret and referenced through `${{ secrets.NAME }}` rather than committed to source code.
+
 ## 📚 Dataset
 
 The project uses the **Pima Indians Diabetes Database**, originally associated with the National Institute of Diabetes and Digestive and Kidney Diseases. The commonly distributed dataset contains 768 observations, eight numeric input variables and a binary outcome. The dataset is known to represent women aged 21+ from the Pima Indian population, so external validity is limited.
+
+## ⚠️ Dataset Size Note
+
+**Note:** This model is trained on the Pima Indians Diabetes Dataset (768 samples). Due to the dataset's limited size and population-specific sampling, optimization focuses on Recall and F1-score for screening-oriented evaluation rather than promising a particular accuracy target. SMOTE helps address class imbalance in the training split, but it does not create new clinical evidence.
 
 ## ⚠️ Limitations & Future Work
 

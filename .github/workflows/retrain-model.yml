@@ -7,6 +7,7 @@ on:
       - "model_training.py"
       - "train_model.py"
       - "requirements.txt"
+      - ".github/workflows/retrain-model.yml"
 
 permissions:
   contents: write
@@ -29,12 +30,14 @@ jobs:
           pip install pandas==2.2.2 numpy==1.26.4 scikit-learn==1.6.1 imbalanced-learn==0.13.0 xgboost==2.1.1 joblib==1.5.3
 
       - name: Train and evaluate models
+        env:
+          GITHUB_SHA: ${{ github.sha }}
         run: python train_model.py
 
-      - name: Commit refreshed model artifacts
+      - name: Commit refreshed model and monitoring artifacts
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add model.pkl model_metrics.json model_selection.json
-          git diff --cached --quiet || git commit -m "Retrain diabetes risk model with SMOTE and model comparison"
+          git add model.pkl model_metrics.json model_selection.json model_meta.json history.csv
+          git diff --cached --quiet || git commit -m "chore: refresh diabetes model and MLOps metrics"
           git push

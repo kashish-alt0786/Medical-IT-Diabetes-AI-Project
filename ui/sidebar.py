@@ -17,6 +17,41 @@ def _load_json(filename):
         return None
 
 
+def _normalise_metrics(raw_metrics, meta):
+    """Support both the current list-format metrics file and older dict formats."""
+    if isinstance(raw_metrics, list):
+        models = {
+            row.get("Model", f"Model {i + 1}"): row
+            for i, row in enumerate(raw_metrics)
+            if isinstance(row, dict) and row.get("Model")
+        }
+        selected = (meta or {}).get("selected_model")
+        return selected, models
+
+    if isinstance(raw_metrics, dict):
+        models = raw_metrics.get("models")
+        if isinstance(models, dict):
+            return raw_metrics.get("selected_model"), models
+        if isinstance(models, list):
+            model_map = {
+                row.get("Model", f"Model {i + 1}"): row
+                for i, row in enumerate(models)
+                if isinstance(row, dict) and row.get("Model")
+            }
+            return raw_metrics.get("selected_model") or (meta or {}).get("selected_model"), model_map
+
+    # model_meta.json also contains a complete metrics list.
+    if isinstance(meta, dict) and isinstance(meta.get("metrics"), list):
+        model_map = {
+            row.get("Model", f"Model {i + 1}"): row
+            for i, row in enumerate(meta["metrics"])
+            if isinstance(row, dict) and row.get("Model")
+        }
+        return meta.get("selected_model"), model_map
+
+    return None, {}
+
+
 def show_sidebar(t):
     with st.sidebar:
         st.markdown("# 🩺 Explainable AI Diabetes Risk Prediction")
@@ -26,38 +61,50 @@ def show_sidebar(t):
 
         st.subheader("⚙ Automated MLOps")
         meta = _load_json("model_meta.json")
-        if meta:
+        if isinstance(meta, dict):
             trained = meta.get("trained_at_utc", "Unknown")
             commit = meta.get("commit_sha", "Unknown")
             selected = meta.get("selected_model", "Unknown")
             st.caption(f"Model automatically retrained on: **{trained}** via GitHub Actions.")
             st.caption(f"Selected model: **{selected}**")
-            st.caption(f"Commit: `{commit[:7]}`")
+            st.caption(f"Commit: `{str(commit)[:7]}`")
         else:
             st.info("No successful automated training metadata is available yet. Run the GitHub Actions retraining workflow.")
         st.divider()
 
         st.subheader("📊 Model Validation")
-        metrics = _load_json("model_metrics.json")
-        if metrics and metrics.get("models"):
-            selected = metrics.get("selected_model", "Unknown")
-            models = metrics["models"]
+        raw_metrics = _load_json("model_metrics.json")
+        selected, models = _normalise_metrics(raw_metrics, meta)
+
+        if models:
+            if not selected or selected not in models:
+                selected = next(iter(models))
+
+            selected_metrics = models[selected]
             st.success(f"Selected model: **{selected}**")
-            selected_metrics = models.get(selected, {})
+
             cols = st.columns(2)
             cols[0].metric("Accuracy", f"{selected_metrics.get('Accuracy', 0) * 100:.1f}%")
-            cols[1].metric("F1-Score", f"{selected_metrics.get('F1', 0) * 100:.1f}%")
+            cols[1].metric("F1-Score", f"{selected_metrics.get('F1-Score', selected_metrics.get('F1', 0)) * 100:.1f}%")
             cols = st.columns(2)
             cols[0].metric("Recall", f"{selected_metrics.get('Recall', 0) * 100:.1f}%")
-            cols[1].metric("ROC-AUC", f"{selected_metrics.get('ROC-AUC', 0):.2f}")
+            cols[1].metric("ROC-AUC", f"{selected_metrics.get('ROC-AUC', 0):.3f}")
 
-            comparison = pd.DataFrame(models).T[["Accuracy", "F1", "Recall", "ROC-AUC"]]
-            comparison.columns = ["Accuracy", "F1-Score", "Recall", "ROC-AUC"]
-            comparison = comparison.round(3)
-            st.dataframe(comparison, use_container_width=True)
+            comparison_rows = []
+            for model_name, row in models.items():
+                comparison_rows.append({
+                    "Model": model_name,
+                    "Accuracy": row.get("Accuracy", 0),
+                    "F1-Score": row.get("F1-Score", row.get("F1", 0)),
+                    "Recall": row.get("Recall", 0),
+                    "ROC-AUC": row.get("ROC-AUC", 0),
+                })
+            comparison = pd.DataFrame(comparison_rows).set_index("Model")
+            st.dataframe(comparison.round(3), use_container_width=True)
+
             st.caption(
                 "Evaluation uses an untouched 20% held-out test set. "
-                "Model selection prioritizes F1 → Recall → ROC-AUC; accuracy is reported as a supporting metric."
+                "Model selection prioritizes F1-score → Recall → ROC-AUC; accuracy is reported as a supporting metric."
             )
             st.warning(
                 "Dataset note: the Pima Indians Diabetes Dataset contains 768 samples. "

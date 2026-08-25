@@ -1,22 +1,13 @@
 import streamlit as st
 
+
 def _render_health_recommendations(text):
-    """Render diet guidance, a nutrition bridge, then daily activity guidance."""
+    """Render diet guidance followed by daily activity guidance."""
     lifestyle_marker = "**🏃 LIFESTYLE:**"
 
     if lifestyle_marker in text:
         diet_text, lifestyle_text = text.split(lifestyle_marker, 1)
-
         st.markdown(diet_text.rstrip())
-
-        st.markdown(
-            "**🥗 Nutrition:** A balanced eating pattern can support diabetes prevention. "
-            "Prioritize vegetables, high-fiber foods, whole grains, and protein-rich foods; "
-            "keep portions reasonable and choose water instead of sugary drinks. "
-            "For individual dietary needs or a medical nutrition plan, consult a qualified "
-            "doctor or registered dietitian."
-        )
-
         st.markdown(lifestyle_marker + lifestyle_text)
     else:
         st.markdown(text)
@@ -33,19 +24,15 @@ def show_results(
     # ============================================
     # RESULT HEADER
     # ============================================
-
     st.header("📋 " + t["result_header"])
-
     st.caption(
         "AI-powered diabetes risk estimation based on your health information."
     )
-
     st.markdown("---")
 
     # ============================================
     # MAIN RISK SCORE
     # ============================================
-
     left, right = st.columns([1, 2])
 
     with left:
@@ -88,10 +75,10 @@ def show_results(
             )
 
     st.markdown("---")
+
     # ============================================
     # QUICK SUMMARY CARDS
     # ============================================
-
     c1, c2, c3 = st.columns(3)
 
     with c1:
@@ -120,7 +107,6 @@ def show_results(
     # ============================================
     # CLINICAL INTERPRETATION
     # ============================================
-
     st.subheader("🩺 Clinical Interpretation")
 
     if risk_level == "Low":
@@ -167,7 +153,6 @@ recommended.
     # ============================================
     # TOP RISK FACTORS
     # ============================================
-
     st.subheader("🔍 Main Factors Affecting Your Risk")
     st.caption("These factors had the greatest influence on the AI prediction.")
 
@@ -227,7 +212,6 @@ recommended.
     # ============================================
     # RISK CATEGORY EXPLANATION
     # ============================================
-
     st.subheader("📚 Understanding Your Risk")
 
     if risk_level == "Low":
@@ -284,7 +268,6 @@ long-term health outcomes.
     # ============================================
     # AI MODEL CONFIDENCE
     # ============================================
-
     st.subheader("🤖 AI Assessment")
     confidence = abs(risk_percent - 50) * 2
     st.progress(confidence / 100)
@@ -299,7 +282,6 @@ long-term health outcomes.
     # ============================================
     # PERSONALIZED HEALTH RECOMMENDATIONS
     # ============================================
-
     st.subheader("💡 Personalized Health Recommendations")
     st.caption(t["tips_desc"])
 
@@ -313,14 +295,31 @@ long-term health outcomes.
         st.error(t["high_tips_title"])
         _render_health_recommendations(t["high_tips"])
 
-    st.info(t["note"])
+    # ============================================
+    # COMPANION NUTRITION APP
+    # ============================================
+    st.markdown("---")
+    nutrition_col1, nutrition_col2 = st.columns([2, 1])
+
+    with nutrition_col1:
+        st.markdown("### 🥗 Manage Your Nutrition")
+        st.write(
+            "Want to take the next step after checking your diabetes risk? "
+            "Use our connected nutrition app for educational meal and nutrition guidance."
+        )
+
+    with nutrition_col2:
+        st.link_button(
+            "Manage Your Nutrition  →",
+            "https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/",
+            use_container_width=True,
+        )
 
     st.markdown("---")
 
     # ============================================
     # PREVENTION CHECKLIST
     # ============================================
-
     st.subheader("✅ Diabetes Prevention Checklist")
 
     checklist_col1, checklist_col2 = st.columns(2)
@@ -337,12 +336,15 @@ long-term health outcomes.
         st.checkbox("Annual blood sugar check", disabled=True)
         st.checkbox("Manage blood pressure", disabled=True)
 
+    # Keep the existing educational note, but place it after the checklist
+    # so the companion-app button stays directly between lifestyle guidance
+    # and the prevention checklist.
+    st.info(t["note"])
     st.markdown("---")
 
     # ============================================
     # WHEN TO SEE A DOCTOR
     # ============================================
-
     st.subheader("👨‍⚕️ When Should You Consult a Doctor?")
 
     if risk_level == "High":
@@ -402,7 +404,6 @@ and undergo routine health screening.
     # ============================================
     # EDUCATIONAL NOTE
     # ============================================
-
     with st.expander("📚 About this AI Prediction"):
         st.markdown(
             """
@@ -440,7 +441,6 @@ and clinical evaluation.
     # ============================================
     # FINAL DISCLAIMER
     # ============================================
-
     st.caption("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     st.caption(t["footer_disc"])
     st.caption(t["footer_built"])

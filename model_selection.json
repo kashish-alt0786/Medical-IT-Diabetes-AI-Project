@@ -1,0 +1,9 @@
+{
+  "selected_model": "Random Forest",
+  "threshold": 0.46000000000000024,
+  "selection_priority": [
+    "F1-Score",
+    "Recall",
+    "ROC-AUC"
+  ]
+}

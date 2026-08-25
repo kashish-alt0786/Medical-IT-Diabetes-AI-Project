@@ -1,0 +1,2 @@
+trained_at_utc,commit_sha,selected_model,Accuracy,Precision,Recall,F1-Score,ROC-AUC,False Negatives
+2026-08-25T05:12:18.348272+00:00,efcb6c5dadde9a216d088a81182978978ce3b5ab,Random Forest,0.7532467532467533,0.6081081081081081,0.8333333333333334,0.703125,0.8225925925925925,9

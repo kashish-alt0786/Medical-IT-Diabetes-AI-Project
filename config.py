@@ -1,7 +1,7 @@
 """
 config.py
 ---------------------------------------
-Central configuration for the Diabetes Risk Predictor.
+Central configuration for the Explainable AI Diabetes Risk Prediction System.
 All project-wide constants are stored here.
 """
 
@@ -61,5 +61,6 @@ BMI_OVERWEIGHT = 30
 # Application Information
 # ==========================================================
 
-APP_NAME = "Diabetes Risk Predictor"
-APP_VERSION = "1.0"
+APP_NAME = "Explainable AI Diabetes Risk Prediction"
+APP_VERSION = "4.0"
+NUTRITION_APP_URL = "https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/"

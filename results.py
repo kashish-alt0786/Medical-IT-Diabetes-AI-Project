@@ -297,23 +297,20 @@ long-term health outcomes.
 
     # ============================================
     # COMPANION NUTRITION APP
+    # Keep this directly between the lifestyle guidance
+    # above and the diabetes prevention checklist below.
     # ============================================
     st.markdown("---")
-    nutrition_col1, nutrition_col2 = st.columns([2, 1])
-
-    with nutrition_col1:
-        st.markdown("### 🥗 Manage Your Nutrition")
-        st.write(
-            "Want to take the next step after checking your diabetes risk? "
-            "Use our connected nutrition app for educational meal and nutrition guidance."
-        )
-
-    with nutrition_col2:
-        st.link_button(
-            "Manage Your Nutrition  →",
-            "https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/",
-            use_container_width=True,
-        )
+    st.subheader("🥗 Manage Your Nutrition")
+    st.info(
+        "Want to take the next step after checking your diabetes risk? "
+        "Use our connected nutrition app for educational meal and nutrition guidance."
+    )
+    st.link_button(
+        "🥗 Manage Your Diet → NutriGuard-AI",
+        "https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/",
+        use_container_width=False,
+    )
 
     st.markdown("---")
 
@@ -336,9 +333,7 @@ long-term health outcomes.
         st.checkbox("Annual blood sugar check", disabled=True)
         st.checkbox("Manage blood pressure", disabled=True)
 
-    # Keep the existing educational note, but place it after the checklist
-    # so the companion-app button stays directly between lifestyle guidance
-    # and the prevention checklist.
+    # Keep the educational note after the checklist.
     st.info(t["note"])
     st.markdown("---")
 

@@ -129,13 +129,17 @@ Shows side-by-side model comparison, confusion-matrix counts, selected threshold
 
 ## 📱 Companion Nutrition App
 
-After receiving a diabetes-risk screening result, users can continue to the companion nutrition project:
+After receiving a diabetes-risk screening result, the main application provides educational nutrition guidance and a **Manage Your Nutrition** section within the main results page. This section is placed **between the Lifestyle guidance and the Diabetes Prevention Checklist**.
+
+The section contains a short introduction explaining that users can take the next step after checking their diabetes risk, followed by a **Manage Your Diet → NutriGuard-AI** button linking to the companion nutrition application.
+
+The intended user flow is:
+
+**Risk screening → Preferred Diet → Lifestyle → Manage Your Nutrition → Diabetes Prevention Checklist**
 
 **NutriGuard-AI:** https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
-The two projects are intentionally connected as:
-
-**Risk screening → understand contributing factors → explore nutrition education.**
+The two projects are intentionally connected so users can move from risk screening to educational nutrition guidance without leaving the overall project workflow.
 
 The nutrition application is educational and does not provide a substitute for professional dietary or medical care.
 

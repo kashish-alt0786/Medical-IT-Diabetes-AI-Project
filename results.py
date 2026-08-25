@@ -9,8 +9,8 @@ def _render_health_recommendations(text):
 
         st.markdown(diet_text.rstrip())
 
-        st.info(
-            "**🥗 NUTRITION:** A balanced eating pattern can support diabetes prevention. "
+        st.markdown(
+            "**🥗 Nutrition:** A balanced eating pattern can support diabetes prevention. "
             "Prioritize vegetables, high-fiber foods, whole grains, and protein-rich foods; "
             "keep portions reasonable and choose water instead of sugary drinks. "
             "For individual dietary needs or a medical nutrition plan, consult a qualified "

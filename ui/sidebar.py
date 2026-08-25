@@ -1,4 +1,20 @@
+import json
+from pathlib import Path
+
+import pandas as pd
 import streamlit as st
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _load_json(filename):
+    path = ROOT / filename
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
 
 
 def show_sidebar(t):
@@ -8,17 +24,30 @@ def show_sidebar(t):
         st.success("Validation-first model workflow")
         st.divider()
 
+        st.subheader("⚙ Automated MLOps")
+        meta = _load_json("model_meta.json")
+        if meta:
+            trained = meta.get("trained_at_utc", "Unknown")
+            commit = meta.get("commit_sha", "Unknown")
+            selected = meta.get("selected_model", "Unknown")
+            st.caption(f"Model automatically retrained on: **{trained}** via GitHub Actions.")
+            st.caption(f"Selected model: **{selected}**")
+            st.caption(f"Commit: `{commit[:7]}`")
+        else:
+            st.info("No successful automated training metadata is available yet. Run the GitHub Actions retraining workflow.")
+        st.divider()
+
         st.subheader("📊 Model Validation")
         st.info(
-            "The upgraded workflow compares Logistic Regression, Random Forest and XGBoost. "
-            "Models are selected using F1-score and Recall rather than changing accuracy cosmetically."
+            "The workflow compares Logistic Regression, Random Forest and XGBoost. "
+            "Model selection prioritizes F1-score, Recall and ROC-AUC; accuracy remains a supporting metric."
         )
-        st.caption("Open **Model Metrics & Validation** from the Streamlit navigation to see the live held-out comparison.")
+        st.caption("Open **Model Metrics & Validation** from the Streamlit navigation for the latest held-out comparison.")
         st.divider()
 
         st.subheader("🧠 Machine Learning")
         st.markdown("""
-**Model comparison**
+**Models**
 - Logistic Regression
 - Random Forest
 - XGBoost
@@ -30,7 +59,7 @@ def show_sidebar(t):
 - SHAP
 
 **Dataset**
-- Pima Indians Diabetes Dataset
+- Pima Indians Diabetes Dataset (768 samples)
 
 **Primary metrics**
 - Recall
@@ -77,6 +106,7 @@ def show_sidebar(t):
 - imbalanced-learn / SMOTE
 - SHAP
 - Pandas / NumPy
+- GitHub Actions
 """)
         st.divider()
 

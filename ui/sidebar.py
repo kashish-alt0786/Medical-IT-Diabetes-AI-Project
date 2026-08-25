@@ -38,11 +38,33 @@ def show_sidebar(t):
         st.divider()
 
         st.subheader("📊 Model Validation")
-        st.info(
-            "The workflow compares Logistic Regression, Random Forest and XGBoost. "
-            "Model selection prioritizes F1-score, Recall and ROC-AUC; accuracy remains a supporting metric."
-        )
-        st.caption("Open **Model Metrics & Validation** from the Streamlit navigation for the latest held-out comparison.")
+        metrics = _load_json("model_metrics.json")
+        if metrics and metrics.get("models"):
+            selected = metrics.get("selected_model", "Unknown")
+            models = metrics["models"]
+            st.success(f"Selected model: **{selected}**")
+            selected_metrics = models.get(selected, {})
+            cols = st.columns(2)
+            cols[0].metric("Accuracy", f"{selected_metrics.get('Accuracy', 0) * 100:.1f}%")
+            cols[1].metric("F1-Score", f"{selected_metrics.get('F1', 0) * 100:.1f}%")
+            cols = st.columns(2)
+            cols[0].metric("Recall", f"{selected_metrics.get('Recall', 0) * 100:.1f}%")
+            cols[1].metric("ROC-AUC", f"{selected_metrics.get('ROC-AUC', 0):.2f}")
+
+            comparison = pd.DataFrame(models).T[["Accuracy", "F1", "Recall", "ROC-AUC"]]
+            comparison.columns = ["Accuracy", "F1-Score", "Recall", "ROC-AUC"]
+            comparison = comparison.round(3)
+            st.dataframe(comparison, use_container_width=True)
+            st.caption(
+                "Evaluation uses an untouched 20% held-out test set. "
+                "Model selection prioritizes F1 → Recall → ROC-AUC; accuracy is reported as a supporting metric."
+            )
+            st.warning(
+                "Dataset note: the Pima Indians Diabetes Dataset contains 768 samples. "
+                "Because of its limited size, this project emphasizes Recall and F1-score for screening rather than optimizing accuracy alone."
+            )
+        else:
+            st.info("Validation metrics will appear here after a successful GitHub Actions training run.")
         st.divider()
 
         st.subheader("🧠 Machine Learning")

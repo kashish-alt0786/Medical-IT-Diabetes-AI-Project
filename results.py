@@ -1,5 +1,27 @@
 import streamlit as st
 
+def _render_health_recommendations(text):
+    """Render diet guidance, a nutrition bridge, then daily activity guidance."""
+    lifestyle_marker = "**🏃 LIFESTYLE:**"
+
+    if lifestyle_marker in text:
+        diet_text, lifestyle_text = text.split(lifestyle_marker, 1)
+
+        st.markdown(diet_text.rstrip())
+
+        st.info(
+            "**🥗 NUTRITION:** A balanced eating pattern can support diabetes prevention. "
+            "Prioritize vegetables, high-fiber foods, whole grains, and protein-rich foods; "
+            "keep portions reasonable and choose water instead of sugary drinks. "
+            "For individual dietary needs or a medical nutrition plan, consult a qualified "
+            "doctor or registered dietitian."
+        )
+
+        st.markdown(lifestyle_marker + lifestyle_text)
+    else:
+        st.markdown(text)
+
+
 def show_results(
     t,
     risk_percent,
@@ -73,43 +95,25 @@ def show_results(
     c1, c2, c3 = st.columns(3)
 
     with c1:
-
-        st.metric(
-            "Risk Level",
-            risk_level
-        )
+        st.metric("Risk Level", risk_level)
 
     with c2:
-
         if risk_percent < 30:
             label = "Healthy"
-
         elif risk_percent < 65:
             label = "Needs Monitoring"
-
         else:
             label = "Medical Check"
-
-        st.metric(
-            "Recommendation",
-            label
-        )
+        st.metric("Recommendation", label)
 
     with c3:
-
         if risk_percent < 30:
             emoji = "😊"
-
         elif risk_percent < 65:
             emoji = "🙂"
-
         else:
             emoji = "⚠️"
-
-        st.metric(
-            "Status",
-            emoji
-        )
+        st.metric("Status", emoji)
 
     st.markdown("---")
 
@@ -120,7 +124,6 @@ def show_results(
     st.subheader("🩺 Clinical Interpretation")
 
     if risk_level == "Low":
-
         st.info(
             """
 Your predicted diabetes risk is currently **low**.
@@ -133,9 +136,7 @@ Maintaining healthy eating habits, regular exercise,
 and periodic health check-ups is recommended.
 """
         )
-
     elif risk_level == "Moderate":
-
         st.warning(
             """
 Your estimated diabetes risk is **moderate**.
@@ -147,9 +148,7 @@ future diabetes risk.
 Regular blood glucose monitoring is recommended.
 """
         )
-
     else:
-
         st.error(
             """
 Your estimated diabetes risk is **high**.
@@ -170,10 +169,7 @@ recommended.
     # ============================================
 
     st.subheader("🔍 Main Factors Affecting Your Risk")
-
-    st.caption(
-        "These factors had the greatest influence on the AI prediction."
-    )
+    st.caption("These factors had the greatest influence on the AI prediction.")
 
     feature_map = {
         "Glucose": "🩸 Blood Glucose",
@@ -184,45 +180,30 @@ recommended.
     }
 
     if len(top_reasons) == 0:
-
-        st.info(
-            "No major contributing factors were detected."
-        )
-
+        st.info("No major contributing factors were detected.")
     else:
-
         for feature, impact in top_reasons:
-
             display_name = feature_map.get(feature, feature)
-
             if impact >= 0.40:
-
                 st.error(
                     f"**{display_name}**\n\n"
-                    f"Very strong influence on prediction "
-                    f"({impact:.2f})"
+                    f"Very strong influence on prediction ({impact:.2f})"
                 )
-
             elif impact >= 0.20:
-
                 st.warning(
                     f"**{display_name}**\n\n"
-                    f"Moderate influence on prediction "
-                    f"({impact:.2f})"
+                    f"Moderate influence on prediction ({impact:.2f})"
                 )
-
             else:
-
                 st.success(
                     f"**{display_name}**\n\n"
-                    f"Small influence on prediction "
-                    f"({impact:.2f})"
+                    f"Small influence on prediction ({impact:.2f})"
                 )
 
     st.markdown("---")
 
-   # ============================================
-    # HEALTH SUMMARY - FIXED INDENTATION + GUARD
+    # ============================================
+    # HEALTH SUMMARY
     # ============================================
     st.subheader("📈 Health Summary")
 
@@ -250,7 +231,6 @@ recommended.
     st.subheader("📚 Understanding Your Risk")
 
     if risk_level == "Low":
-
         st.success(
             """
 ### 🟢 Low Risk
@@ -269,9 +249,7 @@ Continue maintaining:
 • Annual health screening
 """
         )
-
     elif risk_level == "Moderate":
-
         st.warning(
             """
 ### 🟠 Moderate Risk
@@ -284,9 +262,7 @@ Lifestyle improvement at this stage
 can significantly reduce future risk.
 """
         )
-
     else:
-
         st.error(
             """
 ### 🔴 High Risk
@@ -310,15 +286,9 @@ long-term health outcomes.
     # ============================================
 
     st.subheader("🤖 AI Assessment")
-
-    confidence = abs(risk_percent-50)*2
-
+    confidence = abs(risk_percent - 50) * 2
     st.progress(confidence / 100)
-
-    st.write(
-        f"Prediction Confidence: **{confidence:.1f}%**"
-    )
-
+    st.write(f"Prediction Confidence: **{confidence:.1f}%**")
     st.caption(
         "Confidence reflects how strongly the model supports its prediction. "
         "It does not represent medical certainty."
@@ -331,23 +301,17 @@ long-term health outcomes.
     # ============================================
 
     st.subheader("💡 Personalized Health Recommendations")
-
     st.caption(t["tips_desc"])
 
     if risk_level == "Low":
-
         st.success(t["low_tips_title"])
-        st.markdown(t["low_tips"])
-
+        _render_health_recommendations(t["low_tips"])
     elif risk_level == "Moderate":
-
         st.warning(t["mod_tips_title"])
-        st.markdown(t["mod_tips"])
-
+        _render_health_recommendations(t["mod_tips"])
     else:
-
         st.error(t["high_tips_title"])
-        st.markdown(t["high_tips"])
+        _render_health_recommendations(t["high_tips"])
 
     st.info(t["note"])
 
@@ -362,14 +326,12 @@ long-term health outcomes.
     checklist_col1, checklist_col2 = st.columns(2)
 
     with checklist_col1:
-
         st.checkbox("Exercise 30–45 min daily", disabled=True)
         st.checkbox("Eat vegetables every day", disabled=True)
         st.checkbox("Avoid sugary drinks", disabled=True)
         st.checkbox("Maintain healthy BMI", disabled=True)
 
     with checklist_col2:
-
         st.checkbox("Sleep 7–8 hours", disabled=True)
         st.checkbox("Drink enough water", disabled=True)
         st.checkbox("Annual blood sugar check", disabled=True)
@@ -384,7 +346,6 @@ long-term health outcomes.
     st.subheader("👨‍⚕️ When Should You Consult a Doctor?")
 
     if risk_level == "High":
-
         st.error(
             """
 ### Immediate Recommendation
@@ -408,9 +369,7 @@ A laboratory blood glucose test
 is recommended.
 """
         )
-
     elif risk_level == "Moderate":
-
         st.warning(
             """
 Consider visiting a healthcare provider if:
@@ -427,9 +386,7 @@ Routine screening every
 6–12 months is recommended.
 """
         )
-
     else:
-
         st.success(
             """
 No urgent medical action is suggested
@@ -447,7 +404,6 @@ and undergo routine health screening.
     # ============================================
 
     with st.expander("📚 About this AI Prediction"):
-
         st.markdown(
             """
 ### How does this system work?
@@ -486,10 +442,6 @@ and clinical evaluation.
     # ============================================
 
     st.caption("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
     st.caption(t["footer_disc"])
-
     st.caption(t["footer_built"])
-
     st.caption(t["limitations"])
-    

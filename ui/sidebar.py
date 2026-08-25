@@ -6,16 +6,16 @@ def show_sidebar(t):
     with st.sidebar:
 
         # ==========================================
-        # LOGO
+        # BRANDING
         # ==========================================
 
-        st.markdown("# 🩺 Diabetes Risk Predictor")
+        st.markdown("# 🩺 Explainable AI Diabetes Risk Prediction")
 
         st.caption(
             "Explainable Artificial Intelligence for Preventive Healthcare"
         )
 
-        st.success("Version 3.0")
+        st.success("Version 4.0")
 
         st.divider()
 
@@ -45,7 +45,7 @@ def show_sidebar(t):
         )
 
         st.caption(
-            "Optimized for screening (higher recall reduces missed high-risk patients)."
+            "Current verified baseline. Model improvement is being evaluated using held-out validation rather than changing the reported score artificially."
         )
 
         st.divider()
@@ -74,6 +74,29 @@ def show_sidebar(t):
 - हिन्दी
 - 한국어
 """)
+
+        st.divider()
+
+        # ==========================================
+        # CONNECTED NUTRITION APP
+        # ==========================================
+
+        st.subheader("🥗 Manage Your Nutrition")
+
+        st.info(
+            "Want to take the next step after checking your diabetes risk? "
+            "Use our connected nutrition app for educational meal and nutrition guidance."
+        )
+
+        st.link_button(
+            "🥗 Manage Your Diet → NutriGuard-AI",
+            "https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/",
+            use_container_width=True
+        )
+
+        st.caption(
+            "The nutrition app provides general educational guidance and does not replace advice from a doctor or registered dietitian."
+        )
 
         st.divider()
 

@@ -1,233 +1,160 @@
-# 🩺 Explainable AI-Based Diabetes Risk Prediction System
+# 🩺 Explainable AI Diabetes Risk Prediction
 
-> **An Explainable Artificial Intelligence (XAI) system for educational diabetes risk screening using XGBoost and SHAP.**
+> An educational healthcare screening project that combines machine learning, class balancing, model comparison and Explainable AI (XAI) to estimate diabetes risk.
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.38-FF4B4B.svg)
-![XGBoost](https://img.shields.io/badge/XGBoost-2.1.1-orange.svg)
-![SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-purple.svg)
-![Scikit-learn](https://img.shields.io/badge/Scikit--Learn-1.6.1-F7931E.svg)
+## 🌐 Live Demo
 
-📄 Published DOI(PROJECT1): https://doi.org/10.5281/zenodo.21514842 | 
+**Streamlit:** https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
-Published DOI(PROJECT2): https://doi.org/10.5281/zenodo.21534708 |
-
-## 🌐 Live Demo(PROJECT1):
-
-**Streamlit App:**
-https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
-
-## 🌐 Live Demo(PROJECT2):
-
-**Streamlit App:**
-https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
+**Nutrition companion:** https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
 ---
 
 ## 🎯 Project Overview
 
-Explainable AI-Based Diabetes Risk Prediction System is an educational healthcare application that combines **Explainable Artificial Intelligence (XAI)** with **diabetes risk screening**.
-We developed an end-to-end, version-safe inference pipeline that dynamically extracts tree-node split gains directly from the XGBoost booster structure, ensuring the clinical explanations remain true to the underlying machine learning mathematics
+The project explores how explainable machine learning can make diabetes-risk screening more transparent. The application accepts eight clinical variables from the Pima Indians Diabetes Dataset and returns an estimated statistical risk together with explanatory information.
 
-The system allows users to:
+The upgraded workflow now includes:
 
-- 🩺 Estimate their diabetes risk using an XGBoost machine learning model
-- 📊 Understand predictions through SHAP Explainable AI
-- 🩸 Estimate fasting blood glucose when laboratory results are unavailable
-- 📏 Automatically calculate Body Mass Index (BMI)
-- 🍽️ Receive educational lifestyle 
-- 🌍 Use the application in **English, हिन्दी, and 한국어**
-- 💻 Access the system through a lightweight Streamlit web application
+- SMOTE applied only to the training split
+- Median imputation for zero-coded missing clinical measurements
+- Logistic Regression, Random Forest and XGBoost model comparison
+- Recall and F1-score as primary model-selection metrics
+- ROC-AUC and accuracy reported as supporting metrics
+- Threshold tuning for the F1/Recall trade-off
+- SHAP-based individual explanations where supported
+- Interactive what-if analysis
+- Clinical input constraints
+- Three Streamlit areas: Clinical Calculator, XAI Diagnostic Room and Model Metrics & Validation
+- Multilingual interface in the existing calculator: English, हिन्दी and 한국어
+- Educational nutrition guidance and a companion nutrition application
 
-This project was developed independently to explore how explainable machine learning can improve transparency, accessibility, and public understanding of AI-assisted healthcare screening.
-
-The application is designed as an **educational healthcare screening tool** rather than a clinical diagnostic system.
-
----
-
-## ✨ Features
-
-- 🤖 XGBoost-based diabetes risk prediction
-- 🔍 SHAP Explainable AI visualization
-- 🌍 Multilingual interface (English, Hindi, Korean)
-- 📏 Automatic BMI calculator
-- 🩸 Blood glucose estimation using symptom-based screening
-- ❤️ Blood pressure assessment
-- 👨‍👩‍👧 Family history risk estimation
-- 🥗 Personalized educational nutrition guidance
-- 📱 Mobile-friendly Streamlit application
-- ⚠ Educational medical disclaimer
-
----
-
-## 📱 Application Preview
-
-### 🏠 Homepage
-
-![Homepage](Homepage.png)
-
----
-
-### 📝 Patient Information Input
-
-![Input Form](Inputform.png)
-
----
-
-### 💡 Personalized Health Recommendation
-
-![Health Recommendation](Health%20recommendation.png)
-
----
-
-### 📊 Explainable AI (SHAP)
-
-![Explainable AI](Explainable%20AI%20(XAI).png)
-## 🌍 Problem Statement
-
-## 🏗️ Project Architecture
+## 🏗️ System Design
 
 ```text
-                  User Input
-                       │
-                       ▼
-         Data Preprocessing & Validation
-                       │
-                       ▼
-            XGBoost Risk Prediction Model
-                       │
-         ┌─────────────┴─────────────┐
-         ▼                           ▼
-  Risk Probability            SHAP Explainability
-         │                           │
-         └─────────────┬─────────────┘
-                       ▼
-      Personalized Health Recommendation
-                       │
-                       ▼
-           Interactive Streamlit Interface
+                    User Clinical Inputs
+                            │
+                            ▼
+              Validation + Missing-Value Handling
+                            │
+                            ▼
+              Train Split ──┴── Held-out Test Split
+                    │
+                    ▼
+                    SMOTE
+                    │
+        ┌───────────┼────────────┐
+        ▼           ▼            ▼
+   Logistic      Random       XGBoost
+  Regression     Forest       Ensemble
+        └───────────┼────────────┘
+                    ▼
+          F1 / Recall / ROC-AUC
+                    │
+                    ▼
+             Best Model Selection
+                    │
+          ┌─────────┴──────────┐
+          ▼                    ▼
+     Risk Estimate          SHAP XAI
+          │                    │
+          └─────────┬──────────┘
+                    ▼
+             Educational Output
 ```
 
-Diabetes affects hundreds of millions of people worldwide, yet many individuals remain undiagnosed because regular laboratory screening is not always accessible.
+## 📊 Model Validation Strategy
 
-Traditional AI prediction systems often behave as **black boxes**, making it difficult for users and healthcare professionals to understand why a prediction was made.
+Accuracy is intentionally **not used as the sole target metric**. In a screening-oriented project, recall and F1-score provide a more useful view of the false-negative/false-positive trade-off.
 
-Additionally, many public screening tools provide only a numerical risk score without educational guidance that helps users understand possible lifestyle improvements.
+The validation page trains three models under the same protocol and reports:
 
-This project explores how Explainable AI (XAI) can make diabetes risk screening more transparent and multilingual accessibility to improve health awareness.
----
+| Metric | Purpose |
+|---|---|
+| Accuracy | Overall classification correctness |
+| Precision | Reliability of positive predictions |
+| Recall | Ability to identify positive cases |
+| F1-score | Balance between precision and recall |
+| ROC-AUC | Ranking/discrimination performance |
+| False Negatives | Directly monitors missed positive cases |
 
-## 🔬 Proposed Solution
+The application reports the **actual held-out results**. It does not alter or fabricate the accuracy percentage to reach a target such as 80%.
 
- Explainable AI-Based Diabetes Risk Prediction System integrates machine learning, explainable AI, and preventive healthcare education into a single application.
+### Training protocol
 
-### Core Components
+1. Load the Pima Indians Diabetes Dataset.
+2. Treat zero-coded values in glucose, blood pressure, skin thickness, insulin and BMI as missing.
+3. Split the data using stratification.
+4. Median-impute the training data inside the model pipeline.
+5. Apply SMOTE **only to the training split**.
+6. Train Logistic Regression, Random Forest and XGBoost.
+7. Tune the classification threshold for the F1/Recall trade-off.
+8. Evaluate on the untouched held-out test set.
+9. Select the model using F1-score, then Recall, then ROC-AUC.
 
-- XGBoost diabetes risk prediction model
-- SHAP Explainable AI visualization
-- Symptom-based fasting glucose estimation
-- Automatic BMI calculation
-- Blood pressure and family history assessment
-- Multilingual interface (English, Hindi, Korean)
+## 🔬 Explainable AI
 
-Rather than replacing healthcare professionals, Explainable AI-Based Diabetes Risk Prediction System is designed as an educational decision-support tool that promotes awareness and encourages early medical consultation when necessary.
----
+The XAI Diagnostic Room provides an individual feature-contribution view using SHAP when the selected model supports it.
 
-## 📈 Model Performance
+The explanation is intended to show how inputs such as:
 
-The prediction model was trained using the **PIMA Indians Diabetes Dataset** and optimized using **GridSearchCV**.
-
-| Metric | Score | Interpretation |
-|---------|------:|----------------|
-| Accuracy | **69.5%** | Overall prediction accuracy |
-| Recall | **67.3%** | Correctly identifies high-risk patients |
-| AUC-ROC | **0.76** | Good discrimination between risk groups |
-
-### Why Recall Matters
-
-For healthcare screening, missing a high-risk patient (false negative) can be more harmful than incorrectly flagging a healthy individual (false positive).
-
-For this reason, the model was optimized to achieve a balanced recall while maintaining reasonable overall discrimination.
-
-### Explainable AI
-
-Instead of providing only a prediction, every result is accompanied by a SHAP explanation that identifies the factors contributing most to the prediction.
-
-Examples include:
-
-- Blood glucose
+- Glucose
 - BMI
 - Age
-- Family history
 - Blood pressure
-### Most Important Features
+- Insulin
+- Diabetes pedigree function
 
-* Glucose
-* BMI
-* Age
-* Diabetes Pedigree Function
-* Blood Pressure
+influence the model output.
 
-These factors are consistent with established diabetes risk factors reported in medical literature.
+The page also contains a **What-If Analysis** so users can change selected inputs and observe how the model's estimated risk changes.
 
----
+## 🖥️ Application Areas
 
-# 🔍 Explainable AI
+### 1. Clinical Calculator
+The existing main application provides the user-facing screening form, validation, risk result, educational guidance and disclaimer.
 
-Instead of simply predicting a probability, the model explains the prediction using **SHAP values**.
+### 2. XAI Diagnostic Room
+Accessible through Streamlit's native multipage navigation. Provides individual SHAP explanations and what-if analysis.
 
-SHAP visualizations illustrate:
+### 3. Model Metrics & Validation
+Shows side-by-side model comparison, confusion-matrix counts, selected threshold and validation notes.
 
-* Which features increased predicted risk
-* Which features reduced predicted risk
-* Relative importance of each feature
+## 📱 Companion Nutrition App
 
-This improves transparency and trust compared to traditional black-box machine learning systems.
+After receiving a diabetes-risk screening result, users can continue to the companion nutrition project:
 
----
+**NutriGuard-AI:** https://nutriguard-ai-rrzi6rnezvcba9dhtgzlrm.streamlit.app/
 
-# 🌍 Multilingual Support
+The two projects are intentionally connected as:
 
-The application currently supports:
+**Risk screening → understand contributing factors → explore nutrition education.**
 
-* 🇬🇧 English
-* 🇮🇳 हिन्दी
-* 🇰🇷 한국어
+The nutrition application is educational and does not provide a substitute for professional dietary or medical care.
 
-The multilingual interface aims to improve accessibility for diverse users.
+## 🧰 Technology Stack
 
----
+- Python
+- Streamlit
+- Scikit-learn
+- XGBoost
+- imbalanced-learn / SMOTE
+- SHAP
+- Pandas
+- NumPy
+- Matplotlib
+- Joblib
 
-# 💻 Technology Stack
+All runtime dependencies are pinned in `requirements.txt` for reproducibility.
 
-### Machine Learning
-
-* XGBoost
-* Scikit-learn
-* SHAP
-
-### Data Processing
-
-* Pandas
-* NumPy
-
-### Visualization
-
-* Matplotlib
-* SHAP
-
-### Web Application
-
-* Streamlit
-
----
-
-# 📂 Project Structure
+## 📂 Project Structure
 
 ```text
 Medical-IT-Diabetes-AI-Project/
 │
 ├── app.py
+├── model_training.py
+├── train_model.py
 ├── predictor.py
 ├── preprocessing.py
 ├── explainability.py
@@ -236,122 +163,60 @@ Medical-IT-Diabetes-AI-Project/
 ├── requirements.txt
 ├── model.pkl
 │
+├── pages/
+│   ├── 2_XAI_Diagnostic_Room.py
+│   └── 3_Model_Metrics_Validation.py
+│
 ├── ui/
 │   ├── input_form.py
 │   └── sidebar.py
 │
+├── notebooks/
 ├── data/
-│   └── diabetes.csv
-│
 ├── README.md
 └── LICENSE
 ```
 
----
-
-# 🚀 Installation
-
-Clone the repository
+## 🚀 Run Locally
 
 ```bash
 git clone https://github.com/kashish-alt0786/Medical-IT-Diabetes-AI-Project.git
-```
-
-Move into the project
-
-```bash
 cd Medical-IT-Diabetes-AI-Project
-```
-
-Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
-
-Run the application
-
-```bash
 streamlit run app.py
 ```
 
----
+To run the upgraded model-comparison workflow independently:
 
-# 📚 Dataset
+```bash
+python train_model.py
+```
 
-This project uses the **PIMA Indians Diabetes Dataset**, published by the National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK).
+## 📚 Dataset
 
-The dataset is widely used for educational machine learning research.
+The project uses the **Pima Indians Diabetes Database**, originally associated with the National Institute of Diabetes and Digestive and Kidney Diseases. The commonly distributed dataset contains 768 observations, eight numeric input variables and a binary outcome. The dataset is known to represent women aged 21+ from the Pima Indian population, so external validity is limited.
 
----
+## ⚠️ Limitations & Future Work
 
-# 🎓 Learning Resources
+- The dataset is relatively small and population-specific.
+- The model is an educational screening model, not a clinically validated diagnostic device.
+- SMOTE can improve class-balance handling but does not create new clinical evidence.
+- A higher accuracy score is not guaranteed by changing algorithms; real held-out performance is reported transparently.
+- External validation on a diverse clinical population would be required before any clinical use.
+- Future work could include calibration analysis, external validation, uncertainty estimation, privacy-preserving learning and broader datasets.
 
-The project was developed while studying:
+## ⚕️ Medical Disclaimer
 
-* Kaggle Learn
+This application is intended for **educational and research purposes only**. It does not diagnose diabetes and should not replace consultation with a qualified healthcare professional. Predictions can be wrong and may not generalize to every population.
 
-  * Intro to Machine Learning
-  * Pandas
-  * Data Visualization
-* OpenWHO
+## 👨‍💻 Developer
 
-  * Digital Health
-  * Ethics & Governance of AI for Health
+**Kashish** — Independent AI Healthcare Project
 
----
+GitHub: https://github.com/kashish-alt0786
 
-# 🔮 Future Improvements
+Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
 
-* 📷 AI-based food image recognition
-* 🥗 Nutrition analysis
-* 📈 Diabetes dashboard
-* 📱 Progressive Web App enhancements
-* 🏥 Federated Learning research
-* 🔒 Privacy-preserving healthcare AI
-* 🌐 Additional language support
-* 📊 Clinical validation on diverse datasets
+## 📄 License
 
----
-
-# ⚠ Medical Disclaimer
-
-This application is intended **only for educational and research purposes**.
-
-It **does not diagnose diabetes** and should not replace consultation with qualified healthcare professionals.
-
-Predictions are generated using a machine learning model trained on a public dataset and may not generalize to every population.
-
-Always seek professional medical advice before making healthcare decisions.
-
----
-
-# Developed by: Kashish
-Independent AI Healthcare Project
-Medical Information Technology • Explainable AI • Digital Health
-
-* GitHub: https://github.com/kashish-alt0786
-* Kaggle: https://www.kaggle.com/code/kashish0000000/explainable-ai-diabetes-risk-prediction
-* Live Demo: https://medical-it-diabetes-ai-project-jkv5wwfmjmjugk5frfffut.streamlit.app/
-
----
-
-# 🙏 Acknowledgements
-
-* National Institute of Diabetes and Digestive and Kidney Diseases
-* Kaggle Learn
-* OpenWHO
-* Streamlit
-* XGBoost
-* SHAP
-* Scikit-learn
-
----
-
-# 📄 License
-
-This project is licensed under the **MIT License**.
-
----
-
-**Medical Information Technology • Explainable Artificial Intelligence • Digital Healthcare • 2026**
+MIT License

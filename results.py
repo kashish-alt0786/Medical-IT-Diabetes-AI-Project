@@ -23,7 +23,7 @@ def _render_feature_sensitivity(input_df, current_risk):
     st.markdown("---")
     st.subheader("🔬 Interactive Feature Sensitivity Analysis")
     st.caption(
-        "Audit how the trained XGBoost model responds to hypothetical changes in selected input variables. "
+        "Audit how the trained model responds to hypothetical changes in selected input variables. "
         "The original prediction remains unchanged and this simulation is not a real-world health forecast."
     )
     st.info(
@@ -36,23 +36,9 @@ def _render_feature_sensitivity(input_df, current_risk):
     original_bmi = float(input_df["BMI"].iloc[0])
     c1, c2 = st.columns(2)
     with c1:
-        scenario_glucose = st.slider(
-            "Simulated Glucose (mg/dL)",
-            40.0,
-            300.0,
-            original_glucose,
-            1.0,
-            key="sensitivity_glucose",
-        )
+        scenario_glucose = st.slider("Simulated Glucose (mg/dL)", 40.0, 300.0, original_glucose, 1.0, key="sensitivity_glucose")
     with c2:
-        scenario_bmi = st.slider(
-            "Simulated BMI",
-            10.0,
-            70.0,
-            original_bmi,
-            0.1,
-            key="sensitivity_bmi",
-        )
+        scenario_bmi = st.slider("Simulated BMI", 10.0, 70.0, original_bmi, 0.1, key="sensitivity_bmi")
 
     try:
         model = joblib.load("model.pkl")
@@ -75,10 +61,7 @@ def _render_feature_sensitivity(input_df, current_risk):
         else:
             st.info("The selected input changes produced no meaningful change in the model output.")
 
-        st.caption(
-            "Interpretation: this demonstrates model sensitivity to the selected features. "
-            "It does not establish causality, treatment effectiveness, or a change in real-world diabetes risk."
-        )
+        st.caption("Interpretation: this demonstrates model sensitivity to the selected features. It does not establish causality, treatment effectiveness, or a change in real-world diabetes risk.")
     except Exception as exc:
         st.info(f"Feature sensitivity analysis is temporarily unavailable: {exc}")
 
@@ -90,21 +73,15 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
 
     left, right = st.columns([1, 2])
     with left:
-        if risk_level == "Low":
-            st.success(f"## {risk_percent}%")
-        elif risk_level == "Moderate":
-            st.warning(f"## {risk_percent}%")
-        else:
-            st.error(f"## {risk_percent}%")
+        if risk_level == "Low": st.success(f"## {risk_percent}%")
+        elif risk_level == "Moderate": st.warning(f"## {risk_percent}%")
+        else: st.error(f"## {risk_percent}%")
         st.metric(label=t.get("diabetes_risk", "Diabetes Risk"), value=f"{risk_percent}%")
 
     with right:
-        if risk_level == "Low":
-            st.success(f"### 🟢 {t.get('low_risk', 'Low Risk')}\n\n{t.get('low_desc', '')}")
-        elif risk_level == "Moderate":
-            st.warning(f"### 🟠 {t.get('mod_risk', 'Moderate Risk')}\n\n{t.get('mod_desc', '')}")
-        else:
-            st.error(f"### 🔴 {t.get('high_risk', 'High Risk')}\n\n{t.get('high_desc', '')}")
+        if risk_level == "Low": st.success(f"### 🟢 {t.get('low_risk', 'Low Risk')}\n\n{t.get('low_desc', '')}")
+        elif risk_level == "Moderate": st.warning(f"### 🟠 {t.get('mod_risk', 'Moderate Risk')}\n\n{t.get('mod_desc', '')}")
+        else: st.error(f"### 🔴 {t.get('high_risk', 'High Risk')}\n\n{t.get('high_desc', '')}")
 
     st.markdown("---")
     c1, c2, c3 = st.columns(3)
@@ -114,24 +91,18 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
     st.markdown("---")
 
     st.subheader("🩺 Clinical Interpretation")
-    if risk_level == "Low":
-        st.info("Your predicted diabetes risk is currently **low**. Maintaining healthy eating habits, regular exercise, and periodic health check-ups is recommended.")
-    elif risk_level == "Moderate":
-        st.warning("Your estimated diabetes risk is **moderate**. Although this is **not a diagnosis**, improving lifestyle habits now may reduce future risk. Regular health monitoring is recommended.")
-    else:
-        st.error("Your estimated diabetes risk is **high**. This result is **not a diagnosis**. Consultation with a healthcare professional and appropriate laboratory testing are recommended.")
+    if risk_level == "Low": st.info("Your predicted diabetes risk is currently **low**. Maintaining healthy eating habits, regular exercise, and periodic health check-ups is recommended.")
+    elif risk_level == "Moderate": st.warning("Your estimated diabetes risk is **moderate**. Although this is **not a diagnosis**, improving lifestyle habits now may reduce future risk. Regular health monitoring is recommended.")
+    else: st.error("Your estimated diabetes risk is **high**. This result is **not a diagnosis**. Consultation with a healthcare professional and appropriate laboratory testing are recommended.")
 
     st.markdown("---")
     st.subheader("🔍 Main Factors Affecting Your Risk")
     feature_map = {"Glucose": "🩸 Blood Glucose", "BMI": "⚖️ Body Mass Index", "Age": "🎂 Age", "BloodPressure": "❤️ Blood Pressure", "Family History": "🧬 Family History"}
     for feature, impact in top_reasons:
         name = feature_map.get(feature, feature)
-        if impact >= 0.40:
-            st.error(f"**{name}** — Very strong influence ({impact:.2f})")
-        elif impact >= 0.20:
-            st.warning(f"**{name}** — Moderate influence ({impact:.2f})")
-        else:
-            st.success(f"**{name}** — Small influence ({impact:.2f})")
+        if impact >= 0.40: st.error(f"**{name}** — Very strong influence ({impact:.2f})")
+        elif impact >= 0.20: st.warning(f"**{name}** — Moderate influence ({impact:.2f})")
+        else: st.success(f"**{name}** — Small influence ({impact:.2f})")
 
     st.markdown("---")
     st.subheader("📈 Health Summary")
@@ -148,12 +119,9 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
 
     st.markdown("---")
     st.subheader("📚 Understanding Your Risk")
-    if risk_level == "Low":
-        st.success("### 🟢 Low Risk\n\nContinue healthy eating, regular physical activity, healthy weight management, and routine screening.")
-    elif risk_level == "Moderate":
-        st.warning("### 🟠 Moderate Risk\n\nSome indicators suggest increased likelihood of developing Type 2 Diabetes. Lifestyle improvement and regular screening are important.")
-    else:
-        st.error("### 🔴 High Risk\n\nMultiple risk factors are present. Consider additional laboratory testing and consultation with a healthcare professional.")
+    if risk_level == "Low": st.success("### 🟢 Low Risk\n\nContinue healthy eating, regular physical activity, healthy weight management, and routine screening.")
+    elif risk_level == "Moderate": st.warning("### 🟠 Moderate Risk\n\nSome indicators suggest increased likelihood of developing Type 2 Diabetes. Lifestyle improvement and regular screening are important.")
+    else: st.error("### 🔴 High Risk\n\nMultiple risk factors are present. Consider additional laboratory testing and consultation with a healthcare professional.")
 
     st.markdown("---")
     st.subheader("🤖 AI Assessment")
@@ -165,15 +133,9 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
     st.markdown("---")
     st.subheader("💡 Personalized Health Recommendations")
     st.caption(t["tips_desc"])
-    if risk_level == "Low":
-        st.success(t["low_tips_title"])
-        _render_health_recommendations(t["low_tips"])
-    elif risk_level == "Moderate":
-        st.warning(t["mod_tips_title"])
-        _render_health_recommendations(t["mod_tips"])
-    else:
-        st.error(t["high_tips_title"])
-        _render_health_recommendations(t["high_tips"])
+    if risk_level == "Low": st.success(t["low_tips_title"]); _render_health_recommendations(t["low_tips"])
+    elif risk_level == "Moderate": st.warning(t["mod_tips_title"]); _render_health_recommendations(t["mod_tips"])
+    else: st.error(t["high_tips_title"]); _render_health_recommendations(t["high_tips"])
 
     st.markdown("---")
     st.subheader("🥗 Manage Your Nutrition")
@@ -185,25 +147,16 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
     st.subheader("✅ Diabetes Prevention Checklist")
     a, b = st.columns(2)
     with a:
-        st.checkbox("Exercise 30–45 min daily", disabled=True)
-        st.checkbox("Eat vegetables every day", disabled=True)
-        st.checkbox("Avoid sugary drinks", disabled=True)
-        st.checkbox("Maintain healthy BMI", disabled=True)
+        st.checkbox("Exercise 30–45 min daily", disabled=True); st.checkbox("Eat vegetables every day", disabled=True); st.checkbox("Avoid sugary drinks", disabled=True); st.checkbox("Maintain healthy BMI", disabled=True)
     with b:
-        st.checkbox("Sleep 7–8 hours", disabled=True)
-        st.checkbox("Drink enough water", disabled=True)
-        st.checkbox("Annual blood sugar check", disabled=True)
-        st.checkbox("Manage blood pressure", disabled=True)
+        st.checkbox("Sleep 7–8 hours", disabled=True); st.checkbox("Drink enough water", disabled=True); st.checkbox("Annual blood sugar check", disabled=True); st.checkbox("Manage blood pressure", disabled=True)
 
     st.info(t["note"])
     st.markdown("---")
     st.subheader("👨‍⚕️ When Should You Consult a Doctor?")
-    if risk_level == "High":
-        st.error("Consider scheduling a medical consultation if you have concerning symptoms or risk factors.")
-    elif risk_level == "Moderate":
-        st.warning("Consider visiting a healthcare provider if symptoms continue or diabetes risk factors persist.")
-    else:
-        st.success("Continue healthy habits and routine screening.")
+    if risk_level == "High": st.error("Consider scheduling a medical consultation if you have concerning symptoms or risk factors.")
+    elif risk_level == "Moderate": st.warning("Consider visiting a healthcare provider if symptoms continue or diabetes risk factors persist.")
+    else: st.success("Continue healthy habits and routine screening.")
 
     with st.expander("📚 About this AI Prediction"):
         st.markdown("This application uses a machine-learning model trained on the **Pima Indian Diabetes Dataset**. The Explainable AI module highlights factors associated with the prediction. This prediction does **not** diagnose diabetes; clinical diagnosis requires professional evaluation and appropriate laboratory testing.")

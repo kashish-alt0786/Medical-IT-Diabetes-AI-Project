@@ -6,7 +6,7 @@ The training workflow follows the project roadmap:
 - SMOTE applied only to the training split
 - comparison of Logistic Regression, Random Forest and XGBoost
 - recall and F1-score are the primary selection metrics
-- threshold tuning is performed on the validation/test probabilities
+- threshold tuning is performed on held-out probabilities
 """
 
 from __future__ import annotations
@@ -60,11 +60,25 @@ class TrainingResult:
     y_test: pd.Series
 
 
+def clean_missing_zeros(df: pd.DataFrame) -> pd.DataFrame:
+    """Convert clinically impossible zero-coded measurements to missing values.
+
+    The operation returns a copy so callers cannot accidentally mutate their
+    original dataframe. Median imputation is deliberately performed later
+    inside each training pipeline to prevent train/test leakage.
+    """
+    cleaned = df.copy()
+    for column in MISSING_ZERO_COLUMNS:
+        if column in cleaned.columns:
+            cleaned[column] = cleaned[column].replace(0, np.nan)
+    return cleaned
+
+
 def load_pima_data(url: str = DATA_URL) -> pd.DataFrame:
     df = pd.read_csv(url, header=None, names=FEATURE_NAMES + [TARGET])
-    for column in MISSING_ZERO_COLUMNS:
-        df[column] = df[column].replace(0, np.nan)
-    return df
+    if df.shape != (768, 9):
+        raise ValueError(f"Unexpected Pima dataset shape: {df.shape}; expected (768, 9)")
+    return clean_missing_zeros(df)
 
 
 def _preprocessor(scale: bool) -> ColumnTransformer:

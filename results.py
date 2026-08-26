@@ -1,4 +1,7 @@
+import joblib
 import streamlit as st
+
+from config import FEATURE_NAMES
 
 
 def _render_health_recommendations(text):
@@ -10,6 +13,48 @@ def _render_health_recommendations(text):
         st.markdown(lifestyle_marker + lifestyle_text)
     else:
         st.markdown(text)
+
+
+def _render_what_if(input_df, current_risk):
+    """Run hypothetical changes through the same serialized model."""
+    if input_df is None or input_df.empty:
+        return
+
+    st.markdown("---")
+    st.subheader("🔬 What-If Risk Simulation")
+    st.caption("Change glucose or BMI to explore a hypothetical model output. The original prediction remains unchanged.")
+
+    original_glucose = float(input_df["Glucose"].iloc[0])
+    original_bmi = float(input_df["BMI"].iloc[0])
+    c1, c2 = st.columns(2)
+    with c1:
+        scenario_glucose = st.slider("Simulated Glucose (mg/dL)", 40.0, 300.0, original_glucose, 1.0, key="what_if_glucose")
+    with c2:
+        scenario_bmi = st.slider("Simulated BMI", 10.0, 70.0, original_bmi, 0.1, key="what_if_bmi")
+
+    try:
+        model = joblib.load("model.pkl")
+        scenario = input_df.copy()
+        scenario.loc[scenario.index[0], "Glucose"] = scenario_glucose
+        scenario.loc[scenario.index[0], "BMI"] = scenario_bmi
+        scenario = scenario.reindex(columns=FEATURE_NAMES)
+        scenario_risk = float(model.predict_proba(scenario)[0][1]) * 100
+        delta = scenario_risk - float(current_risk)
+
+        a, b, c = st.columns(3)
+        a.metric("Original Risk", f"{current_risk:.1f}%")
+        b.metric("What-If Risk", f"{scenario_risk:.1f}%", f"{delta:+.1f} pp")
+        c.metric("Risk Change", f"{abs(delta):.1f} pp", "Lower" if delta < 0 else "Higher" if delta > 0 else "No change")
+
+        if delta < 0:
+            st.success("🟢 In this hypothetical model scenario, the predicted probability decreases.")
+        elif delta > 0:
+            st.warning("🟠 In this hypothetical model scenario, the predicted probability increases.")
+        else:
+            st.info("The selected changes produced no meaningful change in the model output.")
+        st.caption("This is a model simulation, not a guarantee that changing one measurement will change real-world health risk.")
+    except Exception as exc:
+        st.info(f"What-if simulation is temporarily unavailable: {exc}")
 
 
 def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
@@ -73,6 +118,8 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
             st.metric("Age", int(input_df['Age'].iloc[0]))
             st.metric("Blood Pressure", f"{float(input_df['BloodPressure'].iloc[0]):.0f}")
 
+    _render_what_if(input_df, risk_percent)
+
     st.markdown("---")
     st.subheader("📚 Understanding Your Risk")
     if risk_level == "Low":
@@ -102,7 +149,6 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
         st.error(t["high_tips_title"])
         _render_health_recommendations(t["high_tips"])
 
-    # Connected nutrition hand-off: pass the actual model result to NutriGuard.
     st.markdown("---")
     st.subheader("🥗 Manage Your Nutrition")
     st.info("Continue to NutriGuard AI and use this diabetes-risk result to personalize your educational nutrition guidance.")
@@ -127,14 +173,14 @@ def show_results(t, risk_percent, risk_level, top_reasons, input_df=None):
     st.markdown("---")
     st.subheader("👨‍⚕️ When Should You Consult a Doctor?")
     if risk_level == "High":
-        st.error("Consider scheduling a medical consultation, especially if symptoms such as frequent urination, excessive thirst, unexplained weight loss, blurred vision, or persistent fatigue are present.")
+        st.error("Consider scheduling a medical consultation if you have concerning symptoms or risk factors.")
     elif risk_level == "Moderate":
-        st.warning("Consider visiting a healthcare provider if symptoms continue, diabetes runs in your family, or blood pressure or weight concerns persist.")
+        st.warning("Consider visiting a healthcare provider if symptoms continue or diabetes risk factors persist.")
     else:
-        st.success("No urgent medical action is suggested by this AI assessment. Continue healthy habits and routine screening.")
+        st.success("Continue healthy habits and routine screening.")
 
     with st.expander("📚 About this AI Prediction"):
-        st.markdown("This application uses an **XGBoost Machine Learning model** trained on the **Pima Indian Diabetes Dataset**. The Explainable AI module highlights factors that contributed to the prediction. This prediction does **not** diagnose diabetes; clinical diagnosis requires professional evaluation and appropriate laboratory testing.")
+        st.markdown("This application uses a machine-learning model trained on the **Pima Indian Diabetes Dataset**. The Explainable AI module highlights factors associated with the prediction. This prediction does **not** diagnose diabetes; clinical diagnosis requires professional evaluation and appropriate laboratory testing.")
 
     st.markdown("---")
     st.caption(t["footer_disc"])

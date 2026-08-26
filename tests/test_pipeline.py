@@ -10,12 +10,7 @@ from src.inference_engine import load_model, predict_probability
 
 
 def test_clinical_zero_values_become_missing():
-    frame = pd.DataFrame(
-        {
-            column: [0.0, 10.0]
-            for column in MISSING_ZERO_COLUMNS
-        }
-    )
+    frame = pd.DataFrame({column: [0.0, 10.0] for column in MISSING_ZERO_COLUMNS})
     cleaned = clean_missing_zeros(frame)
     for column in MISSING_ZERO_COLUMNS:
         assert pd.isna(cleaned.loc[0, column])
